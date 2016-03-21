@@ -1,11 +1,11 @@
 ﻿@import url(http://fonts.googleapis.com/css?family=Noto+Sans);
 
 html, body{
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: "Noto Sans", sans-serif;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: "Noto Sans", sans-serif;
 }
 
 nav{
@@ -22,8 +22,8 @@ footer{
 	color: white;
 	bottom: 0;
 	font-size: 20px;	
-   	height: 50px;
-   	width: 100%;
+	height: 50px;
+	width: 100%;
 }
 
 #title{
@@ -71,24 +71,22 @@ footer{
 	cursor: pointer;
 }
 
-#btnSignUp{
+#btnSignUp, #btnLogin, #btnContact{
 	padding: 10px 10px 10px;
 	font-size: 16px;
-	background-color: #ACCB12;
-	border: 1px solid #ACCB12;
 	float: right;
 	margin-right: 5px;
 	margin-top: 5px;
 }
 
+#btnSignUp{
+	background-color: #ACCB12;
+	border: 1px solid #ACCB12;
+}
+
 #btnLogin{
-	padding: 10px 10px 10px;
-	font-size: 16px;
 	background-color: #B0B0B0;
 	border: 1px solid #B0B0B0;
-	float: right;
-	margin-right: 5px;
-	margin-top: 5px;
 }
 
 #btnSearchFromDatabase{
@@ -98,13 +96,8 @@ footer{
 }
 
 #btnContact{
-	padding: 10px 10px 10px;
-	font-size: 16px;
 	background-color: #575757;
 	border: 1px solid #575757;
-	float: right;
-	margin-right: 5px;
-	margin-top: 5px;
 }
 
 #inputSearch{	
@@ -139,7 +132,7 @@ td:hover{
 }
 
 textarea:focus, input:focus{
-    outline: none;
+	outline: none;
 }
 
 #container {
@@ -150,16 +143,15 @@ textarea:focus, input:focus{
 #content {
 	background-color: #575757;
 	color: white;
+	top: 105px;
 	margin-left: 223px;
-  	overflow: hidden;
-  	position: relative;
-    top: 105px;
-    margin-bottom: 50px;
-    overflow: hidden;
-    z-index: -1;
-    min-height: 800px;
+	margin-bottom: 50px;
+	overflow: hidden;
+	position: relative;	
+	z-index: -1;
+	min-height: 800px;
 }
 
 #contentHeader{
 	margin-left: 10px;
-}
+}	

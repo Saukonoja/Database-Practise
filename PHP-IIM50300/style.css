@@ -1,0 +1,165 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Noto+Sans);
+
+html, body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Sans", sans-serif;
+}
+
+nav{
+	position: fixed;
+	color: white;
+	font-size: 30px;
+	top: 0;
+	height: 45px;
+	width: 100%;
+}
+
+footer{
+	position: fixed;
+	color: white;
+	bottom: 0;
+	font-size: 20px;	
+   	height: 50px;
+   	width: 100%;
+}
+
+#title{
+	margin-left: 10px;
+}
+#title:hover{
+	cursor: pointer;
+	opacity: 0.8;
+}
+
+#copyright{
+	margin-left: 5px;
+}
+
+#headerBar{
+	height: 50px;
+	background-color: #575757;
+}
+
+#searchBar{
+	background-color: #E3E3E3;
+	height: 55px;
+}
+
+#sideBar{
+	position: fixed;
+	float: left;
+	margin-top: 105px;
+}
+
+#footerBar{
+	height: 50px;
+	background: #B8B8B8;
+}
+
+.buttons, #submit{
+	border-radius: 10px;
+	color: white;
+	outline: none;
+	border: none;
+}
+
+.buttons:hover{
+	opacity: 0.8;
+	cursor: pointer;
+}
+
+#btnSignUp{
+	padding: 10px 10px 10px;
+	font-size: 16px;
+	background-color: #ACCB12;
+	border: 1px solid #ACCB12;
+	float: right;
+	margin-right: 5px;
+	margin-top: 5px;
+}
+
+#btnLogin{
+	padding: 10px 10px 10px;
+	font-size: 16px;
+	background-color: #B0B0B0;
+	border: 1px solid #B0B0B0;
+	float: right;
+	margin-right: 5px;
+	margin-top: 5px;
+}
+
+#btnSearchFromDatabase{
+	padding: 5px 50px 5px;	
+	background-color: #3FA9F5;
+	border: 1px solid #3FA9F5;
+}
+
+#btnContact{
+	padding: 10px 10px 10px;
+	font-size: 16px;
+	background-color: #575757;
+	border: 1px solid #575757;
+	float: right;
+	margin-right: 5px;
+	margin-top: 5px;
+}
+
+#inputSearch{	
+	padding: 5px 50px 5px;	
+	display: inline;
+	border-radius: 10px;
+	border: 1px solid white;
+	width: 450px;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+table{
+	border-spacing: 0px;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+td{
+	border: 1px solid gray;
+	background-color: #ADADAD;
+	color: white;
+	width: 200px;
+	padding: 10px;
+	height: 70px;
+	font-weight: bold;
+}
+
+td:hover{
+	cursor: pointer;
+	background-color: #ACCB12;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+#container {
+	width: 100%;
+	float: left;
+}
+
+#content {
+	background-color: #575757;
+	color: white;
+	margin-left: 223px;
+  	overflow: hidden;
+  	position: relative;
+    top: 105px;
+    margin-bottom: 50px;
+    overflow: hidden;
+    z-index: -1;
+    min-height: 800px;
+}
+
+#contentHeader{
+	margin-left: 10px;
+}

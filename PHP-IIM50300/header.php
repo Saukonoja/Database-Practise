@@ -11,7 +11,7 @@ $content = <<<CONTENT
 
    <body>
          <nav>
-            <div id="headerBar"><span id="title">Music database</span>
+            <div id="headerBar"><a href="index.php" id="title-link"><span id="title">Music database</span></a>
                <button class="buttons" id="btnLogin">LOGIN</button>
                <button class="buttons" id="btnSignUp">SIGN UP</button>
             </div>
@@ -24,10 +24,10 @@ $content = <<<CONTENT
          </nav>
          <div id="container">
             <div id="sideBar">
-            	<table>
-            		<tr><td>Home</td></tr>
-            		<tr><td>Artists</td></tr>
-            		<tr><td>Albums</td></tr>
+            	<table class="sidebar">
+            	   <tr><td onclick="window.location.href='index.php'">Home</td></tr>
+            		<tr><td onclick="window.location.href='artists.php'">Artists</td></tr>
+            		<tr><td onclick="window.location.href='albums.php'">Albums</td></tr>
             		<tr><td>Tracks</td></tr>
             		<tr><td>Genres</td></tr>
             		<tr><td>Record companies</td></tr>

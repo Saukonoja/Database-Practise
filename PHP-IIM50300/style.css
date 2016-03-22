@@ -26,9 +26,18 @@ footer{
 	width: 100%;
 }
 
+a{
+	text-decoration: none;
+}
+
 #title{
 	margin-left: 10px;
 }
+
+#title-link{
+	color: white;
+}
+
 #title:hover{
 	cursor: pointer;
 	opacity: 0.8;
@@ -110,13 +119,13 @@ footer{
 	margin-top: 10px;
 }
 
-table{
+table.sidebar{
 	border-spacing: 0px;
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 }
 
-td{
+table.sidebar td{
 	border: 1px solid gray;
 	background-color: #ADADAD;
 	color: white;
@@ -126,13 +135,31 @@ td{
 	font-weight: bold;
 }
 
-td:hover{
+table.sidebar td:hover{
 	cursor: pointer;
 	background-color: #ACCB12;
+	font-size: 18px;
 }
 
 textarea:focus, input:focus{
 	outline: none;
+}
+
+table.query{
+	border: none;
+}
+
+table.query td{
+	background-color: #282828;
+	font-size: 14px;
+	width: 200px;
+	height: 30px;
+	color: white;
+}
+
+table.query td:hover{	
+	background-color: black;
+	cursor: pointer;
 }
 
 #container {
@@ -140,7 +167,7 @@ textarea:focus, input:focus{
 	float: left;
 }
 
-#content {
+#content-layout {
 	background-color: #575757;
 	color: white;
 	top: 105px;
@@ -149,9 +176,9 @@ textarea:focus, input:focus{
 	overflow: hidden;
 	position: relative;	
 	z-index: -1;
-	min-height: 800px;
 }
 
-#contentHeader{
-	margin-left: 10px;
+#content{
+	margin-left: 20px;
 }	
+

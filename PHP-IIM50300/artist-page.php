@@ -2,21 +2,24 @@
 session_start();
 require_once("db-init-music.php");
 
-include("all-artists-query.php");
+include("artist-albums-query.php");
 
 include("header.php");
 
 $result = $conn->query($sql);
+if(isset($_GET['link_artist'])){
+        $_SESSION['artist'] = $_GET['link_artist'];
+}
 
 echo '<div id="content-layout">';
 echo '<div id="content">';
-echo '<h2>Artists</h2>';
+echo '<h2>'.$_SESSION['artist'].'</h2>';
 if ($result->num_rows > 0) {
     // output data of each row
     echo '<table class="query">';
-    echo '<tr><th>Artist</th><th>Year</th><th>Country</th></tr>';
+    echo '<tr><th>Album</th><th>Artist</th><th>Year</th><th>Record company</th></tr>';
     while($row = $result->fetch_assoc()) {
-    	echo "<tr><td><a href='artist-page.php?link_artist=".$row["esittaja"]."'>" . $row["esittaja"]. '</a></td><td>' . $row["perustamisvuosi"]. '</td><td>' . $row["maa"] . '</td></tr>';
+    	echo "<tr><td><a href='album-page.php?link_album=".$row["levy"]."'>" . $row["levy"]. '</td><td>' . $row["esittaja"]. '</td><td>' . $row["julkaisuvuosi"]. '</td><td>'. $row["yhtio"] . '</td></tr>';
     }
     echo '</table>';
 } else {

@@ -28,14 +28,11 @@ footer{
 
 a{
 	text-decoration: none;
+	color:inherit;
 }
 
 #title{
 	margin-left: 10px;
-}
-
-#title-link{
-	color: white;
 }
 
 #title:hover{
@@ -175,7 +172,7 @@ table.query td:hover{
 	margin-bottom: 50px;
 	overflow: hidden;
 	position: relative;	
-	z-index: -1;
+
 }
 
 #content{

@@ -60,7 +60,8 @@ create table kappale
   kesto int not null,
   esittaja_avain int not null,
   vuosi_avain int not null,
-  tubepath nvarchar null,
+  tubepath nvarchar(11) null,
+  numero int not null,
 
   constraint PK_kappale_avain Primary Key (avain),
   constraint UQ_kappale_nimi Unique (nimi),
@@ -86,6 +87,7 @@ create table cd
   nimi nvarchar(50) not null,
   yhtio_avain int null,
   vuosi_avain int not null,
+  kuvapath nvarchar(50) null,
   
   constraint PK_cd_avain primary key (avain),
   constraint UQ_cd_nimi Unique (nimi),

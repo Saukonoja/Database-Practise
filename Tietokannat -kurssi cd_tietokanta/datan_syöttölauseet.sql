@@ -29,7 +29,7 @@ insert into esittaja (nimi, maa_avain, vuosi_avain) values( 'Europe', (select av
 
 insert into genre (nimi) values( 'Hard Rock');
 
-insert into kappale (nimi, kesto, esittaja_avain, vuosi_avain, tubepath) values( 'The Final Countdown', '311', (select avain from esittaja where nimi = 'Europe'), (select avain from vuosi where vuosi = '1986'),'fdsa6dd21sf');
+insert into kappale (nimi, kesto, esittaja_avain, vuosi_avain, tubepath, numero) values( 'The Final Countdown', '311', (select avain from esittaja where nimi = 'Europe'), (select avain from vuosi where vuosi = '1986'),'fdsa6dd21sf', '1');
 
 insert into kappale_genre (kappale_avain, genre_avain) values( (select avain from kappale where nimi = 'The Final Countdown'), (select avain from genre where nimi = 'Hard Rock'));
 

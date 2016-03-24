@@ -1,4 +1,5 @@
 ﻿@import url(http://fonts.googleapis.com/css?family=Noto+Sans);
+@import url(http://fonts.googleapis.com/css?family=Raleway);
 
 html, body{
 	height: 100%;
@@ -6,6 +7,7 @@ html, body{
 	margin: 0;
 	padding: 0;
 	font-family: "Noto Sans", sans-serif;
+	background-color: #575757;
 }
 
 nav{
@@ -15,6 +17,8 @@ nav{
 	top: 0;
 	height: 45px;
 	width: 100%;
+	z-index:1;
+
 }
 
 footer{
@@ -29,6 +33,11 @@ footer{
 a{
 	text-decoration: none;
 	color:inherit;
+}
+
+object{
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 #title{
@@ -128,7 +137,7 @@ table.sidebar td{
 	color: white;
 	width: 200px;
 	padding: 10px;
-	height: 70px;
+	height: 100%;
 	font-weight: bold;
 }
 
@@ -143,15 +152,24 @@ textarea:focus, input:focus{
 }
 
 table.query{
-	border: none;
+	border-spacing: 0px;
 }
 
 table.query td{
+	border-bottom: 1px solid black;
 	background-color: #282828;
 	font-size: 14px;
-	width: 200px;
-	height: 30px;
+	width: 40px;
+	white-space: nowrap;
+	height: 40px;
 	color: white;
+	vertical-align:middle;
+}
+
+table.query td a { 
+	display: block; 
+	width: 100%; 
+	height: 100%; 
 }
 
 table.query td:hover{	
@@ -167,15 +185,48 @@ table.query td:hover{
 #content-layout {
 	background-color: #575757;
 	color: white;
-	top: 105px;
+	margin-top: 105px;
 	margin-left: 223px;
 	margin-bottom: 50px;
-	overflow: hidden;
 	position: relative;	
-
 }
 
 #content{
 	margin-left: 20px;
 }	
 
+#number, #length{
+	text-align: center;
+	cursor: default;
+}
+#number:hover, #length:hover{
+	background-color: #282828; 
+}
+#track{
+	width: 82%;
+	text-align: left;
+}
+
+#albumTitle{
+	font-size: 50px;
+	font-weight: normal;
+	font-family: "Raleway", sans-serif;
+}
+
+#artist{
+	font-weight: bold;
+	color: black;
+}
+
+#artist:hover{
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+#albumInfo{
+	color: white;
+}
+
+#totalLength{
+	display: inline;
+}	

@@ -2,17 +2,19 @@
 session_start();
 require_once("db-init-music.php");
 
+if(isset($_GET['link_artist'])){
+        $_SESSION['artist'] = $_GET['link_artist'];
+}
+
 include("artist-albums-query.php");
 
 include("header.php");
 
 $result = $conn->query($sql);
-if(isset($_GET['link_artist'])){
-        $_SESSION['artist'] = $_GET['link_artist'];
-}
 
 echo '<div id="content-layout">';
 echo '<div id="content">';
+echo $_SESSION['artist'];   
 echo '<h2>'.$_SESSION['artist'].'</h2>';
 if ($result->num_rows > 0) {
     // output data of each row

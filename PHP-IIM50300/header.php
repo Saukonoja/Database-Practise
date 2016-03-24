@@ -25,7 +25,7 @@ $content = <<<CONTENT
          <div id="container">
             <div id="sideBar">
             	<table class="sidebar">
-            	   <tr><td onclick="window.location.href='index.php'">Home</td></tr>
+            	   <tr><td class="test" onclick="window.location.href='index.php'">Home</td></tr>
             		<tr><td onclick="window.location.href='artists.php'">Artists</td></tr>
             		<tr><td onclick="window.location.href='albums.php'">Albums</td></tr>
             		<tr><td>Tracks</td></tr>

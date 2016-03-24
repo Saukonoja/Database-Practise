@@ -1,16 +1,16 @@
-﻿<?php
+<?php
 
 $sql = 
 "select 
-  c.nimi as levy,
-  e.nimi as esittaja,
-  v.vuosi as julkaisuvuosi,
-  y.nimi as yhtio
-from cd as c 
-left join cd_esittaja as cd on cd.cd_avain = c.avain
-left join esittaja as e on cd.esittaja_avain = e.avain
-left join vuosi as v on c.vuosi_avain = v.avain
-left join yhtio as y on c.yhtio_avain = y.avain
-group by c.nimi;"
+  cd.nimi as levy,
+  esittaja.nimi as esittaja,
+  vuosi.vuosi as julkaisuvuosi,
+  yhtio.nimi as yhtio
+from cd
+left join cd_esittaja on cd_esittaja.cd_avain = cd.avain
+left join esittaja  on cd_esittaja.esittaja_avain = esittaja.avain
+left join vuosi on cd.vuosi_avain = vuosi.avain
+left join yhtio on cd.yhtio_avain = yhtio.avain
+group by cd.nimi;"
 
 ?>

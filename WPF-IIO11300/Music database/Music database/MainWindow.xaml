@@ -33,7 +33,7 @@
         </Style>
     </Window.Resources>
     <Grid Background="#575757">
-        <TextBlock Foreground="White" Style="{StaticResource mouseOverStyleTitle}" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" FontSize="32" Margin="10,0,0,5" Cursor="Hand">Music database</TextBlock>
+        <TextBlock Foreground="White" Style="{StaticResource mouseOverStyleTitle}" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" FontSize="32" Margin="10,10,0,5" Cursor="Hand">Music database</TextBlock>
         <Button x:Name="btnSignUp" Content="SIGN UP" Background="#ACCB12" BorderBrush="#ACCB12" Foreground="White" FontSize="16"  Margin="10,10,90,5" Width="80" Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Cursor="Hand" Click="btnSignUp_Click"/>
         <Button x:Name="btnLogin" Content="LOGIN" Background="#B8B8B8" BorderBrush="#B8B8B8" Foreground="White" FontSize="16"  Margin="0,10,10,5" Width="70"  Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Cursor="Hand" Click="btnLogin_Click"/>
 
@@ -69,11 +69,13 @@
                 </StackPanel>
                 <StackPanel>
                     <TextBlock>Lorem ipsum</TextBlock>
+                    <Button x:Name="testConnection" Click="testConnection_Click">Test</Button>
+                    <DataGrid x:Name="dgTest" Height="220" ItemsSource="{Binding}"></DataGrid>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
         <StackPanel Background="#B8B8B8" Orientation="Horizontal" Height="55" VerticalAlignment="Bottom">
-            <TextBlock x:Name="tbCopyright" Text="© Music database 2016" HorizontalAlignment="Left" Foreground="White" FontSize="24" Margin="10,5,0,5" Cursor="Hand"></TextBlock>
+            <TextBlock x:Name="tbCopyright" Text="© Music database 2016" HorizontalAlignment="Left" Foreground="White" FontSize="24" Margin="10,10,0,5"></TextBlock>
         </StackPanel>
         <Button x:Name="btnContact" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Contact us" Background="#575757" BorderBrush="#575757" Foreground="White" 
                         FontSize="16" Margin="10,5,10,10" Width="100" Height="35" Cursor="Hand" Click="btnSignUp_Click"></Button>

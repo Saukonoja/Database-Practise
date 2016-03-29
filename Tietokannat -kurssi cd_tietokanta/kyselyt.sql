@@ -1,91 +1,99 @@
-
---basic queries
+-- BASIC QUERIES
 
 -- Kaikki artistit tulostetaan
+
 select 
-  e.nimi as Esittaja,
-  v.vuosi as Perustamisvuosi,
-  m.nimi as Maa
-from esittaja as e 
-left join vuosi as v on e.vuosi_avain = v.avain
-left join maa as m on e.maa_avain = m.avain;
+  esittaja.nimi as Esittaja,
+  vuosi.vuosi as Perustamisvuosi,
+  maa.nimi as Maa
+from esittaja 
+left join vuosi on esittaja.vuosi_avain = vuosi.avain
+left join maa on esittaja.maa_avain = maa.avain;
 
 
 -- Kaikki albumit tulostetaan
+
 select 
-  c.nimi as Levy,
-  e.nimi as Esittaja,
-  v.vuosi as Julkaisuvuosi,
-  y.nimi as Yhtio
-from cd as c 
-left join cd_esittaja as cd on cd.cd_avain = c.avain
-left join esittaja as e on cd.esittaja_avain = e.avain
-left join vuosi as v on c.vuosi_avain = v.avain
-left join yhtio as y on c.yhtio_avain = y.avain;
+  cd.nimi as Levy,
+  esittaja.nimi as Esittaja,
+  vuosi.vuosi as Julkaisuvuosi,
+  yhtio.nimi as Yhtio
+from cd 
+left join cd_esittaja on cd_esittaja.cd_avain = cd.avain
+left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain
+left join vuosi on cd.vuosi_avain = vuosi.avain
+left join yhtio on cd.yhtio_avain = yhtio.avain;
 
 
 -- Kaikki kappaleet tulostetaan
 
 select 
-	k.nimi as Kappale,
-    e.nimi as Esittaja,
-    c.nimi as Levy,
-    v.vuosi as Julkaisuvuosi
-from cd as c
-left join cd_kappale as cd on cd.cd_avain = c.avain
-left join kappale as k on cd.kappale_avain = k.avain
-left join esittaja as e on k.esittaja_avain = e.avain
-left join vuosi as v on k.vuosi_avain = v.avain;
+	kappale.nimi as Kappale,
+    esittaja.nimi as Esittaja,
+    cd.nimi as Levy,
+    vuosi.vuosi as Julkaisuvuosi
+from cd
+left join cd_kappale on cd_kappale.cd_avain = cd.avain
+left join kappale on cd_kappale.kappale_avain = kappale.avain
+left join esittaja on kappale.esittaja_avain = esittaja.avain
+left join vuosi on kappale.vuosi_avain = vuosi.avain;
 
 -- Kaikki genret tulostetaan
 
-select genre.nimi as Genre from genre;
+select 
+	genre.nimi as Genre 
+from genre;
 
+-- Kappaleet tulostetaan aakkosjärjestyksessä genren mukaan
+
+select 
+  kappale.nimi as Kappale,
+  genre.nimi as Genre
+from kappale
+left join kappale_genre on kappale_genre.kappale_avain = kappale.avain
+left join genre on kappale_genre.genre_avain = genre.avain
+ORDER BY genre.nimi, kappale.nimi
 
 -- Kaikki levy-yhtiöt tulostetaan
+
 select 
-	y.nimi as Levyyhtio,
-    m.nimi as Maa,
-    v.vuosi as Perustamisvuosi
-from yhtio as y
-left join maa as m on y.maa_avain = m.avain
-left join vuosi as v on y.vuosi_avain = v.avain;
+	yhtio.nimi as Levyyhtio,
+    maa.nimi as Maa,
+    vuosi.vuosi as Perustamisvuosi
+from yhtio
+left join maa on yhtio.maa_avain = maa.avain
+left join vuosi on yhtio.vuosi_avain = vuosi.avain;
 
 -- Kaikki artistin levyt tulostetaan
 
 select 
-  c.nimi as Levy,
-  e.nimi as Esittaja,
-  v.vuosi as Julkaisuvuosi,
-  y.nimi as Yhtio
-from cd as c 
-left join cd_esittaja as cd on cd.cd_avain = c.avain
-left join esittaja as e on cd.esittaja_avain = e.avain
-left join vuosi as v on c.vuosi_avain = v.avain
-left join yhtio as y on c.yhtio_avain = y.avain
-where cd.esittaja_avain = (select avain from esittaja where nimi = 'Europe');
+  cd.nimi as Levy,
+  esittaja.nimi as Esittaja,
+  vuosi.vuosi as Julkaisuvuosi,
+  yhtio.nimi as Yhtio
+from cd
+left join cd_esittaja on cd_esittaja.cd_avain = cd.avain
+left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain
+left join vuosi on cd.vuosi_avain = vuosi.avain
+left join yhtio on cd.yhtio_avain = yhtio.avain
+where cd_esittaja.esittaja_avain = (select avain from esittaja where nimi = 'Europe');
 
 -- Kaikki levyn kappaleet tulostetaan
 
 select 
-	k.nimi as Kappale,
-    k.kesto as Kesto,
-    c.nimi as Levy,
-    v.vuosi as Julkaisuvuosi
-from cd as c
-left join cd_kappale as cd on cd.cd_avain = c.avain
-left join kappale as k on cd.kappale_avain = k.avain
-left join vuosi as v on k.vuosi_avain = v.avain
-where cd.cd_avain = (select avain from cd where nimi = 'The Final Countdown');
-
-
-select 
-	kuvapath 
+	kappale.nimi as Kappale,
+    kappale.kesto as Kesto,
+    cd.nimi as Levy,
+    vuosi.vuosi as Julkaisuvuosi
 from cd
-where cd.nimi = 'test';
+left join cd_kappale on cd_kappale.cd_avain = cd.avain
+left join kappale on cd_kappale.kappale_avain = kappale.avain
+left join vuosi on kappale.vuosi_avain = vuosi.avain
+where cd_kappale.cd_avain = (select avain from cd where nimi = 'The Final Countdown');
 
 
---advanced queries
+-- ADVANCED QUERIES
+
 
 -- Albumin kappaleiden kestojen keskiarvo tulostetaan
 
@@ -94,9 +102,9 @@ select
 from cd
 left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
-where cd_kappale.cd_avain = (select avain from cd where nimi = 'The Final Countdown')
+where cd_kappale.cd_avain = (select avain from cd where nimi = 'The Final Countdown');
 
--- Kaikki albumin kappaleet, joiden kesto on alle 5 minuuttia tulostetaan keston mukaan järjestykssä
+-- Kaikki albumin kappaleet, joiden kesto on alle 5 minuuttia tulostetaan keston mukaan järjestyksessä
 
 select
 	kappale.nimi as kappale,
@@ -107,13 +115,4 @@ left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
 where cd_kappale.cd_avain = (select avain from cd where nimi = 'The Final Countdown')
 and kappale.kesto < 300
-group by kappale.kesto
-
-
-
-
-
-
-
-
-
+group by kappale.kesto;

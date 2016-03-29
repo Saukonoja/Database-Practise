@@ -39,4 +39,3 @@ insert into cd_kappale (cd_avain, kappale_avain) values( (select avain from cd w
 
 insert into cd_esittaja (cd_avain, esittaja_avain) values( (select avain from cd where nimi = 'The Final Countdown'), (select avain from esittaja where nimi = 'Europe'));
 
-insert into user (tunnus, salasana, tyyppi) values( 'janne', 'sala','1');

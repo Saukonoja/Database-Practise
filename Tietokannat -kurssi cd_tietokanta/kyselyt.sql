@@ -1,4 +1,6 @@
 
+--basic queries
+
 -- Kaikki artistit tulostetaan
 select 
   e.nimi as Esittaja,
@@ -81,6 +83,31 @@ select
 	kuvapath 
 from cd
 where cd.nimi = 'test';
+
+
+--advanced queries
+
+-- Albumin kappaleiden kestojen keskiarvo tulostetaan
+
+select
+    avg(kappale.kesto)
+from cd
+left join cd_kappale on cd_kappale.cd_avain = cd.avain
+left join kappale on cd_kappale.kappale_avain = kappale.avain
+where cd_kappale.cd_avain = (select avain from cd where nimi = 'The Final Countdown')
+
+-- Kaikki albumin kappaleet, joiden kesto on alle 5 minuuttia tulostetaan keston mukaan järjestykssä
+
+select
+	kappale.nimi as kappale,
+    kappale.kesto as kesto,
+    cd.nimi as levy
+from cd
+left join cd_kappale on cd_kappale.cd_avain = cd.avain
+left join kappale on cd_kappale.kappale_avain = kappale.avain
+where cd_kappale.cd_avain = (select avain from cd where nimi = 'The Final Countdown')
+and kappale.kesto < 300
+group by kappale.kesto
 
 
 

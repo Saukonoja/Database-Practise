@@ -1,7 +1,7 @@
-﻿<Application x:Class="Music_database.App"
+﻿<Application x:Class="MusicDatabase.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Music_database"
+             xmlns:local="clr-namespace:MusicDatabase"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

@@ -33,5 +33,9 @@ namespace Music_database {
         private void btnLogin_Click(object sender, RoutedEventArgs e) {
 
         }
+
+        private void testConnection_Click(object sender, RoutedEventArgs e) {
+            asddaadsdsadsa;
+        }
     }
 }

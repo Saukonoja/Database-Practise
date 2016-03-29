@@ -69,6 +69,7 @@
                 </StackPanel>
                 <StackPanel>
                     <TextBlock>Lorem ipsum</TextBlock>
+                    <Button x:Name="testConnection" Click="testConnection_Click" >Test</Button>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

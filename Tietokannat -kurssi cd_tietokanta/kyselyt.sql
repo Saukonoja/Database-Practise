@@ -1,4 +1,3 @@
-
 -- BASIC QUERIES---------------------
 
 -- Kaikki artistit tulostetaan
@@ -39,11 +38,13 @@ left join kappale on cd_kappale.kappale_avain = kappale.avain
 left join esittaja on kappale.esittaja_avain = esittaja.avain
 left join vuosi on kappale.vuosi_avain = vuosi.avain;
 
+
 -- Kaikki genret tulostetaan
 
 select 
 	genre.nimi as Genre 
 from genre;
+
 
 -- Kappaleet tulostetaan aakkosjärjestyksessä genren mukaan
 
@@ -55,6 +56,7 @@ left join kappale_genre on kappale_genre.kappale_avain = kappale.avain
 left join genre on kappale_genre.genre_avain = genre.avain
 ORDER BY genre.nimi, kappale.nimi
 
+
 -- Kaikki levy-yhtiöt tulostetaan
 
 select 
@@ -64,6 +66,7 @@ select
 from yhtio
 left join maa on yhtio.maa_avain = maa.avain
 left join vuosi on yhtio.vuosi_avain = vuosi.avain;
+
 
 -- Kaikki artistin levyt tulostetaan
 
@@ -78,6 +81,7 @@ left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain
 left join vuosi on cd.vuosi_avain = vuosi.avain
 left join yhtio on cd.yhtio_avain = yhtio.avain
 where cd_esittaja.esittaja_avain = (select avain from esittaja where nimi = 'Europe');
+
 
 -- Kaikki levyn kappaleet tulostetaan
 
@@ -105,6 +109,7 @@ left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
 where cd_kappale.cd_avain = (select avain from cd where nimi = 'The Final Countdown');
 
+
 -- Kaikki albumin kappaleet, joiden kesto on alle 5 minuuttia tulostetaan keston mukaan järjestyksessä
 
 select
@@ -117,6 +122,7 @@ left join kappale on cd_kappale.kappale_avain = kappale.avain
 where cd_kappale.cd_avain = (select avain from cd where nimi = 'The Final Countdown')
 and kappale.kesto < 300
 group by kappale.kesto;
+
 
 -- Jos artistin albumilla on yli kymmenen kappaletta niin se tulostetaan näkyviin
 
@@ -154,6 +160,7 @@ left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
 where cd.nimi = 'Fear of the Dark' 
 having count(kappale.nimi) > 10;  
+
 
 -- Albumin kappaleet sekoitetaan ja valitaan aina yksi näkyviin, voisi toimia esimerkiksi albumia kuunneltaessa ns. shufflena
 

@@ -1,25 +1,4 @@
--- insert into vuosi with loop:
-
-drop procedure if exists my_procedure;
-
-delimiter #
-
-create procedure my_procedure () 
-begin
-
-DECLARE i INT DEFAULT 1949;
-
-  WHILE i < 2031 DO
-  insert into vuosi (vuosi) values(i);
-  /* insert into table... */
-  SET i = i + 1;
-  END WHILE;
-
-end# -- end of stored procedure block
-
-delimiter ; -- switch delimiters again
-
-call my_procedure();
+-- Lisätään vuodet loopilla 1949-2020
 
 DECLARE @i INT;
 SET @i = 1949;
@@ -30,21 +9,26 @@ BEGIN
    SET @i = @i + 1;
 END;
 GO
-
+-- Lisätään tarvittavat maat
 insert into maa (isoalpha2, nimi) values( 'SE', 'Sweden');
 insert into maa (isoalpha2, nimi) values( 'US', 'United States of America');
 
+-- Lisätään levy-yhtiö
 insert into yhtio (nimi, maa_avain, vuosi_avain) values( 'Epic Records', (select avain from maa where nimi = 'United States of America'), (select avain from vuosi where vuosi = '1953'));
 
+-- Lisätään esittäjät
 insert into esittaja (nimi, maa_avain, vuosi_avain) values( 'Europe', (select avain from maa where nimi = 'Sweden'), (select avain from vuosi where vuosi = '1979'));
 insert into esittaja (nimi, maa_avain, vuosi_avain) values( 'Iron Maiden', (select avain from maa where nimi = 'United States of America'), (select avain from vuosi where vuosi = '1975'));
 
+-- Lisätään cd:t
 insert into cd (nimi, yhtio_avain, vuosi_avain, kuvapath) values( 'The Final Countdown', (select avain from yhtio where nimi = 'Epic Records'), (select avain from vuosi where vuosi = '1986'),'');
 insert into cd (nimi, yhtio_avain, vuosi_avain, kuvapath) values( 'Fear of the Dark', (select avain from yhtio where nimi = 'Epic Records'), (select avain from vuosi where vuosi = '1992'),'');
 
+-- Lisätään genret
 insert into genre (nimi) values( 'Hard Rock');
 insert into genre (nimi) values( 'Heavy Metal');
 
+-- Lisätään kappaleet
 insert into kappale (nimi, kesto, esittaja_avain, vuosi_avain, tubepath, numero) values( 'The Final Countdown', '311', (select avain from esittaja where nimi = 'Europe'), (select avain from vuosi where vuosi = '1986'),'', '1');
 insert into kappale (nimi, kesto, esittaja_avain, vuosi_avain, tubepath, numero) values( 'Rock the Night', '243', (select avain from esittaja where nimi = 'Europe'), (select avain from vuosi where vuosi = '1986'),'', '2');
 insert into kappale (nimi, kesto, esittaja_avain, vuosi_avain, tubepath, numero) values( 'Carrie', '270', (select avain from esittaja where nimi = 'Europe'), (select avain from vuosi where vuosi = '1986'),'','3');
@@ -69,6 +53,7 @@ insert into kappale (nimi, kesto, esittaja_avain, vuosi_avain, tubepath, numero)
 insert into kappale (nimi, kesto, esittaja_avain, vuosi_avain, tubepath, numero) values( 'Weekend Warrior', '339', (select avain from esittaja where nimi = 'Iron Maiden'), (select avain from vuosi where vuosi = '1992'),'','11');
 insert into kappale (nimi, kesto, esittaja_avain, vuosi_avain, tubepath, numero) values( 'Fear of the Dark', '438', (select avain from esittaja where nimi = 'Iron Maiden'), (select avain from vuosi where vuosi = '1992'),'','12');
 
+-- Lisätään kappaleet viittamaan oikeaan genreen
 insert into kappale_genre (kappale_avain, genre_avain) values( (select avain from kappale where nimi = 'The Final Countdown'), (select avain from genre where nimi = 'Hard Rock'));
 insert into kappale_genre (kappale_avain, genre_avain) values( (select avain from kappale where nimi = 'Rock the Night'), (select avain from genre where nimi = 'Hard Rock'));
 insert into kappale_genre (kappale_avain, genre_avain) values( (select avain from kappale where nimi = 'Carrie'), (select avain from genre where nimi = 'Hard Rock'));
@@ -93,9 +78,11 @@ insert into kappale_genre (kappale_avain, genre_avain) values( (select avain fro
 insert into kappale_genre (kappale_avain, genre_avain) values( (select avain from kappale where nimi = 'Weekend Warrior'), (select avain from genre where nimi = 'Heavy Metal'));
 insert into kappale_genre (kappale_avain, genre_avain) values( (select avain from kappale where nimi = 'Fear of the Dark'), (select avain from genre where nimi = 'Heavy Metal'));
 
+-- Lisätään cd:t viittamaan oikeaan esittäjään
 insert into cd_esittaja (cd_avain, esittaja_avain) values( (select avain from cd where nimi = 'The Final Countdown'), (select avain from esittaja where nimi = 'Europe'));
 insert into cd_esittaja (cd_avain, esittaja_avain) values( (select avain from cd where nimi = 'Fear of the Dark'), (select avain from esittaja where nimi = 'Iron Maiden'));
 
+-- Lisätään kappaleet viittaamaan oikeaan esittäjään
 insert into cd_kappale (cd_avain, kappale_avain) values( (select avain from cd where nimi = 'The Final Countdown'), (select avain from kappale where nimi = 'The Final Countdown'));
 insert into cd_kappale (cd_avain, kappale_avain) values( (select avain from cd where nimi = 'The Final Countdown'), (select avain from kappale where nimi = 'Rock the Night'));
 insert into cd_kappale (cd_avain, kappale_avain) values( (select avain from cd where nimi = 'The Final Countdown'), (select avain from kappale where nimi = 'Carrie'));

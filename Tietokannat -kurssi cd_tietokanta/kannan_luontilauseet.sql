@@ -1,5 +1,6 @@
--- luonti
-
+-- luonti oikeassa järjestyksessä
+	
+-- vuosi taulu
 create table vuosi
 (
   avain int identity(1,1) not null,
@@ -9,6 +10,7 @@ create table vuosi
   constraint UQ_vuosi_vuosi Unique (vuosi)
 );
 
+-- maa taulu
 create table maa
 (
   avain int identity(1,1) not null,
@@ -20,6 +22,7 @@ create table maa
   constraint UQ_maa_nimi Unique (nimi)
 );
 
+-- yhtio taulu
 create table yhtio
 (
   avain int identity(1,1) not null,
@@ -33,6 +36,7 @@ create table yhtio
   constraint FK_yhtio_vuosi_avain foreign key (vuosi_avain) references vuosi(avain)
 );
 
+-- esittäjä taulu
 create table esittaja
 (
   avain int identity(1,1) not null,
@@ -46,6 +50,7 @@ create table esittaja
   constraint FK_esittaja_vuosi_avain foreign key (vuosi_avain) references vuosi(avain)
 );
 
+-- genre taulu
 create table genre
 (
   avain int identity(1,1) not null,
@@ -55,6 +60,7 @@ create table genre
   constraint UQ_genre_nimi Unique (nimi)
 )
 
+-- kappale taulu
 create table kappale
 (
   avain int identity(1,1) not null,
@@ -71,6 +77,7 @@ create table kappale
   constraint FK_kappale_vuosi_avain foreign key (vuosi_avain) references vuosi(avain)
 );
 
+-- kappale_genre välitaulu
 create table kappale_genre
 (
   avain int identity(1,1) not null,
@@ -83,6 +90,7 @@ create table kappale_genre
   constraint FK_kappale_genre_genre_avain foreign key (genre_avain) references genre(avain)
 );
 
+-- cd taulu
 create table cd
 (
   avain int identity(1,1) not null,
@@ -97,6 +105,7 @@ create table cd
   constraint FK_cd_vuosi_avain foreign key (vuosi_avain) references vuosi(avain)
 );
 
+-- cd_kappale välitaulu
 create table cd_kappale
 (
   avain int identity(1,1) not null,
@@ -109,6 +118,7 @@ create table cd_kappale
   constraint FK_cd_kappale_kappale_avain foreign key (kappale_avain) references kappale(avain)
 );
 
+-- cd_esittäjä välitaulu
 create table cd_esittaja
 (
   avain int identity(1,1) not null,
@@ -122,7 +132,7 @@ create table cd_esittaja
 );
 
 
---poisto
+-- poisto oikeassa järjestyksessä
 
 drop table cd_esittaja
 drop table cd_kappale

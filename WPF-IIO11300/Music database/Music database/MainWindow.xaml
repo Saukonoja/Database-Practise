@@ -72,7 +72,7 @@
                 <TextBlock x:Name="tbCopyright" Text="© Music database 2016" HorizontalAlignment="Left" Foreground="White" FontSize="24" Margin="10,10,0,5"></TextBlock>
             </StackPanel>
             <Button x:Name="btnContact" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Contact us" Background="#575757" BorderBrush="#575757" Foreground="White" 
-                        FontSize="16" Margin="10,5,10,10" Width="100" Height="35" Cursor="Hand" Click="btnSignUp_Click"></Button>
+                        FontSize="16" Margin="10,5,10,10" Width="100" Height="35" Cursor="Hand" Click="btnContact_Click"></Button>
         </Grid>
     </DockPanel>
 </Window>

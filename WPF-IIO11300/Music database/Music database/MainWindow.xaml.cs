@@ -54,5 +54,9 @@ namespace MusicDatabase {
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
         }
+
+        private void btnContact_Click(object sender, RoutedEventArgs e) {
+
+        }
     }
 }

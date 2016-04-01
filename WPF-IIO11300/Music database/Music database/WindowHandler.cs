@@ -19,7 +19,7 @@ namespace MusicDatabase {
         }
 
         public void MoveToRegister() {
-            Register register = new Register();
+            BLRegister register = new BLRegister();
             App.Current.MainWindow = register; 
             register.Show();
         }

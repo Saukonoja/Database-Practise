@@ -9,22 +9,22 @@ using System.Windows;
 
 namespace MusicDatabase {
     public class DBMusicDatabase {
-        public static DataTable GetArtists(string connStr) {
-            try {              
-                using (MySqlConnection conn = new MySqlConnection(connStr)) {
-                    string sql = "select nimi, vuosi_avain, maa_avain from esittaja ";
+        public static DataTable GetArtists() {
+            MySqlConnection conn = new MySqlConnection("datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1");
+            try {
                     conn.Open();
+                    string sql = "select esittaja.nimi as Esittaja, vuosi.vuosi as Perustamisvuosi, maa.nimi as Maa from esittaja left join vuosi on esittaja.vuosi_avain = vuosi.avain left join maa on esittaja.maa_avain = maa.avain; ";
+                    
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
-                    DataTable dt = new DataTable("Artists");
-                    msda.Fill(dt);
+                    DataSet ds = new DataSet();
+                    msda.Fill(ds, "Artists");
                     conn.Close();
-                    return dt;
-                }
-
+                    return ds.Tables["Artists"];
             } catch (Exception ex) {
                 throw ex;
             }
+           
         }
         public static bool RegisterUser(byte[] hash, string hashPassword, string username, out string message, string connStr) {
             try {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Music_database.Properties {
+namespace MusicDatabase.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -26,8 +26,8 @@ namespace Music_database.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("datasource = mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1" +
-            "swQ336LN90Fv7ZKFq7OZFB;database=H3298_1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1sw" +
+            "Q336LN90Fv7ZKFq7OZFB;database=H3298_1")]
         public string Database {
             get {
                 return ((string)(this["Database"]));

@@ -13,7 +13,7 @@ namespace MusicDatabase {
             try {              
 
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
-                    string sql = "SELECT * from cd";
+                    string sql = "select nimi, vuosi_avain, maa_avain from esittaja ";
                     conn.Open();
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     MySqlDataAdapter msda = new MySqlDataAdapter(cmd);

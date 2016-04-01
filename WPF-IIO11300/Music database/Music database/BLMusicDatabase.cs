@@ -8,46 +8,48 @@ using System.Threading.Tasks;
 namespace MusicDatabase {
     public class Artist {
         
-        private static string cs = "datasource = mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1";
+        private static string cs = "datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1";
         #region PROPERTIES
 
-        private int avain;
-        public int Avain {
-            get { return avain; }
+        private int key;
+        public int Key {
+            get { return key; }
+            set { key = value; }
         }
 
-        private string nimi;
-        public string Nimi {
-            get { return nimi; }
-            set { nimi = value; }
+        private string name;
+        public string Name {
+            get { return name; }
+            set { name = value; }
         }
 
-        private string maa;
-        public string Maa {
-            get { return maa; }
-            set { maa = value; }
+        private string country;
+        public string Country {
+            get { return country; }
+            set { country = value; }
         }
 
-        private int vuosi;
-        public int Vuosi {
-            get { return vuosi; }
-            set { vuosi = value; }
+        private int year;
+        public int Year {
+            get { return year; }
+            set { year = value; }
         }
         #endregion
         #region CONSTRUCTOR
 
-        public Artist(int avain) {
-            this.avain = avain;
+        public Artist(int key) {
+            this.key = key;
         }
-        public Artist(string nimi, string maa, int vuosi) {
-            this.nimi = nimi;
-            this.maa = maa;
-            this.vuosi = vuosi;
+        public Artist(int key, string name, string country, int year) {
+            this.key = key;
+            this.name = name;
+            this.country = country;
+            this.year = year;
         }
         #endregion
         #region METHODS
         public override string ToString() {
-            return nimi;
+            return name;
         }
 
         public static List<Artist> GetArtists() {
@@ -58,9 +60,10 @@ namespace MusicDatabase {
 
                 Artist artist;
                 foreach (DataRow row in dt.Rows) {
-                    artist = new Artist(int.Parse(row["avain"].ToString()));
-                    artist.Nimi = row["nimi"].ToString();
-
+                    artist = new Artist((int)row[0]);
+                    artist.Name = row["nimi"].ToString();
+                    artist.Country = row["maa_avain"].ToString();
+                    artist.Year = (int)row["vuosi_avain"];
 
                     artists.Add(artist);
                 }

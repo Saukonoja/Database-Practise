@@ -15,26 +15,31 @@ using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using System.Data;
 
+
 namespace MusicDatabase {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+        WindowHandler handler = new WindowHandler();
         private List<Artist> artists;
         public MainWindow() {
             InitializeComponent();
+   
         }
 
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
 
         }
 
-        private void btnSignUp_Click(object sender, RoutedEventArgs e) {
-
+        private void btnSignUp_Click(object sender, RoutedEventArgs e) {       
+            handler.MoveToRegister();
+            this.Close();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e) {
-
+            handler.MoveToLogin();
+            this.Close();
         }
 
         private void testConnection_Click(object sender, RoutedEventArgs e) {
@@ -44,6 +49,10 @@ namespace MusicDatabase {
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
         }
     }
 }

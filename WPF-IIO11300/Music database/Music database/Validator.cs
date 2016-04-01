@@ -8,11 +8,17 @@ using System.Threading.Tasks;
 namespace MusicDatabase {
     public class Validator {
 
-        public bool Validate(string username, string password, string repassword) {
+        public bool ValidateRegister(string username, string password, string repassword) {
             if (CheckUserName(username) && CheckPassword(password)) {
                 if (password == repassword) {
                     return true;
                 }
+            }
+            return false;
+        }
+        public bool ValidateLogin(string username, string password) {
+            if (CheckUserName(username) && CheckPassword(password)) {
+                    return true;
             }
             return false;
         }

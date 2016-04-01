@@ -12,7 +12,6 @@ namespace MusicDatabase {
         private static string connStr = "datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1";
         private string username;
         private string password;
-        private string hashPassword;
         private byte[] hash;
 
         public BLRegister(string username, string password) {
@@ -28,16 +27,17 @@ namespace MusicDatabase {
             return true;
         }
 
-        public bool RegisterUser(out string msgToUser) {
+        public bool RegisterUser(out string messageToUser) {
             try {
                 string message = "";
-                
-                if (DBMusicDatabase.RegisterUser(hash, hashPassword, username, out message, connStr)) {
-                    msgToUser = message;
+
+                if (DBMusicDatabase.RegisterUser(hash, username, connStr, out message)) {
+                    messageToUser = message;
                     return true;
                 }
-                msgToUser = message;
+                messageToUser = message;
                 return false;
+
             } catch (Exception ex) {
                 throw ex;
             }

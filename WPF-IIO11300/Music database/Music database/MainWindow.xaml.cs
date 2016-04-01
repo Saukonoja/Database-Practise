@@ -22,7 +22,7 @@ namespace MusicDatabase {
     /// </summary>
     public partial class MainWindow : Window {
         WindowHandler handler = new WindowHandler();
-        private List<Artist> artists;
+        private DataTable artists;
         public MainWindow() {
             InitializeComponent();
    

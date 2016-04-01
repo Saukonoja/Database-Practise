@@ -52,23 +52,11 @@ namespace MusicDatabase {
             return name;
         }
 
-        public static List<Artist> GetArtists() {
+        public static DataTable GetArtists() {
             try {
-                DataTable dt;
-                List<Artist> artists = new List<Artist>();
-                dt = DBMusicDatabase.GetArtists(cs);
-
-                Artist artist;
-                foreach (DataRow row in dt.Rows) {
-                    artist = new Artist((int)row[0]);
-                    artist.Name = row["nimi"].ToString();
-                    artist.Country = row["maa_avain"].ToString();
-                    artist.Year = (int)row["vuosi_avain"];
-
-                    artists.Add(artist);
-                }
-                return artists;
-            }catch (Exception ex) {
+                DataTable artistTable = DBMusicDatabase.GetArtists(cs);
+                return artistTable;
+            } catch (Exception ex) {
                 throw ex;
             }
         }

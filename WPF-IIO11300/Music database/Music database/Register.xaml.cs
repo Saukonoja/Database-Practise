@@ -32,7 +32,7 @@ namespace MusicDatabase {
             Validator validator = new Validator();
 
             try {
-                if (validator.Validate(username, password, repassword)) {
+                if (validator.ValidateRegister(username, password, repassword)) {
 
                     BLRegister register = new BLRegister(username, password);
                     if (register.RegisterUser(out message)) {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 
 namespace MusicDatabase {
-    public partial class Login {
+    public partial class BLLogin {
         private string username;
         private string password;
    

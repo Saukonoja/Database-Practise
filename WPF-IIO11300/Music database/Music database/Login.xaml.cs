@@ -16,9 +16,9 @@ namespace MusicDatabase {
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : Window {
+    public partial class BLLogin : Window {
         WindowHandler handler = new WindowHandler();
-        public Login() {
+        public BLLogin() {
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
         }
@@ -28,6 +28,30 @@ namespace MusicDatabase {
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e) {
+            string username = txtUserName.Text;
+            string password = txtPassword.Password;
+            string message = "";
+            Validator validator = new Validator();
+
+            try {
+                if (validator.ValidateLogin(username, password)) {
+
+                    BLRegister register = new BLRegister(username, password);
+                    if (register.RegisterUser(out message)) {
+                        handler.MoveToLogin();
+                        this.Close();
+                        MessageBox.Show("Registration was successful!", "Registration Music Database");
+                    }
+                } else {
+                    MessageBox.Show("Valid username: 6-20 characters.\nValid password: 8-20 characters.\nNo special characters.\nPasswords must match.", "Registration Music Database");
+                }
+            } catch (Exception ex) {
+                message = ex.Message;
+            } finally {
+                if (message != "") {
+                    MessageBox.Show(message, "Registration Music Database");
+                }
+            }
             handler.MoveToMain();
             this.Close();
         }

@@ -27,10 +27,10 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-         public static bool RegisterUser(byte [] hash, string username, string connStr, out string message) {
+        public static bool RegisterUser(byte[] hash, string username, string connStr, out string message) {
             string hashPassword;
             try {
-                
+
                 hashPassword = BitConverter.ToString(hash).Replace("-", "");
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
                     message = "";
@@ -41,8 +41,8 @@ namespace MusicDatabase {
                     cmd.Parameters.AddWithValue("@username", username);
                     MySqlDataReader dr = cmd.ExecuteReader();
                     while (dr.Read()) {
-                        if(dr.HasRows == true) {
-                            message = "user already exists";
+                        if (dr.HasRows == true) {
+                            message = "User already exists!";
                             exists = true;
                             break;
                         }
@@ -62,6 +62,31 @@ namespace MusicDatabase {
                     conn.Close();
                     return false;
                 }
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+        public static bool LoginUser(string username, string password, string connStr, out string message) {
+            try {
+                using (MySqlConnection conn = new MySqlConnection(connStr)) {
+                    message = "";
+                    conn.Open();
+
+                    string sql = "select tunnus, salasana from user where tunnus=@username and salasana=@password;";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@password", password);
+                    MySqlDataReader dr = cmd.ExecuteReader();
+                    while (dr.Read()) {
+                        if (dr.HasRows == true) {     
+                            return true;
+                        }
+                    }
+                    message = "Username or password is invalid!";
+                    dr.Close();
+                    conn.Close();
+                }
+                return false;
             } catch (Exception ex) {
                 throw ex;
             }

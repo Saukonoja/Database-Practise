@@ -36,11 +36,10 @@ namespace MusicDatabase {
             try {
                 if (validator.ValidateLogin(username, password)) {
 
-                    BLRegister register = new BLRegister(username, password);
-                    if (register.RegisterUser(out message)) {
-                        handler.MoveToLogin();
+                    BLLogin login = new BLLogin(username, password);
+                    if (login.LoginUser(out message)) {
+                        handler.MoveToMain();
                         this.Close();
-                        MessageBox.Show("Registration was successful!", "Registration Music Database");
                     }
                 } else {
                     MessageBox.Show("Valid username: 6-20 characters.\nValid password: 8-20 characters.\nNo special characters.\nPasswords must match.", "Registration Music Database");
@@ -52,8 +51,6 @@ namespace MusicDatabase {
                     MessageBox.Show(message, "Registration Music Database");
                 }
             }
-            handler.MoveToMain();
-            this.Close();
         }
 
         private void btnBackToMain_Click(object sender, RoutedEventArgs e) {

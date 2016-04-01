@@ -47,14 +47,24 @@
                             <TextBlock>Lorem ipsum</TextBlock>
                             <TextBlock>Artists</TextBlock>
                             <Button x:Name="testConnection" Click="testConnection_Click">Test</Button>
-                            <DataGrid x:Name="dgTest" Width="400" Height="220" ItemsSource="{Binding}"></DataGrid>
+                            <DataGrid x:Name="dgTest" Width="800" Height="400" ItemsSource="{Binding}"></DataGrid>
                         </StackPanel> 
                     </TabItem>
                     <TabItem Header="Albums" Height="70" x:Name="tabAlbums">
-                        <TextBlock>Albums</TextBlock>
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock>Lorem ipsum</TextBlock>
+                            <TextBlock>Albums</TextBlock>
+                            <Button x:Name="testConnection1" Click="testConnection1_Click">Test</Button>
+                            <DataGrid x:Name="dgTest1" Width="800" Height="400" ItemsSource="{Binding}"></DataGrid>
+                        </StackPanel>
                     </TabItem>
                     <TabItem Header="Tracks" Height="70" x:Name="tabTracks">
-                        <TextBlock>Tracks</TextBlock>
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock>Lorem ipsum</TextBlock>
+                            <TextBlock>Tracks</TextBlock>
+                            <Button x:Name="testConnection2" Click="testConnection2_Click">Test</Button>
+                            <DataGrid x:Name="dgTest2" Width="800" Height="400" ItemsSource="{Binding}"></DataGrid>
+                        </StackPanel>
                     </TabItem>
                     <TabItem Header="Genres" Height="70" x:Name="tabGenres">
                         <TextBlock>Genres</TextBlock>

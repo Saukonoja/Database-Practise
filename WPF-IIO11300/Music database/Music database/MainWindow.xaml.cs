@@ -23,6 +23,8 @@ namespace MusicDatabase {
     public partial class MainWindow : Window {
         WindowHandler handler = new WindowHandler();
         private DataTable artists;
+        private DataTable albums;
+        private DataTable tracks;
         public MainWindow() {
             InitializeComponent();
    
@@ -47,6 +49,26 @@ namespace MusicDatabase {
                 artists = Artist.GetArtists();
                 dgTest.DataContext = artists;
             } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void testConnection1_Click(object sender, RoutedEventArgs e) {
+            try {
+                albums = Album.GetAlbums();
+                dgTest1.DataContext = albums;
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void testConnection2_Click(object sender, RoutedEventArgs e) {
+            try {
+                tracks = Track.GetTracks();
+                dgTest2.DataContext = tracks;
+            }
+            catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }

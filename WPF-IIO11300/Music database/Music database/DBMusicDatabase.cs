@@ -13,7 +13,13 @@ namespace MusicDatabase {
             MySqlConnection conn = new MySqlConnection("datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1");
             try {
                     conn.Open();
-                    string sql = "select esittaja.nimi as Esittaja, vuosi.vuosi as Perustamisvuosi, maa.nimi as Maa from esittaja left join vuosi on esittaja.vuosi_avain = vuosi.avain left join maa on esittaja.maa_avain = maa.avain; ";
+                    string sql = "SELECT " + 
+                                            "esittaja.nimi as Esittaja, " + 
+                                            "vuosi.vuosi as Perustamisvuosi, " + 
+                                            "maa.nimi as Maa " +
+                                 "FROM esittaja " + 
+                                 "left join vuosi on esittaja.vuosi_avain = vuosi.avain " + 
+                                 "left join maa on esittaja.maa_avain = maa.avain; ";
                     
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
@@ -24,8 +30,61 @@ namespace MusicDatabase {
             } catch (Exception ex) {
                 throw ex;
             }
-           
         }
+        public static DataTable GetAlbums() {
+            MySqlConnection conn = new MySqlConnection("datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1");
+            try {
+                conn.Open();
+                string sql = "SELECT " +
+                                        "cd.nimi as Levy, " +
+                                        "esittaja.nimi as Esittaja, " +
+                                        "vuosi.vuosi as Julkaisuvuosi, " +
+                                        "yhtio.nimi as Yhtio " +
+                             "FROM cd " +
+                             "left join cd_esittaja on cd_esittaja.cd_avain = cd.avain " +
+                             "left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain " +
+                             "left join vuosi on cd.vuosi_avain = vuosi.avain " +
+                             "left join yhtio on cd.yhtio_avain = yhtio.avain;";
+
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                msda.Fill(ds, "Albums");
+                conn.Close();
+                return ds.Tables["Albums"];
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+        public static DataTable GetTracks() {
+            MySqlConnection conn = new MySqlConnection("datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1");
+            try {
+                conn.Open();
+                string sql = "SELECT " +
+                                        "kappale.nimi as Kappale, " +
+                                        "esittaja.nimi as Esittaja, " +
+                                        "cd.nimi as Levy, " +
+                                        "vuosi.vuosi as Julkaisuvuosi " +
+                             "FROM cd " +
+                             "left join cd_kappale on cd_kappale.cd_avain = cd.avain " +
+                             "left join kappale on cd_kappale.kappale_avain = kappale.avain " +
+                             "left join esittaja on kappale.esittaja_avain = esittaja.avain " +
+                             "left join vuosi on kappale.vuosi_avain = vuosi.avain " +
+                             "GROUP BY kappale.nimi;";
+
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                msda.Fill(ds, "Tracks");
+                conn.Close();
+                return ds.Tables["Tracks"];
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         public static bool RegisterUser(byte[] hash, string hashPassword, string username, out string message, string connStr) {
             try {
                 hashPassword = BitConverter.ToString(hash).Replace("-", "");

@@ -1,0 +1,840 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MusicDatabaseModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.1" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cd">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nimi" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="yhtio_avain" Type="int" />
+          <Property Name="vuosi_avain" Type="int" Nullable="false" />
+          <Property Name="kuvapath" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="cd_esittaja">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cd_avain" Type="int" />
+          <Property Name="esittaja_avain" Type="int" />
+        </EntityType>
+        <EntityType Name="cd_kappale">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cd_avain" Type="int" Nullable="false" />
+          <Property Name="kappale_avain" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="esittaja">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nimi" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="maa_avain" Type="int" Nullable="false" />
+          <Property Name="vuosi_avain" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="genre">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nimi" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kappale">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nimi" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="kesto" Type="int" Nullable="false" />
+          <Property Name="esittaja_avain" Type="int" Nullable="false" />
+          <Property Name="vuosi_avain" Type="int" Nullable="false" />
+          <Property Name="tubepath" Type="varchar" MaxLength="11" />
+          <Property Name="numero" Type="int" />
+        </EntityType>
+        <EntityType Name="kappale_genre">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kappale_avain" Type="int" />
+          <Property Name="genre_avain" Type="int" />
+        </EntityType>
+        <EntityType Name="maa">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="isoalpha2" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="nimi" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tunnus" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="salasana" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="tyyppi" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vuosi">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vuosi" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="yhtio">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nimi" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="maa_avain" Type="int" Nullable="false" />
+          <Property Name="vuosi_avain" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_cd_esittaja_cd_avain">
+          <End Role="cd" Type="Self.cd" Multiplicity="0..1" />
+          <End Role="cd_esittaja" Type="Self.cd_esittaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cd">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd_esittaja">
+              <PropertyRef Name="cd_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cd_esittaja_esittaja_avain">
+          <End Role="esittaja" Type="Self.esittaja" Multiplicity="0..1" />
+          <End Role="cd_esittaja" Type="Self.cd_esittaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="esittaja">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd_esittaja">
+              <PropertyRef Name="esittaja_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cd_kappale_cd_avain">
+          <End Role="cd" Type="Self.cd" Multiplicity="1" />
+          <End Role="cd_kappale" Type="Self.cd_kappale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cd">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd_kappale">
+              <PropertyRef Name="cd_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cd_kappale_kappale_avain">
+          <End Role="kappale" Type="Self.kappale" Multiplicity="1" />
+          <End Role="cd_kappale" Type="Self.cd_kappale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kappale">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd_kappale">
+              <PropertyRef Name="kappale_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cd_vuosi_avain">
+          <End Role="vuosi" Type="Self.vuosi" Multiplicity="1" />
+          <End Role="cd" Type="Self.cd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vuosi">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd">
+              <PropertyRef Name="vuosi_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cd_yhtio_avain">
+          <End Role="yhtio" Type="Self.yhtio" Multiplicity="0..1" />
+          <End Role="cd" Type="Self.cd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="yhtio">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd">
+              <PropertyRef Name="yhtio_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_esittaja_maa_avain">
+          <End Role="maa" Type="Self.maa" Multiplicity="1" />
+          <End Role="esittaja" Type="Self.esittaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="maa">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="esittaja">
+              <PropertyRef Name="maa_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_esittaja_vuosi_avain">
+          <End Role="vuosi" Type="Self.vuosi" Multiplicity="1" />
+          <End Role="esittaja" Type="Self.esittaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vuosi">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="esittaja">
+              <PropertyRef Name="vuosi_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kappale_esittaja_avain">
+          <End Role="esittaja" Type="Self.esittaja" Multiplicity="1" />
+          <End Role="kappale" Type="Self.kappale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="esittaja">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="kappale">
+              <PropertyRef Name="esittaja_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kappale_genre_genre_avain">
+          <End Role="genre" Type="Self.genre" Multiplicity="0..1" />
+          <End Role="kappale_genre" Type="Self.kappale_genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="genre">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="kappale_genre">
+              <PropertyRef Name="genre_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kappale_genre_kappale_avain">
+          <End Role="kappale" Type="Self.kappale" Multiplicity="0..1" />
+          <End Role="kappale_genre" Type="Self.kappale_genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kappale">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="kappale_genre">
+              <PropertyRef Name="kappale_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kappale_vuosi_avain">
+          <End Role="vuosi" Type="Self.vuosi" Multiplicity="1" />
+          <End Role="kappale" Type="Self.kappale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vuosi">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="kappale">
+              <PropertyRef Name="vuosi_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_yhtio_maa_avain">
+          <End Role="maa" Type="Self.maa" Multiplicity="1" />
+          <End Role="yhtio" Type="Self.yhtio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="maa">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="yhtio">
+              <PropertyRef Name="maa_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_yhtio_vuosi_avain">
+          <End Role="vuosi" Type="Self.vuosi" Multiplicity="1" />
+          <End Role="yhtio" Type="Self.yhtio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vuosi">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="yhtio">
+              <PropertyRef Name="vuosi_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MusicDatabaseModelStoreContainer">
+          <EntitySet Name="cd" EntityType="Self.cd" Schema="H3298_1" store:Type="Tables" />
+          <EntitySet Name="cd_esittaja" EntityType="Self.cd_esittaja" Schema="H3298_1" store:Type="Tables" />
+          <EntitySet Name="cd_kappale" EntityType="Self.cd_kappale" Schema="H3298_1" store:Type="Tables" />
+          <EntitySet Name="esittaja" EntityType="Self.esittaja" Schema="H3298_1" store:Type="Tables" />
+          <EntitySet Name="genre" EntityType="Self.genre" Schema="H3298_1" store:Type="Tables" />
+          <EntitySet Name="kappale" EntityType="Self.kappale" Schema="H3298_1" store:Type="Tables" />
+          <EntitySet Name="kappale_genre" EntityType="Self.kappale_genre" Schema="H3298_1" store:Type="Tables" />
+          <EntitySet Name="maa" EntityType="Self.maa" Schema="H3298_1" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="H3298_1" store:Type="Tables" />
+          <EntitySet Name="vuosi" EntityType="Self.vuosi" Schema="H3298_1" store:Type="Tables" />
+          <EntitySet Name="yhtio" EntityType="Self.yhtio" Schema="H3298_1" store:Type="Tables" />
+          <AssociationSet Name="FK_cd_esittaja_cd_avain" Association="Self.FK_cd_esittaja_cd_avain">
+            <End Role="cd" EntitySet="cd" />
+            <End Role="cd_esittaja" EntitySet="cd_esittaja" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cd_esittaja_esittaja_avain" Association="Self.FK_cd_esittaja_esittaja_avain">
+            <End Role="esittaja" EntitySet="esittaja" />
+            <End Role="cd_esittaja" EntitySet="cd_esittaja" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cd_kappale_cd_avain" Association="Self.FK_cd_kappale_cd_avain">
+            <End Role="cd" EntitySet="cd" />
+            <End Role="cd_kappale" EntitySet="cd_kappale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cd_kappale_kappale_avain" Association="Self.FK_cd_kappale_kappale_avain">
+            <End Role="kappale" EntitySet="kappale" />
+            <End Role="cd_kappale" EntitySet="cd_kappale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cd_vuosi_avain" Association="Self.FK_cd_vuosi_avain">
+            <End Role="vuosi" EntitySet="vuosi" />
+            <End Role="cd" EntitySet="cd" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cd_yhtio_avain" Association="Self.FK_cd_yhtio_avain">
+            <End Role="yhtio" EntitySet="yhtio" />
+            <End Role="cd" EntitySet="cd" />
+          </AssociationSet>
+          <AssociationSet Name="FK_esittaja_maa_avain" Association="Self.FK_esittaja_maa_avain">
+            <End Role="maa" EntitySet="maa" />
+            <End Role="esittaja" EntitySet="esittaja" />
+          </AssociationSet>
+          <AssociationSet Name="FK_esittaja_vuosi_avain" Association="Self.FK_esittaja_vuosi_avain">
+            <End Role="vuosi" EntitySet="vuosi" />
+            <End Role="esittaja" EntitySet="esittaja" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kappale_esittaja_avain" Association="Self.FK_kappale_esittaja_avain">
+            <End Role="esittaja" EntitySet="esittaja" />
+            <End Role="kappale" EntitySet="kappale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kappale_genre_genre_avain" Association="Self.FK_kappale_genre_genre_avain">
+            <End Role="genre" EntitySet="genre" />
+            <End Role="kappale_genre" EntitySet="kappale_genre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kappale_genre_kappale_avain" Association="Self.FK_kappale_genre_kappale_avain">
+            <End Role="kappale" EntitySet="kappale" />
+            <End Role="kappale_genre" EntitySet="kappale_genre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kappale_vuosi_avain" Association="Self.FK_kappale_vuosi_avain">
+            <End Role="vuosi" EntitySet="vuosi" />
+            <End Role="kappale" EntitySet="kappale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_yhtio_maa_avain" Association="Self.FK_yhtio_maa_avain">
+            <End Role="maa" EntitySet="maa" />
+            <End Role="yhtio" EntitySet="yhtio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_yhtio_vuosi_avain" Association="Self.FK_yhtio_vuosi_avain">
+            <End Role="vuosi" EntitySet="vuosi" />
+            <End Role="yhtio" EntitySet="yhtio" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MusicDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cd">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="yhtio_avain" Type="Int32" />
+          <Property Name="vuosi_avain" Type="Int32" Nullable="false" />
+          <Property Name="kuvapath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cd_esittaja" Relationship="Self.FK_cd_esittaja_cd_avain" FromRole="cd" ToRole="cd_esittaja" />
+          <NavigationProperty Name="cd_kappale" Relationship="Self.FK_cd_kappale_cd_avain" FromRole="cd" ToRole="cd_kappale" />
+          <NavigationProperty Name="vuosi" Relationship="Self.FK_cd_vuosi_avain" FromRole="cd" ToRole="vuosi" />
+          <NavigationProperty Name="yhtio" Relationship="Self.FK_cd_yhtio_avain" FromRole="cd" ToRole="yhtio" />
+        </EntityType>
+        <EntityType Name="cd_esittaja">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cd_avain" Type="Int32" />
+          <Property Name="esittaja_avain" Type="Int32" />
+          <NavigationProperty Name="cd" Relationship="Self.FK_cd_esittaja_cd_avain" FromRole="cd_esittaja" ToRole="cd" />
+          <NavigationProperty Name="esittaja" Relationship="Self.FK_cd_esittaja_esittaja_avain" FromRole="cd_esittaja" ToRole="esittaja" />
+        </EntityType>
+        <EntityType Name="cd_kappale">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cd_avain" Type="Int32" Nullable="false" />
+          <Property Name="kappale_avain" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cd" Relationship="Self.FK_cd_kappale_cd_avain" FromRole="cd_kappale" ToRole="cd" />
+          <NavigationProperty Name="kappale" Relationship="Self.FK_cd_kappale_kappale_avain" FromRole="cd_kappale" ToRole="kappale" />
+        </EntityType>
+        <EntityType Name="esittaja">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="maa_avain" Type="Int32" Nullable="false" />
+          <Property Name="vuosi_avain" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cd_esittaja" Relationship="Self.FK_cd_esittaja_esittaja_avain" FromRole="esittaja" ToRole="cd_esittaja" />
+          <NavigationProperty Name="maa" Relationship="Self.FK_esittaja_maa_avain" FromRole="esittaja" ToRole="maa" />
+          <NavigationProperty Name="vuosi" Relationship="Self.FK_esittaja_vuosi_avain" FromRole="esittaja" ToRole="vuosi" />
+          <NavigationProperty Name="kappales" Relationship="Self.FK_kappale_esittaja_avain" FromRole="esittaja" ToRole="kappale" />
+        </EntityType>
+        <EntityType Name="genre">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="kappale_genre" Relationship="Self.FK_kappale_genre_genre_avain" FromRole="genre" ToRole="kappale_genre" />
+        </EntityType>
+        <EntityType Name="kappale">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="kesto" Type="Int32" Nullable="false" />
+          <Property Name="esittaja_avain" Type="Int32" Nullable="false" />
+          <Property Name="vuosi_avain" Type="Int32" Nullable="false" />
+          <Property Name="tubepath" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="numero" Type="Int32" />
+          <NavigationProperty Name="cd_kappale" Relationship="Self.FK_cd_kappale_kappale_avain" FromRole="kappale" ToRole="cd_kappale" />
+          <NavigationProperty Name="esittaja" Relationship="Self.FK_kappale_esittaja_avain" FromRole="kappale" ToRole="esittaja" />
+          <NavigationProperty Name="kappale_genre" Relationship="Self.FK_kappale_genre_kappale_avain" FromRole="kappale" ToRole="kappale_genre" />
+          <NavigationProperty Name="vuosi" Relationship="Self.FK_kappale_vuosi_avain" FromRole="kappale" ToRole="vuosi" />
+        </EntityType>
+        <EntityType Name="kappale_genre">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kappale_avain" Type="Int32" />
+          <Property Name="genre_avain" Type="Int32" />
+          <NavigationProperty Name="genre" Relationship="Self.FK_kappale_genre_genre_avain" FromRole="kappale_genre" ToRole="genre" />
+          <NavigationProperty Name="kappale" Relationship="Self.FK_kappale_genre_kappale_avain" FromRole="kappale_genre" ToRole="kappale" />
+        </EntityType>
+        <EntityType Name="maa">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="isoalpha2" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="esittajas" Relationship="Self.FK_esittaja_maa_avain" FromRole="maa" ToRole="esittaja" />
+          <NavigationProperty Name="yhtios" Relationship="Self.FK_yhtio_maa_avain" FromRole="maa" ToRole="yhtio" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tunnus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="salasana" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tyyppi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vuosi">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vuosi1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cds" Relationship="Self.FK_cd_vuosi_avain" FromRole="vuosi" ToRole="cd" />
+          <NavigationProperty Name="esittajas" Relationship="Self.FK_esittaja_vuosi_avain" FromRole="vuosi" ToRole="esittaja" />
+          <NavigationProperty Name="kappales" Relationship="Self.FK_kappale_vuosi_avain" FromRole="vuosi" ToRole="kappale" />
+          <NavigationProperty Name="yhtios" Relationship="Self.FK_yhtio_vuosi_avain" FromRole="vuosi" ToRole="yhtio" />
+        </EntityType>
+        <EntityType Name="yhtio">
+          <Key>
+            <PropertyRef Name="avain" />
+          </Key>
+          <Property Name="avain" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="maa_avain" Type="Int32" Nullable="false" />
+          <Property Name="vuosi_avain" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cds" Relationship="Self.FK_cd_yhtio_avain" FromRole="yhtio" ToRole="cd" />
+          <NavigationProperty Name="maa" Relationship="Self.FK_yhtio_maa_avain" FromRole="yhtio" ToRole="maa" />
+          <NavigationProperty Name="vuosi" Relationship="Self.FK_yhtio_vuosi_avain" FromRole="yhtio" ToRole="vuosi" />
+        </EntityType>
+        <Association Name="FK_cd_esittaja_cd_avain">
+          <End Role="cd" Type="Self.cd" Multiplicity="0..1" />
+          <End Role="cd_esittaja" Type="Self.cd_esittaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cd">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd_esittaja">
+              <PropertyRef Name="cd_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cd_kappale_cd_avain">
+          <End Role="cd" Type="Self.cd" Multiplicity="1" />
+          <End Role="cd_kappale" Type="Self.cd_kappale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cd">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd_kappale">
+              <PropertyRef Name="cd_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cd_vuosi_avain">
+          <End Role="vuosi" Type="Self.vuosi" Multiplicity="1" />
+          <End Role="cd" Type="Self.cd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vuosi">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd">
+              <PropertyRef Name="vuosi_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cd_yhtio_avain">
+          <End Role="yhtio" Type="Self.yhtio" Multiplicity="0..1" />
+          <End Role="cd" Type="Self.cd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="yhtio">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd">
+              <PropertyRef Name="yhtio_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cd_esittaja_esittaja_avain">
+          <End Role="esittaja" Type="Self.esittaja" Multiplicity="0..1" />
+          <End Role="cd_esittaja" Type="Self.cd_esittaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="esittaja">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd_esittaja">
+              <PropertyRef Name="esittaja_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cd_kappale_kappale_avain">
+          <End Role="kappale" Type="Self.kappale" Multiplicity="1" />
+          <End Role="cd_kappale" Type="Self.cd_kappale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kappale">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="cd_kappale">
+              <PropertyRef Name="kappale_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_esittaja_maa_avain">
+          <End Role="maa" Type="Self.maa" Multiplicity="1" />
+          <End Role="esittaja" Type="Self.esittaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="maa">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="esittaja">
+              <PropertyRef Name="maa_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_esittaja_vuosi_avain">
+          <End Role="vuosi" Type="Self.vuosi" Multiplicity="1" />
+          <End Role="esittaja" Type="Self.esittaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vuosi">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="esittaja">
+              <PropertyRef Name="vuosi_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kappale_esittaja_avain">
+          <End Role="esittaja" Type="Self.esittaja" Multiplicity="1" />
+          <End Role="kappale" Type="Self.kappale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="esittaja">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="kappale">
+              <PropertyRef Name="esittaja_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kappale_genre_genre_avain">
+          <End Role="genre" Type="Self.genre" Multiplicity="0..1" />
+          <End Role="kappale_genre" Type="Self.kappale_genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="genre">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="kappale_genre">
+              <PropertyRef Name="genre_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kappale_genre_kappale_avain">
+          <End Role="kappale" Type="Self.kappale" Multiplicity="0..1" />
+          <End Role="kappale_genre" Type="Self.kappale_genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kappale">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="kappale_genre">
+              <PropertyRef Name="kappale_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kappale_vuosi_avain">
+          <End Role="vuosi" Type="Self.vuosi" Multiplicity="1" />
+          <End Role="kappale" Type="Self.kappale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vuosi">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="kappale">
+              <PropertyRef Name="vuosi_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_yhtio_maa_avain">
+          <End Role="maa" Type="Self.maa" Multiplicity="1" />
+          <End Role="yhtio" Type="Self.yhtio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="maa">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="yhtio">
+              <PropertyRef Name="maa_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_yhtio_vuosi_avain">
+          <End Role="vuosi" Type="Self.vuosi" Multiplicity="1" />
+          <End Role="yhtio" Type="Self.yhtio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vuosi">
+              <PropertyRef Name="avain" />
+            </Principal>
+            <Dependent Role="yhtio">
+              <PropertyRef Name="vuosi_avain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MusicDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cdt" EntityType="Self.cd" />
+          <EntitySet Name="cd_esittajat" EntityType="Self.cd_esittaja" />
+          <EntitySet Name="cd_kappaleet" EntityType="Self.cd_kappale" />
+          <EntitySet Name="esittajat" EntityType="Self.esittaja" />
+          <EntitySet Name="genret" EntityType="Self.genre" />
+          <EntitySet Name="kappaleet" EntityType="Self.kappale" />
+          <EntitySet Name="kappale_genret" EntityType="Self.kappale_genre" />
+          <EntitySet Name="maat" EntityType="Self.maa" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="vuodet" EntityType="Self.vuosi" />
+          <EntitySet Name="yhtiot" EntityType="Self.yhtio" />
+          <AssociationSet Name="FK_cd_esittaja_cd_avain" Association="Self.FK_cd_esittaja_cd_avain">
+            <End Role="cd" EntitySet="cdt" />
+            <End Role="cd_esittaja" EntitySet="cd_esittajat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cd_kappale_cd_avain" Association="Self.FK_cd_kappale_cd_avain">
+            <End Role="cd" EntitySet="cdt" />
+            <End Role="cd_kappale" EntitySet="cd_kappaleet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cd_vuosi_avain" Association="Self.FK_cd_vuosi_avain">
+            <End Role="vuosi" EntitySet="vuodet" />
+            <End Role="cd" EntitySet="cdt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cd_yhtio_avain" Association="Self.FK_cd_yhtio_avain">
+            <End Role="yhtio" EntitySet="yhtiot" />
+            <End Role="cd" EntitySet="cdt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cd_esittaja_esittaja_avain" Association="Self.FK_cd_esittaja_esittaja_avain">
+            <End Role="esittaja" EntitySet="esittajat" />
+            <End Role="cd_esittaja" EntitySet="cd_esittajat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cd_kappale_kappale_avain" Association="Self.FK_cd_kappale_kappale_avain">
+            <End Role="kappale" EntitySet="kappaleet" />
+            <End Role="cd_kappale" EntitySet="cd_kappaleet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_esittaja_maa_avain" Association="Self.FK_esittaja_maa_avain">
+            <End Role="maa" EntitySet="maat" />
+            <End Role="esittaja" EntitySet="esittajat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_esittaja_vuosi_avain" Association="Self.FK_esittaja_vuosi_avain">
+            <End Role="vuosi" EntitySet="vuodet" />
+            <End Role="esittaja" EntitySet="esittajat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kappale_esittaja_avain" Association="Self.FK_kappale_esittaja_avain">
+            <End Role="esittaja" EntitySet="esittajat" />
+            <End Role="kappale" EntitySet="kappaleet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kappale_genre_genre_avain" Association="Self.FK_kappale_genre_genre_avain">
+            <End Role="genre" EntitySet="genret" />
+            <End Role="kappale_genre" EntitySet="kappale_genret" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kappale_genre_kappale_avain" Association="Self.FK_kappale_genre_kappale_avain">
+            <End Role="kappale" EntitySet="kappaleet" />
+            <End Role="kappale_genre" EntitySet="kappale_genret" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kappale_vuosi_avain" Association="Self.FK_kappale_vuosi_avain">
+            <End Role="vuosi" EntitySet="vuodet" />
+            <End Role="kappale" EntitySet="kappaleet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_yhtio_maa_avain" Association="Self.FK_yhtio_maa_avain">
+            <End Role="maa" EntitySet="maat" />
+            <End Role="yhtio" EntitySet="yhtiot" />
+          </AssociationSet>
+          <AssociationSet Name="FK_yhtio_vuosi_avain" Association="Self.FK_yhtio_vuosi_avain">
+            <End Role="vuosi" EntitySet="vuodet" />
+            <End Role="yhtio" EntitySet="yhtiot" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MusicDatabaseModelStoreContainer" CdmEntityContainer="MusicDatabaseEntities">
+          <EntitySetMapping Name="cdt">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.cd">
+              <MappingFragment StoreEntitySet="cd">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="nimi" ColumnName="nimi" />
+                <ScalarProperty Name="yhtio_avain" ColumnName="yhtio_avain" />
+                <ScalarProperty Name="vuosi_avain" ColumnName="vuosi_avain" />
+                <ScalarProperty Name="kuvapath" ColumnName="kuvapath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cd_esittajat">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.cd_esittaja">
+              <MappingFragment StoreEntitySet="cd_esittaja">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="cd_avain" ColumnName="cd_avain" />
+                <ScalarProperty Name="esittaja_avain" ColumnName="esittaja_avain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cd_kappaleet">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.cd_kappale">
+              <MappingFragment StoreEntitySet="cd_kappale">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="cd_avain" ColumnName="cd_avain" />
+                <ScalarProperty Name="kappale_avain" ColumnName="kappale_avain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="esittajat">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.esittaja">
+              <MappingFragment StoreEntitySet="esittaja">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="nimi" ColumnName="nimi" />
+                <ScalarProperty Name="maa_avain" ColumnName="maa_avain" />
+                <ScalarProperty Name="vuosi_avain" ColumnName="vuosi_avain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="genret">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.genre">
+              <MappingFragment StoreEntitySet="genre">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="nimi" ColumnName="nimi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kappaleet">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.kappale">
+              <MappingFragment StoreEntitySet="kappale">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="nimi" ColumnName="nimi" />
+                <ScalarProperty Name="kesto" ColumnName="kesto" />
+                <ScalarProperty Name="esittaja_avain" ColumnName="esittaja_avain" />
+                <ScalarProperty Name="vuosi_avain" ColumnName="vuosi_avain" />
+                <ScalarProperty Name="tubepath" ColumnName="tubepath" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kappale_genret">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.kappale_genre">
+              <MappingFragment StoreEntitySet="kappale_genre">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="kappale_avain" ColumnName="kappale_avain" />
+                <ScalarProperty Name="genre_avain" ColumnName="genre_avain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="maat">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.maa">
+              <MappingFragment StoreEntitySet="maa">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="isoalpha2" ColumnName="isoalpha2" />
+                <ScalarProperty Name="nimi" ColumnName="nimi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="tunnus" ColumnName="tunnus" />
+                <ScalarProperty Name="salasana" ColumnName="salasana" />
+                <ScalarProperty Name="tyyppi" ColumnName="tyyppi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vuodet">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.vuosi">
+              <MappingFragment StoreEntitySet="vuosi">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="vuosi1" ColumnName="vuosi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="yhtiot">
+            <EntityTypeMapping TypeName="MusicDatabaseModel.yhtio">
+              <MappingFragment StoreEntitySet="yhtio">
+                <ScalarProperty Name="avain" ColumnName="avain" />
+                <ScalarProperty Name="nimi" ColumnName="nimi" />
+                <ScalarProperty Name="maa_avain" ColumnName="maa_avain" />
+                <ScalarProperty Name="vuosi_avain" ColumnName="vuosi_avain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

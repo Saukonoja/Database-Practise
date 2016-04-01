@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{526E192E-5DE0-429D-9706-3C2D73F283DA}</ProjectGuid>
+    <ProjectGuid>{476B6D48-D748-4AF6-AD73-3268F84AD23E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Music_database</RootNamespace>
-    <AssemblyName>Music database</AssemblyName>
+    <RootNamespace>MusicDatabase</RootNamespace>
+    <AssemblyName>MusicDatabase</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -47,10 +47,19 @@
       <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.8\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Web.6.9.8\lib\net45\MySql.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -69,6 +78,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="cd.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="cd_esittaja.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="cd_kappale.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModelMusicDatabase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="esittaja.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="genre.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="kappale.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="kappale_genre.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="maa.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vuosi.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="yhtio.cs">
+      <DependentUpon>EFModelMusicDatabase.tt</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,8 +124,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BLMusicDatabase.cs" />
-    <Compile Include="DBMusicDatabase.cs" />
+    <Compile Include="EFModelMusicDatabase.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EFModelMusicDatabase.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModelMusicDatabase.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EFModelMusicDatabase.edmx</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -102,6 +157,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="EFModelMusicDatabase.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EFModelMusicDatabase.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="EFModelMusicDatabase.edmx.diagram">
+      <DependentUpon>EFModelMusicDatabase.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -111,6 +173,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EFModelMusicDatabase.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EFModelMusicDatabase.edmx</DependentUpon>
+      <LastGenOutput>EFModelMusicDatabase.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EFModelMusicDatabase.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EFModelMusicDatabase.edmx</DependentUpon>
+      <LastGenOutput>EFModelMusicDatabase.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

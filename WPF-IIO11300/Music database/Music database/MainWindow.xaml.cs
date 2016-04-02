@@ -29,13 +29,31 @@ namespace MusicDatabase {
         private DataTable companies;
         public MainWindow() {
             InitializeComponent();
+            IniMytuff();
+        }
+
+        public void IniMytuff() {
+            try {
+                artists = Artist.GetArtists();
+                dgTest.DataContext = artists;
+                albums = Album.GetAlbums();
+                dgTest1.DataContext = albums;
+                tracks = Track.GetTracks();
+                dgTest2.DataContext = tracks;
+                genres = Genre.GetGenres();
+                dgTest3.DataContext = genres;
+                companies = Company.GetCompanies();
+                dgTest4.DataContext = companies;
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
 
         }
 
-        private void btnSignUp_Click(object sender, RoutedEventArgs e) {       
+        private void btnSignUp_Click(object sender, RoutedEventArgs e) {
             handler.MoveToRegister();
             this.Close();
         }
@@ -43,55 +61,6 @@ namespace MusicDatabase {
         private void btnLogin_Click(object sender, RoutedEventArgs e) {
             handler.MoveToLogin();
             this.Close();
-        }
-
-        private void testConnection_Click(object sender, RoutedEventArgs e) {
-            try {
-                artists = Artist.GetArtists();
-                dgTest.DataContext = artists;
-            } catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void testConnection1_Click(object sender, RoutedEventArgs e) {
-            try {
-                albums = Album.GetAlbums();
-                dgTest1.DataContext = albums;
-            }
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void testConnection2_Click(object sender, RoutedEventArgs e) {
-            try {
-                tracks = Track.GetTracks();
-                dgTest2.DataContext = tracks;
-            }
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void testConnection3_Click(object sender, RoutedEventArgs e) {
-            try {
-                genres = Genre.GetGenres();
-                dgTest3.DataContext = genres;
-            }
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void testConnection4_Click(object sender, RoutedEventArgs e) {
-            try {
-                companies = Company.GetCompanies();
-                dgTest4.DataContext = companies;
-            }
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {

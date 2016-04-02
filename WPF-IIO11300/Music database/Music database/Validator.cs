@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MusicDatabase {
     public class Validator {
 
-        public bool Validate(string username, string password, string repassword) {
+        public bool ValidateRegister(string username, string password, string repassword) {
             if (CheckUserName(username) && CheckPassword(password)) {
                 if (password == repassword) {
                     return true;
@@ -16,9 +16,15 @@ namespace MusicDatabase {
             }
             return false;
         }
+        public bool ValidateLogin(string username, string password) {
+            if (CheckUserName(username) && CheckPassword(password)) {
+                    return true;
+            }
+            return false;
+        }
         public bool CheckUserName(string username) {
             int numberOfSpecials = Regex.Matches(username, "[^a-zA-Z0-9]").Count;
-            if ((username.Length >= 6 && username.Length <= 20) && numberOfSpecials == 0) {
+            if ((username.Length >= 5 && username.Length <= 20) && numberOfSpecials == 0) {
                 return true;
             }
             return false;
@@ -31,6 +37,5 @@ namespace MusicDatabase {
             }
             return false;
         }
-
     }
 }

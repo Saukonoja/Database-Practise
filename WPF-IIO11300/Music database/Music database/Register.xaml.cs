@@ -17,31 +17,41 @@ namespace MusicDatabase {
     /// Interaction logic for Register.xaml
     /// </summary>
     public partial class BLRegister : Window {
-        private static string cs = "datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1";
         WindowHandler handler = new WindowHandler();
+        Validator validator;
         public BLRegister() {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            txtUsername.Focus();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e) {
-            string username = txtUserName.Text;
+            string username = txtUsername.Text;
             string password = txtPassword.Password;
             string repassword = txtReEnterPassword.Password;
             string message = "";
-            Validator validator = new Validator();
+            validator = new Validator();
 
             try {
-                if (validator.Validate(username, password, repassword)) {
+                if (validator.ValidateRegister(username, password, repassword)) {
 
                     BLRegister register = new BLRegister(username, password);
                     if (register.RegisterUser(out message)) {
                         handler.MoveToLogin();
                         this.Close();
                         MessageBox.Show("Registration was successful!", "Registration Music Database");
+                    } else {
+                        txtUsername.Text = "";
+                        txtPassword.Password = "";
+                        txtReEnterPassword.Password = "";
+                        txtUsername.Focus();
                     }
                 } else {
-                    MessageBox.Show("Valid username: 6-20 characters.\nValid password: 8-20 characters.\nNo special characters.\nPasswords must match.", "Registration Music Database");
+                    MessageBox.Show("Valid username: 5-20 characters.\nValid password: 8-20 characters.\nNo special characters.\nPasswords must match.", "Registration Music Database");
+                    txtUsername.Text = "";
+                    txtPassword.Password = "";
+                    txtReEnterPassword.Password = "";
+                    txtUsername.Focus();
                 }
             } catch (Exception ex) {
                 message = ex.Message;
@@ -59,6 +69,23 @@ namespace MusicDatabase {
         private void btnBackToMain_Click(object sender, RoutedEventArgs e) {
             handler.MoveToMain();
             this.Close();
+        }
+
+        private void txtReEnterPassword_KeyDown(object sender, KeyEventArgs e) {
+            if ((e.Key == Key.Return)) {
+                btnRegister_Click(null, null);
+            }
+        }
+
+        private void txtReEnterPassword_PasswordChanged(object sender, RoutedEventArgs e) {
+            validator = new Validator();
+            if ((validator.CheckPassword(txtPassword.Password)) && (validator.CheckPassword(txtReEnterPassword.Password)) &&
+                (txtPassword.Password == txtReEnterPassword.Password)) {
+                var bc = new BrushConverter();
+                btnRegister.Background = (Brush)bc.ConvertFrom("#ACCB12");
+            } else {
+                btnRegister.Background = Brushes.Gray;
+            }
         }
     }
 }

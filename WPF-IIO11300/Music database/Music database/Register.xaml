@@ -7,17 +7,17 @@
         mc:Ignorable="d"
         Title="Register" Height="430" Width="400" ResizeMode="NoResize">
     <Grid Background="#575757">
-        <StackPanel HorizontalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center" Width="220">
             <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="30" Margin="0,0,0,40" Text="Register"></TextBlock>
             <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="20" Margin="0,0,0,20" Text="Music Database"></TextBlock>
             <TextBlock Foreground="White" FontSize="15" Text="Username"></TextBlock>
-            <TextBox x:Name="txtUserName"></TextBox>
+            <TextBox x:Name="txtUsername"></TextBox>
             <TextBlock Foreground="White" FontSize="15" Text="Password"></TextBlock>
             <PasswordBox x:Name="txtPassword"/>
             <TextBlock Foreground="White" FontSize="15" Text="Re-enter password"></TextBlock>
-            <PasswordBox x:Name="txtReEnterPassword" />
+            <PasswordBox x:Name="txtReEnterPassword" PasswordChanged="txtReEnterPassword_PasswordChanged" KeyDown="txtReEnterPassword_KeyDown"  />
             <StackPanel Orientation="Vertical">
-                <Button x:Name="btnRegister" Margin="0,20,0,0" Width="70" Background="#ACCB12" BorderBrush="#ACCB12" Cursor="Hand" Click="btnRegister_Click" Content="Register"></Button>
+                <Button x:Name="btnRegister" Margin="0,20,0,0" Width="70" Background="Gray" BorderBrush="Gray" Cursor="Hand" Click="btnRegister_Click" Content="Register"></Button>
                 <Button x:Name="btnBackToLogin" Margin="0,10,0,0" Width="150" Background="#DD514C" BorderBrush="#DD514C" Cursor="Hand" Click="btnBackToLogin_Click_1" Content="Back to Login"/>
                 <Button x:Name="btnBackToMain" Margin="0,10,0,0" Width="150" Background="#DD514C" BorderBrush="#DD514C" Cursor="Hand" Click="btnBackToMain_Click" Content="Back to Music Database"/>
             </StackPanel>

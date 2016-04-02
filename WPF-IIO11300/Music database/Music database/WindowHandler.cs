@@ -13,7 +13,7 @@ namespace MusicDatabase {
         }
 
         public void MoveToLogin() {
-            Login login = new Login();
+            BLLogin login = new BLLogin();
             App.Current.MainWindow = login;
             login.Show();
         }

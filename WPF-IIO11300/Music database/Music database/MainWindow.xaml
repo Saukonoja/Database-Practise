@@ -46,21 +46,36 @@
                         <StackPanel HorizontalAlignment="Left">
                             <TextBlock>Lorem ipsum</TextBlock>
                             <TextBlock>Artists</TextBlock>
-                            <Button x:Name="testConnection" Click="testConnection_Click">Test</Button>
-                            <DataGrid x:Name="dgTest" Width="400" Height="220" ItemsSource="{Binding}"></DataGrid>
-                        </StackPanel> 
+                            <DataGrid x:Name="dgTest" ScrollViewer.CanContentScroll="True" Height="400" ItemsSource="{Binding}"></DataGrid>
+                        </StackPanel>
                     </TabItem>
                     <TabItem Header="Albums" Height="70" x:Name="tabAlbums">
-                        <TextBlock>Albums</TextBlock>
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock>Lorem ipsum</TextBlock>
+                            <TextBlock>Albums</TextBlock>
+                            <DataGrid x:Name="dgTest1" ScrollViewer.CanContentScroll="True" Height="400" ItemsSource="{Binding}"></DataGrid>
+                        </StackPanel>
                     </TabItem>
                     <TabItem Header="Tracks" Height="70" x:Name="tabTracks">
-                        <TextBlock>Tracks</TextBlock>
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock>Lorem ipsum</TextBlock>
+                            <TextBlock>Tracks</TextBlock>
+                            <DataGrid x:Name="dgTest2" ScrollViewer.CanContentScroll="True" Height="400" ItemsSource="{Binding}"></DataGrid>
+                        </StackPanel>
                     </TabItem>
                     <TabItem Header="Genres" Height="70" x:Name="tabGenres">
-                        <TextBlock>Genres</TextBlock>
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock>Lorem ipsum</TextBlock>
+                            <TextBlock>Genres</TextBlock>
+                            <DataGrid x:Name="dgTest3" ScrollViewer.CanContentScroll="True" Height="400" ItemsSource="{Binding}"></DataGrid>
+                        </StackPanel>
                     </TabItem>
                     <TabItem Header="Record companies" Height="70" x:Name="tabRecordCompanies">
-                        <TextBlock>Record</TextBlock>
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock>Lorem ipsum</TextBlock>
+                            <TextBlock>Companies</TextBlock>
+                            <DataGrid x:Name="dgTest4" ScrollViewer.CanContentScroll="True" Height="400" ItemsSource="{Binding}"></DataGrid>
+                        </StackPanel>
                     </TabItem>
                     <TabItem Header="About" Height="70" x:Name="tabAbout">
                         <TextBlock>About</TextBlock>

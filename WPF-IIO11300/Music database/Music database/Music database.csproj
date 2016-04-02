@@ -76,6 +76,7 @@
     </ApplicationDefinition>
     <Compile Include="BLLogin.cs" />
     <Compile Include="BLRegister.cs" />
+    <Compile Include="DBSQLQueries.cs" />
     <Compile Include="Register.xaml.cs">
       <DependentUpon>Register.xaml</DependentUpon>
     </Compile>

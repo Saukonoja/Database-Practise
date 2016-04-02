@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MusicDatabase {
     public partial class BLLogin {
-        private static string connStr = "datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1";
+        private static string connStr = MusicDatabase.Properties.Settings.Default.Database;
         private string username;
         private string password;
 

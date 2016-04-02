@@ -24,7 +24,7 @@ namespace MusicDatabase {
         }
         public bool CheckUserName(string username) {
             int numberOfSpecials = Regex.Matches(username, "[^a-zA-Z0-9]").Count;
-            if ((username.Length >= 6 && username.Length <= 20) && numberOfSpecials == 0) {
+            if ((username.Length >= 5 && username.Length <= 20) && numberOfSpecials == 0) {
                 return true;
             }
             return false;
@@ -37,6 +37,5 @@ namespace MusicDatabase {
             }
             return false;
         }
-
     }
 }

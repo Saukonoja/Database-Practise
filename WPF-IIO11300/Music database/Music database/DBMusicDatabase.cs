@@ -27,11 +27,8 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static bool RegisterUser(byte[] hash, string username, string connStr, out string message) {
-            string hashPassword;
+        public static bool RegisterUser(string username, string password, string connStr, out string message) {
             try {
-
-                hashPassword = BitConverter.ToString(hash).Replace("-", "");
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
                     message = "";
                     bool exists = false;
@@ -49,10 +46,10 @@ namespace MusicDatabase {
                     }
                     dr.Close();
                     if (!exists) {
-                        string sql2 = "insert into user (tunnus, salasana, tyyppi) values(@username, @hashPassword, false)";
+                        string sql2 = "insert into user (tunnus, salasana, tyyppi) values(@username, @password, false)";
                         MySqlCommand cmd2 = new MySqlCommand(sql2, conn);
                         cmd2.Parameters.AddWithValue("@username", username);
-                        cmd2.Parameters.AddWithValue("@hashPassword", hashPassword);
+                        cmd2.Parameters.AddWithValue("@password", password);
 
                         int rowAdd = cmd2.ExecuteNonQuery();
                         if (rowAdd == 1) {
@@ -66,27 +63,33 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+
         public static bool LoginUser(string username, string password, string connStr, out string message) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
                     message = "";
                     conn.Open();
-
-                    string sql = "select tunnus, salasana from user where tunnus=@username and salasana=@password;";
+                    string passwordCrypted = "";
+                    string passwordClean = "";
+                    string sql = "select salasana from user where tunnus=@username";
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@username", username);
-                    cmd.Parameters.AddWithValue("@password", password);
-                    MySqlDataReader dr = cmd.ExecuteReader();
-                    while (dr.Read()) {
-                        if (dr.HasRows == true) {     
-                            return true;
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.HasRows) {
+                        while (rdr.Read()) {
+                            passwordCrypted = rdr.GetString(0);
                         }
                     }
-                    message = "Username or password is invalid!";
-                    dr.Close();
+                    passwordClean = BLLogin.Decrypt(passwordCrypted);
+                    rdr.Close();
                     conn.Close();
+                    if (passwordClean == password) {
+                        return true;
+                    }
+                    message = "Username or password is invalid!";
+                    return false;
                 }
-                return false;
             } catch (Exception ex) {
                 throw ex;
             }

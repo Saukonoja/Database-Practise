@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace MusicDatabase {
 
@@ -12,26 +13,35 @@ namespace MusicDatabase {
         private static string connStr = "datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1";
         private string username;
         private string password;
-        private byte[] hash;
 
         public BLRegister(string username, string password) {
             this.username = username;
-            hash = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(this.password = password));
+            this.password = EncryptPassword(password);
         }
 
-        static bool VerifyPassword(byte[] hash, string password) {
-            byte[] pwdHash = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
-            for (int i = 0; i < 16; i++) {
-                if (pwdHash[i] != hash[i]) return false;
+        public static string EncryptPassword(string password) {
+            string EncryptionKey = "MAKV2SPBNI99212";
+            byte[] clearBytes = Encoding.Unicode.GetBytes(password);
+            using (Aes encryptor = Aes.Create()) {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream()) {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write)) {
+                        cs.Write(clearBytes, 0, clearBytes.Length);
+                        cs.Close();
+                    }
+                    password = Convert.ToBase64String(ms.ToArray());
+                }
             }
-            return true;
+            return password;
         }
 
         public bool RegisterUser(out string messageToUser) {
             try {
                 string message = "";
 
-                if (DBMusicDatabase.RegisterUser(hash, username, connStr, out message)) {
+                if (DBMusicDatabase.RegisterUser(username, password, connStr, out message)) {
                     messageToUser = message;
                     return true;
                 }

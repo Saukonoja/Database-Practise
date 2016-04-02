@@ -25,9 +25,10 @@ namespace MusicDatabase {
         private DataTable artists;
         private DataTable albums;
         private DataTable tracks;
+        private DataTable genres;
+        private DataTable companies;
         public MainWindow() {
             InitializeComponent();
-   
         }
 
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
@@ -67,6 +68,26 @@ namespace MusicDatabase {
             try {
                 tracks = Track.GetTracks();
                 dgTest2.DataContext = tracks;
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void testConnection3_Click(object sender, RoutedEventArgs e) {
+            try {
+                genres = Genre.GetGenres();
+                dgTest3.DataContext = genres;
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void testConnection4_Click(object sender, RoutedEventArgs e) {
+            try {
+                companies = Company.GetCompanies();
+                dgTest4.DataContext = companies;
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);

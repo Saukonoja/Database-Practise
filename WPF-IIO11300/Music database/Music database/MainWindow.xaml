@@ -67,10 +67,20 @@
                         </StackPanel>
                     </TabItem>
                     <TabItem Header="Genres" Height="70" x:Name="tabGenres">
-                        <TextBlock>Genres</TextBlock>
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock>Lorem ipsum</TextBlock>
+                            <TextBlock>Genres</TextBlock>
+                            <Button x:Name="testConnection3" Click="testConnection3_Click">Test</Button>
+                            <DataGrid x:Name="dgTest3" Width="800" Height="400" ItemsSource="{Binding}"></DataGrid>
+                        </StackPanel>
                     </TabItem>
                     <TabItem Header="Record companies" Height="70" x:Name="tabRecordCompanies">
-                        <TextBlock>Record</TextBlock>
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock>Lorem ipsum</TextBlock>
+                            <TextBlock>Companies</TextBlock>
+                            <Button x:Name="testConnection4" Click="testConnection4_Click">Test</Button>
+                            <DataGrid x:Name="dgTest4" Width="800" Height="400" ItemsSource="{Binding}"></DataGrid>
+                        </StackPanel>
                     </TabItem>
                     <TabItem Header="About" Height="70" x:Name="tabAbout">
                         <TextBlock>About</TextBlock>

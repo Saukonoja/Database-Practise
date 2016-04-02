@@ -85,6 +85,52 @@ namespace MusicDatabase {
             }
         }
 
+        public static DataTable GetGenres() {
+            MySqlConnection conn = new MySqlConnection("datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1");
+            try {
+                conn.Open();
+                string sql = "SELECT " +
+                                        "genre.nimi as Genre " +
+                             "FROM genre " +
+                             "GROUP BY genre.nimi;" ;
+
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                msda.Fill(ds, "Genres");
+                conn.Close();
+                return ds.Tables["Genres"];
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static DataTable GetCompanies() {
+            MySqlConnection conn = new MySqlConnection("datasource=mysql.labranet.jamk.fi; port=3306;username=H3298;password=dYeBlPSrM1swQ336LN90Fv7ZKFq7OZFB;database=H3298_1");
+            try {
+                conn.Open();
+                string sql = "SELECT " +
+                                        "yhtio.nimi as Levyyhtio, " +
+                                        "maa.nimi as Maa, " +
+                                        "vuosi.vuosi as Perustamisvuosi " +
+                             "FROM yhtio " +
+                             "left join maa on yhtio.maa_avain = maa.avain " +
+                             "left join vuosi on yhtio.vuosi_avain = vuosi.avain " +
+                             "GROUP BY yhtio.nimi;";
+
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                msda.Fill(ds, "Companies");
+                conn.Close();
+                return ds.Tables["Companies"];
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         public static bool RegisterUser(byte[] hash, string hashPassword, string username, out string message, string connStr) {
             try {
                 hashPassword = BitConverter.ToString(hash).Replace("-", "");

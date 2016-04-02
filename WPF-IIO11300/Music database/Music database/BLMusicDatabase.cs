@@ -125,6 +125,7 @@ namespace MusicDatabase {
         }
         #endregion
     }
+   
     public class Track {
         #region PROPERTIES
 
@@ -193,6 +194,101 @@ namespace MusicDatabase {
             try {
                 DataTable tracksTable = DBMusicDatabase.GetTracks();
                 return tracksTable;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+        #endregion
+    }
+    public class Genre {
+        #region PROPERTIES
+
+        private int key;
+        public int Key {
+            get { return key; }
+            set { key = value; }
+        }
+
+        private string name;
+        public string Name {
+            get { return name; }
+            set { name = value; }
+        }
+        #endregion
+        #region CONSTRUCTOR
+
+        public Genre(int key) {
+            this.key = key;
+        }
+        public Genre(int key, string name) {
+            this.key = key;
+            this.name = name;
+        }
+        #endregion
+        #region METHODS
+        public override string ToString() {
+            return name;
+        }
+        public static DataTable GetGenres() {
+            try {
+                DataTable genresTable = DBMusicDatabase.GetGenres();
+                return genresTable;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+        #endregion
+    }
+
+    public class Company {
+        #region PROPERTIES
+
+        private int key;
+        public int Key {
+            get { return key; }
+            set { key = value; }
+        }
+
+        private string name;
+        public string Name {
+            get { return name; }
+            set { name = value; }
+        }
+
+        private string country;
+        public string Country {
+            get { return country; }
+            set { country = value; }
+        }
+
+        private int year;
+        public int Year {
+            get { return year; }
+            set { year = value; }
+        }
+        #endregion
+        #region CONSTRUCTOR
+
+        public Company(int key) {
+            this.key = key;
+        }
+        public Company(int key, string name, string country, int year) {
+            this.key = key;
+            this.name = name;
+            this.country = country;
+            this.year = year;
+        }
+        #endregion
+        #region METHODS
+        public override string ToString() {
+            return name;
+        }
+        public static DataTable GetCompanies() {
+            try {
+                DataTable companiesTable = DBMusicDatabase.GetCompanies();
+                return companiesTable;
             }
             catch (Exception ex) {
                 throw ex;

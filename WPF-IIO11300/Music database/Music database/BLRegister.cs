@@ -10,7 +10,6 @@ using System.IO;
 namespace MusicDatabase {
 
     public partial class BLRegister {
-        private static string connStr = MusicDatabase.Properties.Settings.Default.Database;
         private string username;
         private string password;
 
@@ -41,7 +40,7 @@ namespace MusicDatabase {
             try {
                 string message = "";
 
-                if (DBMusicDatabase.RegisterUser(username, password, connStr, out message)) {
+                if (DBMusicDatabase.RegisterUser(username, password, out message)) {
                     messageToUser = message;
                     return true;
                 }

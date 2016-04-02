@@ -28,7 +28,7 @@ namespace MusicDatabase {
             }
         }
 
-        public static bool RegisterUser(string username, string password, string connStr, out string message) {
+        public static bool RegisterUser(string username, string password, out string message) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
                     message = "";
@@ -65,7 +65,7 @@ namespace MusicDatabase {
             }
         }
 
-        public static bool LoginUser(string username, string password, string connStr, out string message) {
+        public static bool LoginUser(string username, string password, out string message) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
                     message = "";

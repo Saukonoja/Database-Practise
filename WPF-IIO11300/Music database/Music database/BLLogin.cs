@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace MusicDatabase {
     public partial class BLLogin {
-        private static string connStr = MusicDatabase.Properties.Settings.Default.Database;
         private string username;
         private string password;
 
@@ -39,7 +38,7 @@ namespace MusicDatabase {
             try {
                 string message = "";
 
-                if (DBMusicDatabase.LoginUser(username, password, connStr, out message)) {
+                if (DBMusicDatabase.LoginUser(username, password, out message)) {
                     messageToUser = message;
                     return true;
                 }

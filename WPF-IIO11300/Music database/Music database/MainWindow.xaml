@@ -43,10 +43,21 @@
                         <TextBlock>Home</TextBlock>
                     </TabItem>
                     <TabItem Header="Artists" Height="70" x:Name="tabArtists">
-                        <StackPanel HorizontalAlignment="Left">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <StackPanel Width="600">
                             <TextBlock>Lorem ipsum</TextBlock>
                             <TextBlock>Artists</TextBlock>
                             <DataGrid x:Name="dgTest" ScrollViewer.CanContentScroll="True" Height="400" ItemsSource="{Binding}"></DataGrid>
+                            </StackPanel>
+                            <StackPanel Width="220">
+                                <TextBlock>Name</TextBlock>
+                                <TextBox x:Name="txtName"></TextBox>
+                                <TextBlock>Country</TextBlock>
+                                <TextBox x:Name="txtCountry"></TextBox>
+                                <TextBlock>Year</TextBlock>
+                                <TextBox x:Name="txtYear"></TextBox>
+                                <Button x:Name="btnAddArtist" Click="btnAddArtist_Click">Add artist</Button>
+                            </StackPanel>
                         </StackPanel>
                     </TabItem>
                     <TabItem Header="Albums" Height="70" x:Name="tabAlbums">

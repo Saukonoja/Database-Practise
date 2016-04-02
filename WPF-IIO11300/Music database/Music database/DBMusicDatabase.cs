@@ -95,5 +95,25 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+        public static void AddNewArtist(string name, string country, int year) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = "INSERT INTO esittaja (nimi, maa_avain, vuosi_avain) " +
+                             "VALUES (@NAME, " +
+                             "(SELECT avain FROM maa WHERE nimi = @COUNTRY), " +
+                             "(SELECT avain FROM vuosi WHERE vuosi = @YEAR));";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@NAME", name);
+                cmd.Parameters.AddWithValue("@COUNTRY", country);
+                cmd.Parameters.AddWithValue("@YEAR", year);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex) {
+                
+                throw ex;
+            }
+        }
     }
 }

@@ -70,5 +70,18 @@ namespace MusicDatabase {
         private void btnContact_Click(object sender, RoutedEventArgs e) {
 
         }
+
+        private void btnAddArtist_Click(object sender, RoutedEventArgs e) {
+            string name = txtName.Text;
+            string country = txtCountry.Text;
+            int year = int.Parse(txtYear.Text);
+            try {
+                Artist.AddNewArtist(name, country, year);
+            }
+            catch (Exception ex) {
+
+               MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

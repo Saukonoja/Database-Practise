@@ -58,7 +58,15 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-
+        public static bool AddNewArtist(string name, string country, int year) {
+            try {
+                DBMusicDatabase.AddNewArtist(name, country, year);
+                return true;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
         #endregion
     }
     public class Album {

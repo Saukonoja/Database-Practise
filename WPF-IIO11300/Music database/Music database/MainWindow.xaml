@@ -85,6 +85,7 @@
                                 <Button x:Name="btnAddArtist" Click="btnAddArtist_Click">Add artist</Button>
                                 <Button x:Name="btnDeleteArtist" Click="btnDeleteArtist_Click">Delete selected artist</Button>
                                 <Button x:Name="btnChangeArtist" Click="btnChangeArtist_Click">Save changes</Button>
+                                <Button x:Name="btnGetTable" Click="btnGetTable_Click">Test table</Button>
                             </StackPanel>
                         </StackPanel>
                     </TabItem>

@@ -28,9 +28,23 @@ namespace MusicDatabase {
             }
         }
 
-       
+        public static DataSet GetDataset(string sqlString) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
 
-
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                msda.Fill(ds);
+                conn.Close();
+                return ds;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
         public static bool RegisterUser(string username, string password, out string message) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
@@ -129,6 +143,26 @@ namespace MusicDatabase {
             }
             catch (Exception ex) {
                
+                throw ex;
+            }
+        }
+
+        public static DataTable GetArtistList() {
+            try {
+                using (MySqlConnection conn = new MySqlConnection(connStr)) {
+                    string sql = "SELECT avain, nimi, maa_avain, vuosi_avain FROM esittaja";
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    DataTable dt = new DataTable("Artists");
+                    da.Fill(dt);
+                    conn.Close();
+                    return dt;
+                }
+
+            }
+            catch (Exception ex) {
+
                 throw ex;
             }
         }

@@ -4,10 +4,13 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MusicDatabase {
     public class Artist {
         #region PROPERTIES
+
+        
 
         private int key;
         public int Key {
@@ -61,19 +64,19 @@ namespace MusicDatabase {
 
         public static List<Artist> GetArtistList() {
             try {
-                DataTable dt;
+                DataTable dt = DBMusicDatabase.GetArtistList();
                 List<Artist> artists = new List<Artist>();
                 Artist artist;
                 foreach (DataRow row in dt.Rows) {
                     artist = new Artist((int)row[0]);
-                    artist.Name = row["name"].ToString();
-                    artist.Country = row["country"].ToString();
-                    artist.Year = (int)row["year"];
-                    artist.Add(artist);
+                    artist.Name = row["nimi"].ToString();
+                    artist.Country = row["maa_avain"].ToString();
+                    artist.Year = (int)row["vuosi_avain"];
+                    artists.Add(artist);
                 }
+                return artists;
             }
             catch (Exception ex) {
-
                 throw ex;
             }
         }
@@ -102,6 +105,8 @@ namespace MusicDatabase {
                  throw ex;
              }
          }
+
+     
         #endregion
     }
     public class Album {

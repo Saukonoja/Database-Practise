@@ -22,28 +22,19 @@ namespace MusicDatabase {
     /// </summary>
     public partial class MainWindow : Window {
         WindowHandler handler = new WindowHandler();
-        private DataTable artists;
-        private DataTable albums;
-        private DataTable tracks;
-        private DataTable genres;
-        private DataTable companies;
+
         public MainWindow() {
             InitializeComponent();
-            IniMytuff();
+            IniMyStuff();
         }
 
-        public void IniMytuff() {
+        public void IniMyStuff() {
             try {
-                artists = Artist.GetArtists();
-                dgTest.DataContext = artists;
-                albums = Album.GetAlbums();
-                dgTest1.DataContext = albums;
-                tracks = Track.GetTracks();
-                dgTest2.DataContext = tracks;
-                genres = Genre.GetGenres();
-                dgTest3.DataContext = genres;
-                companies = Company.GetCompanies();
-                dgTest4.DataContext = companies;
+                dgTest.DataContext = Artist.GetArtists();
+                dgTest1.DataContext = Album.GetAlbums();
+                dgTest2.DataContext = Track.GetTracks();
+                dgTest3.DataContext = Genre.GetGenres();
+                dgTest4.DataContext = Company.GetCompanies();
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
@@ -82,6 +73,10 @@ namespace MusicDatabase {
 
                MessageBox.Show(ex.Message);
             }
+        }
+
+        private void dgTest_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            spArtist.DataContext = dgTest.SelectedItem;
         }
     }
 }

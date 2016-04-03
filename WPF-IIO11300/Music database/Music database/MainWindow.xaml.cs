@@ -29,10 +29,10 @@ namespace MusicDatabase {
         private DataTable companies;
         public MainWindow() {
             InitializeComponent();
-            IniMytuff();
+            IniMyStuff();
         }
 
-        public void IniMytuff() {
+        public void IniMyStuff() {
             try {
                 artists = Artist.GetArtists();
                 dgTest.DataContext = artists;
@@ -64,7 +64,7 @@ namespace MusicDatabase {
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
+            
         }
 
         private void btnContact_Click(object sender, RoutedEventArgs e) {
@@ -82,6 +82,27 @@ namespace MusicDatabase {
 
                MessageBox.Show(ex.Message);
             }
+        }
+
+        private void btnDeleteArtist_Click(object sender, RoutedEventArgs e) {
+            Artist current = (Artist)spInfo.DataContext;
+            var retval = MessageBox.Show("Do you really want to delete " + current.ToString(), "?", MessageBoxButton.YesNo);
+            if (retval == MessageBoxResult.Yes){
+                Artist.DeleteArtist(current);
+                MessageBox.Show(string.Format("Artist {0} deleted", current.ToString()));
+            }
+        }
+        private void btnChangeArtist_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void dgTest_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            spInfo.DataContext = dgTest.SelectedItem;
+          
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e) {
+            IniMyStuff();
         }
     }
 }

@@ -66,5 +66,17 @@ namespace MusicDatabase {
                                "GROUP BY yhtio.nimi;";
             return getCompanies;
         }
-    }
+
+        public static string AddArtist() {
+            string addArtist = "INSERT INTO esittaja (nimi, maa_avain, vuosi_avain) " +
+                                 "VALUES (@NAME, " +
+                                 "(SELECT avain FROM maa WHERE nimi = @COUNTRY), " +
+                                 "(SELECT avain FROM vuosi WHERE vuosi = @YEAR));";
+            return addArtist;
+        }
+        public static string DeleteArtist() {
+            string deleteArtist = "DELETE FROM esittaja WHERE esittaja.avain = (SELECT avain FROM esittaja WHERE nimi = @NIMI);";
+            return deleteArtist;
+        }
+    }// end off class
 }

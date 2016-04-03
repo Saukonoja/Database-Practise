@@ -28,6 +28,9 @@ namespace MusicDatabase {
             }
         }
 
+       
+
+
         public static bool RegisterUser(string username, string password, out string message) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
@@ -95,14 +98,11 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static void AddNewArtist(string name, string country, int year) {
+        public static void AddNewArtist(string sqlString, string name, string country, int year){
             MySqlConnection conn = new MySqlConnection(connStr);
             try {
                 conn.Open();
-                string sql = "INSERT INTO esittaja (nimi, maa_avain, vuosi_avain) " +
-                             "VALUES (@NAME, " +
-                             "(SELECT avain FROM maa WHERE nimi = @COUNTRY), " +
-                             "(SELECT avain FROM vuosi WHERE vuosi = @YEAR));";
+                string sql = sqlString;
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.Prepare();
                 cmd.Parameters.AddWithValue("@NAME", name);
@@ -114,6 +114,23 @@ namespace MusicDatabase {
                 
                 throw ex;
             }
+         }
+        public static int DeleteArtist(string sqlString, int key) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@KEY", key);
+                int deleted = cmd.ExecuteNonQuery();
+                return deleted;
+                
+            }
+            catch (Exception ex) {
+               
+                throw ex;
+            }
         }
-    }
+    } //end of class
 }

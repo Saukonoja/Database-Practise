@@ -58,15 +58,50 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+
+        public static List<Artist> GetArtistList() {
+            try {
+                DataTable dt;
+                List<Artist> artists = new List<Artist>();
+                Artist artist;
+                foreach (DataRow row in dt.Rows) {
+                    artist = new Artist((int)row[0]);
+                    artist.Name = row["name"].ToString();
+                    artist.Country = row["country"].ToString();
+                    artist.Year = (int)row["year"];
+                    artist.Add(artist);
+                }
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
         public static bool AddNewArtist(string name, string country, int year) {
             try {
-                DBMusicDatabase.AddNewArtist(name, country, year);
+                DBMusicDatabase.AddNewArtist(DBSQLQueries.AddArtist(), name, country, year);
                 return true;
             }
             catch (Exception ex) {
                 throw ex;
             }
         }
+         public static bool DeleteArtist(Artist artist) {
+             try {
+                int deleted = DBMusicDatabase.DeleteArtist(DBSQLQueries.DeleteArtist(), artist.Key);
+                if (deleted == 1) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+             }
+             catch (Exception ex) {
+
+                 throw ex;
+             }
+         }
         #endregion
     }
     public class Album {

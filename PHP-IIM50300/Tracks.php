@@ -1,8 +1,12 @@
 ﻿<?php
+
+function __autoload($class_name){
+        require_once $class_name .'.class.php';
+}
+
 session_start();
 require_once("db-init-music.php");
 
-include("header.php");
 
  $page = $_GET["page"];
 
@@ -14,44 +18,46 @@ $sql =
         kappale.nimi as kappale,
         esittaja.nimi as esittaja,
         cd.nimi as levy,
-        vuosi.vuosi as julkaisuvuosi
+        vuosi.vuosi as julkaisuvuosi,
+        yhtio.nimi as yhtio
 from cd
 left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
 left join esittaja on kappale.esittaja_avain = esittaja.avain
 left join vuosi on kappale.vuosi_avain = vuosi.avain
-group by kappale.nimi
-limit $page1,5;";
+left join yhtio on cd.yhtio_avain = cd.avain
+group by kappale.nimi;";
 
 $sql2 =
 "select 
         kappale.nimi as kappale,
         esittaja.nimi as esittaja,
         cd.nimi as levy,
-        vuosi.vuosi as julkaisuvuosi
+        vuosi.vuosi as julkaisuvuosi,
+        yhtio.nimi as yhtio
 from cd
 left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
 left join esittaja on kappale.esittaja_avain = esittaja.avain
 left join vuosi on kappale.vuosi_avain = vuosi.avain
+left join yhtio on cd.yhtio_avain = cd.avain
 group by kappale.nimi;";
+
+include("header.php");
 
 $result = $conn->query($sql);
 
-echo '<div id="content-layout">';
-echo '<div id="content">';
 echo '<h2>Tracks</h2>';
 if ($result->num_rows > 0) {
     // output data of each row
     echo '<table class="query">';
-    echo '<tr><th>Name</th><th>Artist</th><th>Album</th><th>Year</th></tr>';
+    echo '<tr><th>Name</th><th>Artist</th><th>Album</th><th>Year</th><th>Record company</th></tr>';
     $row_count = $result->num_rows;
     while($row = $result->fetch_assoc()) {
-    	echo "<tr><td><a href='track-page.php?link_track=".$row["kappale"]."'>" . $row["kappale"]. '</a></td><td>' . $row["esittaja"]. '</td><td>' . $row["levy"]. '</td><td>' . $row["julkaisuvuosi"]. '</td></tr>';
+        $newTrack = new Track($row["kappale"], $row["esittaja"], $row['levy'], $row['julkaisuvuosi'], $row['yhtio']);
+        echo $newTrack;
     }
     echo '</table>';
-   
-
     
 } else {
     echo "0 results";
@@ -70,9 +76,6 @@ if($result2->num_rows > 0){
 
 
 $conn->close();
-		echo '</div>';
-	echo '</div>';
-echo '</div>';
 
 include("footer.php");
 

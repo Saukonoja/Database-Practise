@@ -1,17 +1,16 @@
 ﻿<?php
-
 $content = <<<CONTENT
 <!DOCTYPE html>
 
 <html>
    <head>
-   		<title>Music database | Front page</title>
+   		<title>Music database</title>
    		<link rel="stylesheet" type="text/css" href="style.css">	
    </head>
 
    <body>
          <nav>
-            <div id="headerBar"><a href="index.php" id="title-link"><span id="title">Music database</span></a>
+            <div id="headerBar"><a href="index" id="title-link"><span id="title">Music database</span></a>
                <button class="buttons" id="btnLogin">LOGIN</button>
                <button class="buttons" id="btnSignUp">SIGN UP</button>
             </div>
@@ -26,7 +25,7 @@ $content = <<<CONTENT
             <div id="sideBar">
             	<table class="sidebar">
             	   <tr><td class="test" onclick="window.location.href='index'">Home</td></tr>
-            		<tr><td onclick="window.location.href='Artists'">Artists</td></tr>
+            		<tr><td onclick="window.location.href='artists'">Artists</td></tr>
             		<tr><td onclick="window.location.href='Albums'">Albums</td></tr>
             		<tr><td onclick="window.location.href='Tracks'">Tracks</td></tr>
             		<tr><td onclick="window.location.href='Genres'">Genres</td></tr>
@@ -34,6 +33,8 @@ $content = <<<CONTENT
             		<tr><td onclick="window.location.href='About'">About</td></tr>
             	</table>
             </div>	  
+            <div id="content-layout">
+            <div id="content">
 
 CONTENT;
 

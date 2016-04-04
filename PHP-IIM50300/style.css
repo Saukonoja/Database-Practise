@@ -170,7 +170,6 @@ table.query td a {
 	display: block; 
 	width: 100%; 
 	height: 100%;
-
 }
 
 table.query td:hover{	
@@ -203,6 +202,7 @@ table.query td:hover{
 }
 #number:hover, #length:hover{
 	background-color: #282828; 
+	text-decoration: none;
 }
 #track{
 	width: 82%;

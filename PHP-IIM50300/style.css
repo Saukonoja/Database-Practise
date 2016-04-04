@@ -132,8 +132,8 @@ table.sidebar{
 }
 
 table.sidebar td{
-	border: 1px solid gray;
-	background-color: #ADADAD;
+	border: 2px solid gray;
+	background-color: #282828;
 	color: white;
 	width: 200px;
 	padding: 10px;
@@ -163,18 +163,20 @@ table.query td{
 	white-space: nowrap;
 	height: 40px;
 	color: white;
-	vertical-align:middle;
+	padding: 10px;
 }
 
 table.query td a { 
 	display: block; 
 	width: 100%; 
-	height: 100%; 
+	height: 100%;
+
 }
 
 table.query td:hover{	
 	background-color: black;
 	cursor: pointer;
+	text-decoration: underline;
 }
 
 #container {

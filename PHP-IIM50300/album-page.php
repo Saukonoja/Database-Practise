@@ -2,16 +2,17 @@
 session_start();
 require_once("db-init-music.php");
 
+
+
+include("select-queries/album-tracks-query.php");
+include("select-queries/track-tubepath-query.php");
+
 if(isset($_GET['link_album'])){
     $_SESSION['album'] = $_GET['link_album'];
 }
 if(isset($_GET['link_track'])){
-	$_SESSION['track'] = $_GET['link_track'];
+    $_SESSION['track'] = $_GET['link_track'];
 }
-
-include("album-tracks-query.php");
-include("track-tubepath-query.php");
-
 include("header.php");
 
 $result = $conn->query($sql);

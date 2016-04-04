@@ -6,7 +6,7 @@ if(isset($_GET['link_artist'])){
         $_SESSION['artist'] = $_GET['link_artist'];
 }
 
-include("artist-albums-query.php");
+include("select-queries/artist-albums-query.php");
 
 include("header.php");
 
@@ -19,9 +19,9 @@ echo '<h2>'.$_SESSION['artist'].'</h2>';
 if ($result->num_rows > 0) {
     // output data of each row
     echo '<table class="query">';
-    echo '<tr><th>Album</th><th>Artist</th><th>Year</th><th>Record company</th></tr>';
+    echo '<tr><th>Album</th><th>Year</th><th>Record company</th></tr>';
     while($row = $result->fetch_assoc()) {
-    	echo "<tr><td><a href='album-page.php?link_album=".$row["levy"]."'>" . $row["levy"]. '</td><td>' . $row["esittaja"]. '</td><td>' . $row["julkaisuvuosi"]. '</td><td>'. $row["yhtio"] . '</td></tr>';
+    	echo "<tr><td><a href='album-page.php?link_album=".$row["levy"]."'>" . $row["levy"]. '</td><td>' . $row["julkaisuvuosi"]. '</td><td>'. $row["yhtio"] . '</td></tr>';
     }
     echo '</table>';
 } else {

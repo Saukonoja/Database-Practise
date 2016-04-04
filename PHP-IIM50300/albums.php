@@ -2,7 +2,7 @@
 
 require_once("db-init-music.php");
 
-include("all-albums-query.php");
+include("select-queries/all-albums-query.php");
 
 include("header.php");
 
@@ -10,6 +10,7 @@ $result = $conn->query($sql);
 
 echo '<div id="content-layout">';
 echo '<div id="content">';
+echo '<h2>Albums</h2>';
 if ($result->num_rows > 0) {
     // output data of each row
 

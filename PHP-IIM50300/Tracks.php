@@ -25,7 +25,7 @@ left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
 left join esittaja on kappale.esittaja_avain = esittaja.avain
 left join vuosi on kappale.vuosi_avain = vuosi.avain
-left join yhtio on cd.yhtio_avain = cd.avain
+left join yhtio on cd.yhtio_avain = (select avain from cd where yhtio_avain = cd.avain)
 group by kappale.nimi;";
 
 $sql2 =

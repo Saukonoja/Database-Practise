@@ -1,4 +1,4 @@
--- BASIC QUERIES---------------------
+- BASIC QUERIES---------------------
 
 -- Kaikki artistit tulostetaan
 
@@ -121,33 +121,22 @@ left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
 where cd_kappale.cd_avain = (select avain from cd where nimi = 'The Final Countdown')
 and kappale.kesto < 300
-group by kappale.kesto;
+order by kappale.kesto;
 
 
--- Jos artistin albumilla on yli kymmenen kappaletta niin se tulostetaan näkyviin
+-- Kaikki artistit, jonka jollain albumilla on yli kymmenen kappaletta 
 
-select 
-	cd.nimi as Levy
-from cd
-left join cd_esittaja on cd_esittaja.cd_avain = cd.avain
-left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain
-where cd_esittaja.esittaja_avain = (select avain from esittaja where nimi = 'Iron Maiden')
-and exists
-			 (
-			 select
-				cd.nimi
-				from cd
-			left join cd_esittaja on cd_esittaja.cd_avain = cd.avain
-			left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain
-				 where cd.nimi = 'Fear of the Dark') 
-				 and (
-			select 
-				count(kappale.nimi) as kappale
-			from cd
-			left join cd_kappale on cd_kappale.cd_avain = cd.avain
-			left join kappale on cd_kappale.kappale_avain = kappale.avain
-			where cd.nimi = 'Fear of the Dark' 
-			having count(kappale.nimi) > 10);
+select
+  *
+from esittaja as e 
+inner join cd_esittaja as cde on e.avain = cde.esittaja_avain
+where cd_avain in 
+  (
+	select cd_avain
+	from cd_kappale
+	group by cd_avain
+	having count(kappale_avain) > 10
+  )
 
 
 -- Albumin nimi tulostetaan ja kappalemäärä, jos levyllä on yli 10 kappaletta
@@ -159,21 +148,23 @@ from cd
 left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
 where cd.nimi = 'Fear of the Dark' 
+group by cd.nimi
 having count(kappale.nimi) > 10;  
 
 
 -- Albumin kappaleet sekoitetaan ja valitaan aina yksi näkyviin, voisi toimia esimerkiksi albumia kuunneltaessa ns. shufflena
 
 select
+top 1
   kappale.nimi
 from cd
 left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
 where cd_kappale.cd_avain = (select avain from cd where nimi = 'Fear of the Dark')
-order by rand() limit 1;
+ORDER BY NEWID() 
 
 
--- Etsitään taulusta cd sen nimisiä albumeita joiden nimessä esiintyy jossain kohtaa kirjain 'F'
+-- Etsitään taulusta cd, sen nimisiä albumeita joiden nimessä esiintyy jossain kohtaa kirjain 'F'
 
 
 select
@@ -182,7 +173,7 @@ from cd
 where cd.nimi like '%F%'; 
 
 
--- Etsitään kahdesta eri taulusta hakusanalla
+-- Etsitään taulusta hakusanalla
 
 select 
   cd.nimi as Levy,
@@ -197,15 +188,62 @@ left join yhtio on cd.yhtio_avain = yhtio.avain
 where cd.nimi like '%1986%' or esittaja.nimi like '%1986%' or vuosi.vuosi like '%1986%' or yhtio.nimi like '%1986%' 
 
 
--- Muutetaan kaikki kuvatpath kentät null valuesta tyhjäksi loopin sisällä
+-- Staattinen pivot tulostaa montako albumia levy-yhtiö on julkaissut tiettynä vuonna
 
-declare @i int;
-set @i = 1;
+with TEMP as(
+	select 
+		vuosi.vuosi,
+		yhtio.nimi as yhtionimi,
+		cd.nimi as cdnimi
+	from cd
+	inner join yhtio on cd.yhtio_avain = (select avain from cd where yhtio_avain = cd.avain)
+	inner join vuosi on cd.vuosi_avain = vuosi.avain
+)
+select * 
+from 
+TEMP 
+pivot (COUNT(cdnimi) for vuosi in ([1986],[1992])) P
 
-while @i <= (select max(avain) from cd)
-begin
-	update cd set kuvapath = '' where avain = @i and exists (select avain from cd where kuvapath is null)
-   set @i = @i + 1;
-end;
-go
+
+
+-- Dynaaminen pivot tulostaa montako albumia levy-yhtiö on julkaissut tiettynä vuonna
+
+DECLARE @DynamicPivotQuery AS NVARCHAR(MAX)
+DECLARE @ColumnName AS NVARCHAR(MAX)
+
+with TEMP as(
+	select 
+		vuosi.vuosi,
+		yhtio.nimi as yhtionimi,
+		cd.nimi as cdnimi
+	from cd
+	inner join yhtio on cd.yhtio_avain = (select avain from cd where yhtio_avain = cd.avain)
+	inner join vuosi on cd.vuosi_avain = vuosi.avain
+)
+
+--Get distinct values of the PIVOT Column 
+SELECT @ColumnName= ISNULL(@ColumnName + ',','') 
+       + QUOTENAME(vuosi)
+FROM (SELECT DISTINCT vuosi FROM TEMP) AS C
+ 
+--Prepare the PIVOT query using the dynamic 
+SET @DynamicPivotQuery = 
+
+  N'with TEMP as(
+	select 
+		vuosi.vuosi,
+		yhtio.nimi as yhtionimi,
+		cd.nimi as cdnimi
+	from cd
+	inner join yhtio on cd.yhtio_avain = (select avain from cd where yhtio_avain = cd.avain)
+	inner join vuosi on cd.vuosi_avain = vuosi.avain
+)
+  SELECT *
+    FROM TEMP	
+    PIVOT(COUNT(cdnimi) 
+          FOR vuosi IN (' + @ColumnName + ')) AS PVTTable'
+--Execute the Dynamic Pivot Query
+EXEC sp_executesql @DynamicPivotQuery
+
+
 

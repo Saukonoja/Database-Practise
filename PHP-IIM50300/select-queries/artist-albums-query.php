@@ -5,7 +5,6 @@ $artist = $_SESSION['artist'];
 $sql = 
 "select 
   cd.nimi as levy,
-  esittaja.nimi as esittaja,
   vuosi.vuosi as julkaisuvuosi,
   yhtio.nimi as yhtio
 from cd

@@ -70,12 +70,18 @@
                             <TextBlock Text="Artists" Style="{StaticResource headerStyle}"/>
                         </TabItem.Header>
                         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                            <StackPanel Width="600">
-                            <TextBlock>Lorem ipsum</TextBlock>
+                            <StackPanel Width="600" x:Name="spArtists">
+                                <TextBlock>Lorem ipsum</TextBlock>
                             <TextBlock>Artists</TextBlock>
-                                <DataGrid x:Name="dgArtist" ScrollViewer.CanContentScroll="True" Height="400" SelectionChanged="dgTest_SelectionChanged" ItemsSource="{Binding}"></DataGrid>
+                                <TextBlock x:Name="tbTest">           
+                                    <Hyperlink Foreground="Cyan" Click="Hyperlink_Click">Europe</Hyperlink>               
+                                </TextBlock>
+                                <!--<DataGrid x:Name="dgArtist" ScrollViewer.CanContentScroll="True" Height="400" SelectionChanged="dgTest_SelectionChanged" ItemsSource="{Binding}"></DataGrid>-->
                             </StackPanel>
-                            <StackPanel Width="220" x:Name="spArtist">
+                            <Grid x:Name="gridTest">
+                              
+                            </Grid>
+                            <!--<StackPanel Width="220" x:Name="spArtist">
                                 <TextBlock>Name</TextBlock>
                                 <TextBox x:Name="txtName" Text="{Binding SelectedItem.Artist, ElementName=dgArtist}"></TextBox>
                                 <TextBlock>Country</TextBlock>
@@ -86,7 +92,7 @@
                                 <Button x:Name="btnDeleteArtist" Click="btnDeleteArtist_Click">Delete selected artist</Button>
                                 <Button x:Name="btnChangeArtist" Click="btnChangeArtist_Click">Save changes</Button>
                                
-                            </StackPanel>
+                            </StackPanel>-->
                         </StackPanel>
                     </TabItem>
                     <TabItem x:Name="tabAlbums">

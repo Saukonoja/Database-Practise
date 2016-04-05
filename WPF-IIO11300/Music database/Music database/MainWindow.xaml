@@ -78,10 +78,10 @@
                             <StackPanel Width="220" x:Name="spArtist">
                                 <TextBlock>Name</TextBlock>
                                 <TextBox x:Name="txtName" Text="{Binding SelectedItem.Artist, ElementName=dgArtist}"></TextBox>
-                                <TextBlock>Country</TextBlock>
-                                <TextBox x:Name="txtCountry" Text="{Binding SelectedItem.Year, ElementName=dgArtist}"></TextBox>
                                 <TextBlock>Year</TextBlock>
-                                <TextBox x:Name="txtYear" Text="{Binding SelectedItem.Country, ElementName=dgArtist}"></TextBox>
+                                <TextBox x:Name="txtYear" Text="{Binding SelectedItem.Year, ElementName=dgArtist}"></TextBox>
+                                <TextBlock>Country</TextBlock>
+                                <TextBox x:Name="txtCountry" Text="{Binding SelectedItem.Country, ElementName=dgArtist}"></TextBox>
                                     <Button x:Name="btnAddArtist" Click="btnAddArtist_Click">Add artist</Button>
                                 <Button x:Name="btnDeleteArtist" Click="btnDeleteArtist_Click">Delete selected artist</Button>
                                 <Button x:Name="btnChangeArtist" Click="btnChangeArtist_Click">Save changes</Button>

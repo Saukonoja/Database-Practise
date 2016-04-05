@@ -75,18 +75,26 @@ namespace MusicDatabase {
          public static bool DeleteArtist(string name) {
              try {
                 int deleted = DBMusicDatabase.DeleteArtist(DBSQLQueries.DeleteArtist(), name);
-                if (deleted == 1) {
+                if (deleted == 1)
                     return true;
-                }
-                else {
+                else
                     return false;
-                }
              }
              catch (Exception ex) {
 
                  throw ex;
              }
          }
+        public static bool UpdateArtist(string name, string country, int year) {
+            try {
+               DBMusicDatabase.UpdateArtist(DBSQLQueries.UpdateArtist(), name, country, year);
+                return true;
+               
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        }
 
      
         #endregion

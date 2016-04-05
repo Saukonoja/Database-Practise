@@ -26,6 +26,55 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+        public static void AddNewArtist(string sqlString, string name, string country, int year) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@NAME", name);
+                cmd.Parameters.AddWithValue("@COUNTRY", country);
+                cmd.Parameters.AddWithValue("@YEAR", year);
+                cmd.ExecuteNonQuery();
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+        public static int DeleteArtist(string sqlString, string name) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@NAME", name);
+                int deleted = cmd.ExecuteNonQuery();
+                return deleted;
+
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+        public static void UpdateArtist(string sqlString, string name, string country, int year) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@NAME", name);
+                cmd.Parameters.AddWithValue("@COUNTRY", country);
+                cmd.Parameters.AddWithValue("@YEAR", year);
+                cmd.ExecuteNonQuery();
+               
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        } 
         public static bool RegisterUser(string username, string password, out string message) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
@@ -93,39 +142,6 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static void AddNewArtist(string sqlString, string name, string country, int year){
-            MySqlConnection conn = new MySqlConnection(connStr);
-            try {
-                conn.Open();
-                string sql = sqlString;
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.Prepare();
-                cmd.Parameters.AddWithValue("@NAME", name);
-                cmd.Parameters.AddWithValue("@COUNTRY", country);
-                cmd.Parameters.AddWithValue("@YEAR", year);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex) {
-                
-                throw ex;
-            }
-         }
-        public static int DeleteArtist(string sqlString, string name) {
-            MySqlConnection conn = new MySqlConnection(connStr);
-            try {
-                conn.Open();
-                string sql = sqlString;
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.Prepare();
-                cmd.Parameters.AddWithValue("@NAME", name);
-                int deleted = cmd.ExecuteNonQuery();
-                return deleted;
-                
-            }
-            catch (Exception ex) {
-               
-                throw ex;
-            }
-        }
+       
     } //end of class
 }

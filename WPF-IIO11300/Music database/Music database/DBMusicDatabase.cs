@@ -16,7 +16,6 @@ namespace MusicDatabase {
             try {
                 conn.Open();
                 string sql = sqlString;
-
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
                 DataSet ds = new DataSet();
@@ -24,24 +23,6 @@ namespace MusicDatabase {
                 conn.Close();
                 return ds.Tables[tableName];
             } catch (Exception ex) {
-                throw ex;
-            }
-        }
-
-        public static DataSet GetDataset(string sqlString) {
-            MySqlConnection conn = new MySqlConnection(connStr);
-            try {
-                conn.Open();
-                string sql = sqlString;
-
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
-                DataSet ds = new DataSet();
-                msda.Fill(ds);
-                conn.Close();
-                return ds;
-            }
-            catch (Exception ex) {
                 throw ex;
             }
         }
@@ -129,40 +110,20 @@ namespace MusicDatabase {
                 throw ex;
             }
          }
-        public static int DeleteArtist(string sqlString, int key) {
+        public static int DeleteArtist(string sqlString, string name) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {
                 conn.Open();
                 string sql = sqlString;
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.Prepare();
-                cmd.Parameters.AddWithValue("@KEY", key);
+                cmd.Parameters.AddWithValue("@NAME", name);
                 int deleted = cmd.ExecuteNonQuery();
                 return deleted;
                 
             }
             catch (Exception ex) {
                
-                throw ex;
-            }
-        }
-
-        public static DataTable GetArtistList() {
-            try {
-                using (MySqlConnection conn = new MySqlConnection(connStr)) {
-                    string sql = "SELECT avain, nimi, maa_avain, vuosi_avain FROM esittaja";
-                    conn.Open();
-                    MySqlCommand cmd = new MySqlCommand(sql, conn);
-                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                    DataTable dt = new DataTable("Artists");
-                    da.Fill(dt);
-                    conn.Close();
-                    return dt;
-                }
-
-            }
-            catch (Exception ex) {
-
                 throw ex;
             }
         }

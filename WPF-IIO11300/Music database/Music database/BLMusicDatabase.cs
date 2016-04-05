@@ -62,25 +62,6 @@ namespace MusicDatabase {
             }
         }
 
-        public static List<Artist> GetArtistList() {
-            try {
-                DataTable dt = DBMusicDatabase.GetEntity(DBSQLQueries.GetArtists(), "Artists");
-                List<Artist> artists = new List<Artist>();
-                Artist artist;
-                foreach (DataRow row in dt.Rows) {
-                    artist = new Artist((int)row[0]);
-                    artist.Name = row["Esittaja"].ToString();
-                    artist.Year = (int)row["Perustamisvuosi"];
-                    artist.Country = row["Maa"].ToString();
-
-                    artists.Add(artist);
-                }
-                return artists;
-            }
-            catch (Exception ex) {
-                throw ex;
-            }
-        }
 
         public static bool AddNewArtist(string name, string country, int year) {
             try {
@@ -91,9 +72,9 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-         public static bool DeleteArtist(int key) {
+         public static bool DeleteArtist(string name) {
              try {
-                int deleted = DBMusicDatabase.DeleteArtist(DBSQLQueries.DeleteArtist(), key);
+                int deleted = DBMusicDatabase.DeleteArtist(DBSQLQueries.DeleteArtist(), name);
                 if (deleted == 1) {
                     return true;
                 }

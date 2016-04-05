@@ -24,7 +24,6 @@ namespace MusicDatabase {
     /// </summary>
     public partial class MainWindow : Window {
         WindowHandler handler = new WindowHandler();
-        DataSet ds = DBMusicDatabase.GetDataset(DBSQLQueries.GetArtists());
 
         public MainWindow() {
             InitializeComponent();
@@ -33,7 +32,7 @@ namespace MusicDatabase {
 
         public void IniMyStuff() {
             try {
-                dgTest.DataContext = Artist.GetArtists();
+                dgArtist.DataContext = Artist.GetArtists();
                 dgTest1.DataContext = Album.GetAlbums();
                 dgTest2.DataContext = Track.GetTracks();
                 dgTest3.DataContext = Genre.GetGenres();
@@ -43,9 +42,7 @@ namespace MusicDatabase {
                 MessageBox.Show(ex.Message);
             }
         }
-        public void Test() {
-            dgTest.DataContext = ds.Tables["esittaja"].Rows[0];
-        }
+  
 
 
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
@@ -84,14 +81,13 @@ namespace MusicDatabase {
 
         private void btnDeleteArtist_Click(object sender, RoutedEventArgs e) {
             try {
-                DataRowView rowView = dgTest.SelectedItem as DataRowView;
+                DataRowView rowView = dgArtist.SelectedItem as DataRowView;
                 string name = rowView.Row[1] as string;
-                int key = (int)rowView.Row[0];
                 MessageBoxResult result = MessageBox.Show("Are you sure you want to delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
                 switch (result.ToString()) {
                     case "Yes":
                         try {
-                            Artist.DeleteArtist(key);
+                            Artist.DeleteArtist(name);
                         }
                         catch (Exception ex) {
                             MessageBox.Show(ex.Message);
@@ -109,26 +105,14 @@ namespace MusicDatabase {
             }
         }
         private void btnChangeArtist_Click(object sender, RoutedEventArgs e) {
-            Test();
+          
         }
         private void btnRefresh_Click(object sender, RoutedEventArgs e) {
             IniMyStuff();
         }
         private void dgTest_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            spArtist.DataContext = dgTest.SelectedItem;
+            spArtist.DataContext = dgArtist.SelectedItem;
 
         }
-
-//--------------------To be removed-------------------
-        private void btnGetTable_Click(object sender, RoutedEventArgs e) {
-            try {
-                dgTest.DataContext = Artist.GetArtistList();
-            }
-            catch (Exception ex) {
-
-                MessageBox.Show(ex.Message); 
-            }
-        }
-//-------------------|||||||||||||----------------------
     }
 }

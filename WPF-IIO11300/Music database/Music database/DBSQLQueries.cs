@@ -9,10 +9,9 @@ namespace MusicDatabase {
 
         public static string GetArtists() {
             string getArtists = "SELECT " +
-                                            "esittaja.avain as Avain, " +
-                                            "esittaja.nimi as Esittaja, " +
-                                            "vuosi.vuosi as Perustamisvuosi, " +
-                                            "maa.nimi as Maa " +
+                                            "esittaja.nimi as Artist, " +
+                                            "vuosi.vuosi as Year, " +
+                                            "maa.nimi as Country " +
                                 "FROM esittaja " +
                                 "left join vuosi on esittaja.vuosi_avain = vuosi.avain " +
                                 "left join maa on esittaja.maa_avain = maa.avain; ";
@@ -21,10 +20,10 @@ namespace MusicDatabase {
 
         public static string GetAlbums() {
             string getAlbums = "SELECT " +
-                                        "cd.nimi as Levy, " +
-                                        "esittaja.nimi as Esittaja, " +
-                                        "vuosi.vuosi as Julkaisuvuosi, " +
-                                        "yhtio.nimi as Yhtio " +
+                                        "cd.nimi as Album, " +
+                                        "esittaja.nimi as Artist, " +
+                                        "vuosi.vuosi as Year, " +
+                                        "yhtio.nimi as Company " +
                                 "FROM cd " +
                                 "left join cd_esittaja on cd_esittaja.cd_avain = cd.avain " +
                                 "left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain " +
@@ -35,10 +34,10 @@ namespace MusicDatabase {
 
         public static string GetTracks() {
             string getTracks = "SELECT " +
-                                        "kappale.nimi as Kappale, " +
-                                        "esittaja.nimi as Esittaja, " +
-                                        "cd.nimi as Levy, " +
-                                        "vuosi.vuosi as Julkaisuvuosi " +
+                                        "kappale.nimi as Track, " +
+                                        "esittaja.nimi as Artist, " +
+                                        "cd.nimi as Album, " +
+                                        "vuosi.vuosi as Country " +
                                "FROM cd " +
                                "left join cd_kappale on cd_kappale.cd_avain = cd.avain " +
                                "left join kappale on cd_kappale.kappale_avain = kappale.avain " +
@@ -58,9 +57,9 @@ namespace MusicDatabase {
 
         public static string GetCompanies() {
             string getCompanies = "SELECT " +
-                                        "yhtio.nimi as Levyyhtio, " +
-                                        "maa.nimi as Maa, " +
-                                        "vuosi.vuosi as Perustamisvuosi " +
+                                        "yhtio.nimi as Company, " +
+                                        "maa.nimi as Country, " +
+                                        "vuosi.vuosi as Year " +
                                "FROM yhtio " +
                                "left join maa on yhtio.maa_avain = maa.avain " +
                                "left join vuosi on yhtio.vuosi_avain = vuosi.avain " +
@@ -76,7 +75,7 @@ namespace MusicDatabase {
             return addArtist;
         }
         public static string DeleteArtist() {
-            string deleteArtist = "DELETE FROM esittaja WHERE avain = @KEY;";
+            string deleteArtist = "DELETE FROM esittaja WHERE nimi = @NAME"; //(select avain from esittaja where nimi = @NAME);";
             return deleteArtist;
         }
     }// end off class

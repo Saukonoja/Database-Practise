@@ -83,8 +83,15 @@ namespace MusicDatabase {
                                   "SET nimi = @NAME, " + 
                                   "maa_avain = (SELECT avain from maa where nimi = @COUNTRY), " +
                                   "vuosi_avain = (SELECT avain from vuosi where vuosi = @YEAR) " +
-                                  "WHERE nimi = @NAME ";
+                                  "WHERE avain = @KEY ";
             return updateArtist;
+        }
+        public static string GetSelectedArtistKey() {
+            string selectedKey = "SELECT avain " +
+                                 "FROM esittaja " +
+                                 "WHERE nimi = @NAME";
+            return selectedKey;
+
         }
     }// end off class
 }

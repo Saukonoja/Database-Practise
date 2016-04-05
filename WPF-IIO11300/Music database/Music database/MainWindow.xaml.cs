@@ -24,7 +24,7 @@ namespace MusicDatabase {
     /// </summary>
     public partial class MainWindow : Window {
         WindowHandler handler = new WindowHandler();
-
+        int selectedKey;
         public MainWindow() {
             InitializeComponent();
             IniMyStuff();
@@ -43,7 +43,10 @@ namespace MusicDatabase {
             }
         }
   
-
+        public int GetSelectedKey(string selectedName) {
+            int selectedKey = Artist.GetSelectedArtistKey(selectedName);
+            return selectedKey;
+        } 
 
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
 
@@ -113,7 +116,7 @@ namespace MusicDatabase {
                 switch (result.ToString()) {
                     case "Yes":
                         try {
-                            Artist.UpdateArtist(name, country, year);
+                            Artist.UpdateArtist(selectedKey, name, country, year);
                         } catch (Exception ex) {
                             MessageBox.Show(ex.Message);
                         }
@@ -127,14 +130,25 @@ namespace MusicDatabase {
 
                 MessageBox.Show(ex.Message);
             }
+            finally {
+                IniMyStuff();
+            }
    
         }
         private void btnRefresh_Click(object sender, RoutedEventArgs e) {
             IniMyStuff();
         }
-        private void dgTest_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            spArtist.DataContext = dgArtist.SelectedItem;
 
+        private void dgArtist_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            try {
+                DataRowView rowView = dgArtist.SelectedItem as DataRowView;
+                string selectedName = rowView.Row[0] as string;
+                selectedKey = GetSelectedKey(selectedName);
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+         
         }
     }
 }

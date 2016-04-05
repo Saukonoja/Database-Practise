@@ -85,9 +85,9 @@ namespace MusicDatabase {
                  throw ex;
              }
          }
-        public static bool UpdateArtist(string name, string country, int year) {
+        public static bool UpdateArtist(int selectedKey, string name, string country, int year) {
             try {
-               DBMusicDatabase.UpdateArtist(DBSQLQueries.UpdateArtist(), name, country, year);
+               DBMusicDatabase.UpdateArtist(DBSQLQueries.UpdateArtist(), selectedKey, name, country, year);
                 return true;
                
             } catch (Exception ex) {
@@ -95,8 +95,10 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-
-     
+        public static int GetSelectedArtistKey(string selectedName) {
+            int selectedKey = DBMusicDatabase.GetSelectedKey(DBSQLQueries.GetSelectedArtistKey(), selectedName);
+            return selectedKey;
+        }
         #endregion
     }
     public class Album {

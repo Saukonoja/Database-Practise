@@ -47,6 +47,7 @@ namespace MusicDatabase {
             dgTest.DataContext = ds.Tables["esittaja"].Rows[0];
         }
 
+
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
 
         }
@@ -77,17 +78,34 @@ namespace MusicDatabase {
                 Artist.AddNewArtist(name, country, year);
             }
             catch (Exception ex) {
-
                MessageBox.Show(ex.Message);
             }
         }
 
         private void btnDeleteArtist_Click(object sender, RoutedEventArgs e) {
-            Artist current = (Artist)spArtist.DataContext;
-            var retval = MessageBox.Show("Do you really want to delete " + current.ToString(), "?", MessageBoxButton.YesNo);
-            if (retval == MessageBoxResult.Yes){
-                Artist.DeleteArtist(current);
-                MessageBox.Show(string.Format("Artist {0} deleted", current.ToString()));
+            try {
+                DataRowView rowView = dgTest.SelectedItem as DataRowView;
+                string name = rowView.Row[1] as string;
+                int key = (int)rowView.Row[0];
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
+                switch (result.ToString()) {
+                    case "Yes":
+                        try {
+                            Artist.DeleteArtist(key);
+                        }
+                        catch (Exception ex) {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
+                    case "No":
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex) {
+
+                MessageBox.Show(ex.Message);
             }
         }
         private void btnChangeArtist_Click(object sender, RoutedEventArgs e) {

@@ -77,7 +77,7 @@
                             </StackPanel>
                             <StackPanel Width="220" x:Name="spArtist">
                                 <TextBlock>Name</TextBlock>
-                                <TextBox x:Name="txtName" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                <TextBox x:Name="txtName" Text="{Binding SelectedItem.Esittaja, ElementName=dgTest}"></TextBox>
                                 <TextBlock>Country</TextBlock>
                                 <TextBox x:Name="txtCountry" Text="{Binding Path=maa, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                                 <TextBlock>Year</TextBlock>

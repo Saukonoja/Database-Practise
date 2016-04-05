@@ -64,14 +64,15 @@ namespace MusicDatabase {
 
         public static List<Artist> GetArtistList() {
             try {
-                DataTable dt = DBMusicDatabase.GetArtistList();
+                DataTable dt = DBMusicDatabase.GetEntity(DBSQLQueries.GetArtists(), "Artists");
                 List<Artist> artists = new List<Artist>();
                 Artist artist;
                 foreach (DataRow row in dt.Rows) {
                     artist = new Artist((int)row[0]);
-                    artist.Name = row["nimi"].ToString();
-                    artist.Country = row["maa_avain"].ToString();
-                    artist.Year = (int)row["vuosi_avain"];
+                    artist.Name = row["Esittaja"].ToString();
+                    artist.Year = (int)row["Perustamisvuosi"];
+                    artist.Country = row["Maa"].ToString();
+
                     artists.Add(artist);
                 }
                 return artists;
@@ -90,9 +91,9 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-         public static bool DeleteArtist(Artist artist) {
+         public static bool DeleteArtist(int key) {
              try {
-                int deleted = DBMusicDatabase.DeleteArtist(DBSQLQueries.DeleteArtist(), artist.Key);
+                int deleted = DBMusicDatabase.DeleteArtist(DBSQLQueries.DeleteArtist(), key);
                 if (deleted == 1) {
                     return true;
                 }

@@ -132,17 +132,17 @@
                                 <StackPanel x:Name="spBack" Visibility="Collapsed">
                                     <Button x:Name="btnBack" Click="btnBack_Click" Content="Back"/>
                                 </StackPanel>
-                                <StackPanel Width="220" x:Name="spArtist" Visibility="Visible">
-                                    <TextBlock><Run Text="Name"/></TextBlock>
-                                    <TextBox x:Name="txtName" Text="{Binding SelectedItem.Artist, ElementName=dgArtist}"/>
-                                    <TextBlock><Run Text="Country"/></TextBlock>
-                                    <TextBox x:Name="txtCountry" Text="{Binding SelectedItem.Year, ElementName=dgArtist}"/>
-                                    <TextBlock><Run Text="Year"/></TextBlock>
-                                    <TextBox x:Name="txtYear" Text="{Binding SelectedItem.Country, ElementName=dgArtist}"/>
-                                    <Button x:Name="btnAddArtist" Click="btnAddArtist_Click" Content="Add artist"/>
-                                    <Button x:Name="btnDeleteArtist" Click="btnDeleteArtist_Click" Content="Delete selected artist"/>
-                                    <Button x:Name="btnChangeArtist" Click="btnChangeArtist_Click" Content="Save changes"/>
-                                </StackPanel>
+                                <StackPanel Width="220" x:Name="spArtist">
+                                <TextBlock>Name</TextBlock>
+                                    <TextBox x:Name="txtName" Text="{Binding SelectedItem.Artist, ElementName=dgArtistPage}"></TextBox>
+                                <TextBlock>Year</TextBlock>
+                                    <TextBox x:Name="txtYear" Text="{Binding SelectedItem.Year, ElementName=dgArtistPage}"></TextBox>
+                                <TextBlock>Country</TextBlock>
+                                    <TextBox x:Name="txtCountry" Text="{Binding SelectedItem.Country, ElementName=dgArtistPage}"></TextBox>
+                                    <Button x:Name="btnAddArtist" Click="btnAddArtist_Click">Add artist</Button>
+                                <Button x:Name="btnDeleteArtist" Click="btnDeleteArtist_Click">Delete selected artist</Button>
+                                <Button x:Name="btnChangeArtist" Click="btnChangeArtist_Click">Save changes</Button>
+                            </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </TabItem>

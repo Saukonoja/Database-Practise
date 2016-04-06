@@ -31,6 +31,7 @@ namespace MusicDatabase {
             try {
 
                 dgArtist.DataContext = Artist.GetArtists();
+                dgArtistPage.DataContext = Artist.GetArtists();
                 dgAlbums.DataContext = Album.GetAlbums();
                 dgTracks.DataContext = Track.GetTracks();
                 dgGenres.DataContext = Genre.GetGenres();
@@ -41,11 +42,11 @@ namespace MusicDatabase {
             }
         }
 
-  
+
         public int GetSelectedKey(string selectedName) {
             int selectedKey = Artist.GetSelectedArtistKey(selectedName);
             return selectedKey;
-        } 
+        }
 
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
 
@@ -127,41 +128,9 @@ namespace MusicDatabase {
 
                 MessageBox.Show(ex.Message);
             }
-            finally {
-                IniMyStuff();
-            }
-   
         }
         private void btnRefresh_Click(object sender, RoutedEventArgs e) {
             IniMyStuff();
-        }
-
-        private void dgArtist_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            try {
-                DataRowView rowView = dgArtist.SelectedItem as DataRowView;
-                string selectedName = rowView.Row[0] as string;
-                selectedKey = GetSelectedKey(selectedName);
-            }
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-         
-        }
-
-        private void dgArtist_MouseDown(object sender, MouseButtonEventArgs e) {
-            Console.WriteLine("jee");
-
-        }
-
-        private void dgArtist_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            try {
-                Console.WriteLine("jee");
-                string name = dgArtist.SelectedCells.ToString();
-                Console.WriteLine(name);
-            } catch (Exception ex) {
-
-                MessageBox.Show(ex.Message);
-            }
         }
 
         private void dgArtist_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -182,14 +151,28 @@ namespace MusicDatabase {
             spBack.Visibility = Visibility.Visible;
         }
 
-        private void dgArtistPage_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
-        }
 
         private void btnBack_Click(object sender, RoutedEventArgs e) {
             dgArtist.Visibility = Visibility.Visible;
             dgArtistPage.Visibility = Visibility.Collapsed;
             spBack.Visibility = Visibility.Collapsed;
+        }
+
+        private void dgArtistPage_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            try {
+                DataRowView rowView = dgArtistPage.SelectedItem as DataRowView;
+                string s = rowView.Row[0] as string;
+                if (s != null) {
+                    string selectedName = rowView.Row[0] as string;
+                    selectedKey = GetSelectedKey(selectedName);
+                } else {
+                    selectedKey = 1;
+                }
+                    
+            } catch (Exception ex) {
+
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -55,6 +55,7 @@
             <Setter Property="CanUserResizeColumns" Value="False"/>
             <Setter Property="CanUserResizeRows" Value="False" />
             <Setter Property="HeadersVisibility" Value="Column" />
+            <Setter Property="IsReadOnly" Value="True" />
         </Style>
         
         <Style TargetType="{x:Type DataGridCell}">
@@ -131,7 +132,7 @@
                                 <StackPanel x:Name="spBack" Visibility="Collapsed">
                                     <Button x:Name="btnBack" Click="btnBack_Click" Content="Back"/>
                                 </StackPanel>
-                                <StackPanel Width="220" x:Name="spArtist" Visibility="Collapsed">
+                                <StackPanel Width="220" x:Name="spArtist" Visibility="Visible">
                                     <TextBlock><Run Text="Name"/></TextBlock>
                                     <TextBox x:Name="txtName" Text="{Binding SelectedItem.Artist, ElementName=dgArtist}"/>
                                     <TextBlock><Run Text="Country"/></TextBlock>

@@ -28,12 +28,33 @@ namespace MusicDatabase {
             }
         }
 
-        public static DataTable GetEntity(string sqlString, string tableName) {
+        public static DataTable GetEntities(string sqlString, string tableName) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {
                 conn.Open();
                 string sql = sqlString;
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                msda.Fill(ds, tableName);
+                conn.Close();
+                return ds.Tables[tableName];
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static DataTable GetEntity(string sqlString, string name, string tableName) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@NAME", name);
+                int totalSeconds = 222;
+                int seconds = totalSeconds % 60;
+                int minutes = totalSeconds / 60;
+                string time = minutes + ":" + seconds;
                 MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
                 DataSet ds = new DataSet();
                 msda.Fill(ds, tableName);
@@ -155,6 +176,30 @@ namespace MusicDatabase {
                     }
                     message = "Username or password is invalid!";
                     return false;
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static bool CheckIfAdmin(string username) {
+            try {
+                using (MySqlConnection conn = new MySqlConnection(connStr)) {
+                    conn.Open();
+                    bool admin = false;
+                    string sql = "select tyyppi from user where tunnus=@username";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@username", username);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows) {
+                        while (rdr.Read()) {
+                            admin = rdr.GetBoolean(0);
+                        }
+                    }
+
+                    conn.Close();
+                    return admin;
+                   
                 }
             } catch (Exception ex) {
                 throw ex;

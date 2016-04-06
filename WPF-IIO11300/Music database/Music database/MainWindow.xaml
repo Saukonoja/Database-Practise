@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Music database" WindowState="Maximized" FontFamily="Noto Sans" Height="899" Width="1109">
     <Window.Resources>
-        
+
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="Control.FontSize" Value="16"/>
             <Setter Property="Control.Foreground" Value="White"/>
@@ -36,16 +36,16 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="headerStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="Control.FontSize" Value="18" />
         </Style>
-        
+
         <Style x:Key="pageName" TargetType="{x:Type TextBlock}">
             <Setter Property="Control.FontSize" Value="30" />
             <Setter Property="Margin" Value="10,10,10,40"/>
         </Style>
-        
+
         <Style TargetType="{x:Type DataGrid}">
             <Setter Property="CanUserAddRows" Value="False" />
             <Setter Property="GridLinesVisibility" Value="Horizontal" />
@@ -57,7 +57,7 @@
             <Setter Property="HeadersVisibility" Value="Column" />
             <Setter Property="IsReadOnly" Value="True" />
         </Style>
-        
+
         <Style TargetType="{x:Type DataGridCell}">
             <Setter Property="Height" Value="40"/>
             <Setter Property="Background" Value="#282828"/>
@@ -77,11 +77,10 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="Black" />
-                    <Setter Property="Cursor" Value="Hand" />
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Background" Value="#575757" />
             <Setter Property="Foreground" Value="Black" />
@@ -89,9 +88,9 @@
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Padding" Value="10" />
         </Style>
-        
+  
     </Window.Resources>
-    
+
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
@@ -99,15 +98,15 @@
             </StatusBarItem>
         </StatusBar>
         <Grid Background="#575757">
-            <TextBlock Foreground="White" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" FontSize="32" Margin="10,10,0,5" Cursor="Hand">Music database</TextBlock>
-            <Button x:Name="btnSignUp" Content="SIGN UP" Background="#ACCB12" BorderBrush="#ACCB12" FontSize="16" Foreground="White" Margin="10,10,90,5" Width="80" Height="35" Cursor="Hand" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnSignUp_Click"/>
-            <Button x:Name="btnLogin" Content="LOGIN" Background="#B8B8B8" BorderBrush="#B8B8B8" FontSize="16" Foreground="White" Margin="0,10,10,5" Width="70"  Height="35" Cursor="Hand" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnLogin_Click"/>
-
+            <TextBlock Foreground="White" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" FontSize="32" Margin="10,10,0,5">Music database</TextBlock>
+            <Button x:Name="btnSignUp" Content="SIGN UP" Background="#ACCB12" BorderBrush="#ACCB12" FontSize="16" Foreground="White" Margin="10,10,90,5" Width="80" Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnSignUp_Click"/>
+            <Button x:Name="btnLogin" Content="LOGIN" Background="#B8B8B8" BorderBrush="#B8B8B8" FontSize="16" Foreground="White" Margin="0,10,10,5" Width="70"  Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnLogin_Click"/>
+            <Button x:Name="btnLogout" Visibility="Collapsed" Content="LOGOUT" Background="#DD514C" BorderBrush="#DD514C" FontSize="16" Foreground="White" Margin="0,10,10,5" Width="70"  Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnLogout_Click"/>
             <StackPanel Margin="0,55,0,0">
                 <StackPanel Background="#E3E3E3" Orientation="Horizontal" Height="50">
                     <TextBox x:Name="txtSearchFromDatabase" FontSize="18" Width="400" Margin="10,10,10,10" BorderThickness="0"></TextBox>
-                    <Button x:Name="btnSearchFromDatabase" Content="Search from database" Background="#3FA9F5" BorderBrush="#3FA9F5" FontSize="14" Margin="0,10,0,10" Foreground="White" Cursor="Hand" Width="200" Click="btnSearchFromDatabase_Click" />
-                    <Button x:Name="btnRefresh" Content="Refresh all" Background="LightBlue" HorizontalAlignment="Right" BorderBrush="#3FA9F5" Foreground="White" FontSize="14" Margin="0,10,0,10" Width="200" Cursor="Hand" Click="btnRefresh_Click"></Button>
+                    <Button x:Name="btnSearchFromDatabase" Content="Search from database" Background="#3FA9F5" BorderBrush="#3FA9F5" FontSize="14" Margin="0,10,0,10" Foreground="White" Width="200" Click="btnSearchFromDatabase_Click" />
+                    <Button x:Name="btnRefresh" Content="Refresh all" Background="LightBlue" HorizontalAlignment="Right" BorderBrush="#3FA9F5" Foreground="White" FontSize="14" Margin="0,10,0,10" Width="200" Click="btnRefresh_Click"></Button>
                 </StackPanel>
                 <TabControl Background="#575757" TabStripPlacement="Left" x:Name="tabControl" Margin="0,0,0,0" SelectionChanged="tabControl_SelectionChanged" BorderThickness="0">
                     <TabItem x:Name="tabHome">
@@ -115,7 +114,8 @@
                             <TextBlock Text="Home" Style="{StaticResource headerStyle}" />
                         </TabItem.Header>
                         <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                            <TextBlock Style="{StaticResource pageName}"><Run Text="Home"/></TextBlock>
+                            <TextBlock Style="{StaticResource pageName}">Home</TextBlock>
+                            <TextBlock x:Name="tbCurrentUser"></TextBlock>
                         </StackPanel>
                     </TabItem>
                     <TabItem  x:Name="tabArtists">
@@ -125,24 +125,35 @@
                         <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel x:Name="spArtists">
-                                    <TextBlock Style="{StaticResource pageName}"><Run Text="Artists"/></TextBlock>
-                                    <DataGrid x:Name="dgArtist" SelectionChanged="dgArtist_SelectionChanged" ItemsSource="{Binding}"/>
-                                    <DataGrid x:Name="dgArtistPage" SelectionChanged="dgArtistPage_SelectionChanged" Visibility="Collapsed" ItemsSource="{Binding}"/>
+                                    <TextBlock Style="{StaticResource pageName}">Artists</TextBlock>
+                                    <DataGrid x:Name="dgArtist" MouseDoubleClick="dgArtist_MouseDoubleClick" ItemsSource="{Binding}"/>
                                 </StackPanel>
-                                <StackPanel x:Name="spBack" Visibility="Collapsed">
-                                    <Button x:Name="btnBack" Click="btnBack_Click" Content="Back"/>
+                                <StackPanel x:Name="spArtistPage" Visibility="Collapsed">
+                                    <TextBlock Style="{StaticResource pageName}" x:Name="tbArtistPage"></TextBlock>
+                                    <DataGrid x:Name="dgArtistPage" MouseDoubleClick="dgArtistPage_MouseDoubleClick" ItemsSource="{Binding}"/>
+                                    <Button x:Name="btnBackToArtists" Click="btnBackToArtists_Click" Content="Back"/>
                                 </StackPanel>
-                                <StackPanel Width="220" x:Name="spArtist">
-                                <TextBlock>Name</TextBlock>
-                                    <TextBox x:Name="txtName" Text="{Binding SelectedItem.Artist, ElementName=dgArtistPage}"></TextBox>
-                                <TextBlock>Year</TextBlock>
-                                    <TextBox x:Name="txtYear" Text="{Binding SelectedItem.Year, ElementName=dgArtistPage}"></TextBox>
-                                <TextBlock>Country</TextBlock>
-                                    <TextBox x:Name="txtCountry" Text="{Binding SelectedItem.Country, ElementName=dgArtistPage}"></TextBox>
-                                    <Button x:Name="btnAddArtist" Click="btnAddArtist_Click">Add artist</Button>
-                                <Button x:Name="btnDeleteArtist" Click="btnDeleteArtist_Click">Delete selected artist</Button>
-                                <Button x:Name="btnChangeArtist" Click="btnChangeArtist_Click">Save changes</Button>
                             </StackPanel>
+                            <StackPanel x:Name="spEditArtistButton">
+                                <Button x:Name="btnEditArtist" Click="btnEditArtist_Click" Content="Edit"/>
+                            </StackPanel>
+                            <StackPanel x:Name="spArtistEdit" Orientation="Horizontal" Visibility="Collapsed">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource pageName}">Edit artist</TextBlock>
+                                    <DataGrid x:Name="dgArtistEdit" CanUserAddRows="True" SelectionChanged="dgArtistEdit_SelectionChanged" ItemsSource="{Binding}"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <TextBlock>Name</TextBlock>
+                                    <TextBox x:Name="txtArtistName" Text="{Binding SelectedItem.Artist, ElementName=dgArtistEdit}"></TextBox>
+                                    <TextBlock>Year</TextBlock>
+                                    <TextBox x:Name="txtArtistYear" Text="{Binding SelectedItem.Year, ElementName=dgArtistEdit}"></TextBox>
+                                    <TextBlock>Country</TextBlock>
+                                    <TextBox x:Name="txtArtistCountry" Text="{Binding SelectedItem.Country, ElementName=dgArtistEdit}"></TextBox>
+                                    <Button x:Name="btnAddArtist" Click="btnAddArtist_Click">Add artist</Button>
+                                    <Button x:Name="btnDeleteArtist" Click="btnDeleteArtist_Click">Delete selected artist</Button>
+                                    <Button x:Name="btnUpdateArtist" Click="btnUpdateArtist_Click">Save changes</Button>
+                                    <Button x:Name="btnBackFromArtistEdit" Click="btnBackFromArtistEdit_Click">Back</Button>
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </TabItem>
@@ -151,8 +162,41 @@
                             <TextBlock Text="Albums" Style="{StaticResource headerStyle}" />
                         </TabItem.Header>
                         <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
-                            <TextBlock Style="{StaticResource pageName}"><Run Text="Albums"/></TextBlock>
-                            <DataGrid x:Name="dgAlbums" ItemsSource="{Binding}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel x:Name="spAlbums">
+                                    <TextBlock Style="{StaticResource pageName}">Albums</TextBlock>
+                                    <DataGrid x:Name="dgAlbums" MouseDoubleClick="dgAlbums_MouseDoubleClick" ItemsSource="{Binding}"/>
+                                </StackPanel>
+                                <StackPanel x:Name="spAlbumPage" Visibility="Collapsed">
+                                    <TextBlock Style="{StaticResource pageName}" x:Name="tbAlbumPage"></TextBlock>
+                                    <DataGrid x:Name="dgAlbumPage" SelectionChanged="dgAlbumPage_SelectionChanged" ItemsSource="{Binding}"/>
+                                    <Button x:Name="btnBackToAlbums" Click="btnBackToAlbums_Click" Content="Back"/>
+                                    <MediaElement Source="http://www.youtube.com/v/zcl448psbxE" Name="mePlayer" Stretch="None" />
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel x:Name="spEditAlbumButton">
+                                <Button x:Name="btnEditAlbum" Click="btnEditAlbum_Click" Content="Edit"/>
+                            </StackPanel>
+                            <StackPanel x:Name="spAlbumEdit" Orientation="Horizontal" Visibility="Collapsed">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource pageName}">Edit artist</TextBlock>
+                                    <DataGrid x:Name="dgAlbumEdit" CanUserAddRows="True" SelectionChanged="dgAlbumEdit_SelectionChanged" ItemsSource="{Binding}"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <TextBlock>Name</TextBlock>
+                                    <TextBox x:Name="txtAlbumName" Text="{Binding SelectedItem.Album, ElementName=dgAlbumEdit}"></TextBox>
+                                    <TextBlock>Year</TextBlock>
+                                    <TextBox x:Name="txtAlbumArtist" Text="{Binding SelectedItem.Artist, ElementName=dgAlbumEdit}"></TextBox>
+                                    <TextBlock>Country</TextBlock>
+                                    <TextBox x:Name="txtAlbumYear" Text="{Binding SelectedItem.Year, ElementName=dgAlbumEdit}"></TextBox>
+                                    <TextBlock>Record company</TextBlock>
+                                    <TextBox x:Name="txtAlbumCompany" Text="{Binding SelectedItem.Company, ElementName=dgAlbumEdit}"></TextBox>
+                                    <Button x:Name="btnAddAlbum" Click="btnAddAlbum_Click">Add artist</Button>
+                                    <Button x:Name="btnDeleteAlbum" Click="btnDeleteAlbum_Click">Delete selected artist</Button>
+                                    <Button x:Name="btnUpdateAlbum" Click="btnUpdateAlbum_Click">Save changes</Button>
+                                    <Button x:Name="btnBackFromAlbumEdit" Click="btnBackFromAlbumEdit_Click">Back</Button>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
                     </TabItem>
                     <TabItem  x:Name="tabTracks">
@@ -160,7 +204,7 @@
                             <TextBlock Text="Tracks" Style="{StaticResource headerStyle}" />
                         </TabItem.Header>
                         <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
-                            <TextBlock Style="{StaticResource pageName}"><Run Text="Tracks"/></TextBlock>
+                            <TextBlock Style="{StaticResource pageName}">Tracks</TextBlock>
                             <DataGrid x:Name="dgTracks" Height="400" ItemsSource="{Binding}"/>
                         </StackPanel>
                     </TabItem>
@@ -169,7 +213,7 @@
                             <TextBlock Text="Genres" Style="{StaticResource headerStyle}" />
                         </TabItem.Header>
                         <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
-                            <TextBlock Style="{StaticResource pageName}"><Run Text="Genres"/></TextBlock>
+                            <TextBlock Style="{StaticResource pageName}">Genres</TextBlock>
                             <DataGrid x:Name="dgGenres" ItemsSource="{Binding}" />
                         </StackPanel>
                     </TabItem>
@@ -178,7 +222,7 @@
                             <TextBlock Text="Record companies" Style="{StaticResource headerStyle}" />
                         </TabItem.Header>
                         <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
-                            <TextBlock Style="{StaticResource pageName}"><Run Text="Companies"/></TextBlock>
+                            <TextBlock Style="{StaticResource pageName}">Companies</TextBlock>
                             <DataGrid x:Name="dgCompanies" ItemsSource="{Binding}"/>
                         </StackPanel>
                     </TabItem>
@@ -187,7 +231,7 @@
                             <TextBlock Text="About" Style="{StaticResource headerStyle}" />
                         </TabItem.Header>
                         <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
-                            <TextBlock Style="{StaticResource pageName}"><Run Text="About"/></TextBlock>
+                            <TextBlock Style="{StaticResource pageName}">About</TextBlock>
                         </StackPanel>
                     </TabItem>
                 </TabControl>
@@ -196,7 +240,7 @@
                 <TextBlock x:Name="tbCopyright" Text="© Music database 2016" HorizontalAlignment="Left" Foreground="White" FontSize="24" Margin="10,10,0,5"></TextBlock>
             </StackPanel>
             <Button x:Name="btnContact" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Contact us" Background="#575757" BorderBrush="#575757" Foreground="White" 
-                        FontSize="16" Margin="10,5,10,10" Width="100" Height="35" Cursor="Hand" Click="btnContact_Click"></Button>
+                        FontSize="16" Margin="10,5,10,10" Width="100" Height="35" Click="btnContact_Click"></Button>
         </Grid>
     </DockPanel>
 </Window>

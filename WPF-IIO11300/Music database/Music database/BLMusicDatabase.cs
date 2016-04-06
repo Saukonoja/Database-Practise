@@ -10,8 +10,6 @@ namespace MusicDatabase {
     public class Artist {
         #region PROPERTIES
 
-        
-
         private int key;
         public int Key {
             get { return key; }
@@ -53,9 +51,18 @@ namespace MusicDatabase {
             return name;
         }
 
+        public static DataTable GetArtistAlbums(string name) {
+            try {
+                DataTable artistAlbums = DBMusicDatabase.GetEntity(DBSQLQueries.GetArtistAlbums(), name, "ArtistPage");
+                return artistAlbums;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         public static DataTable GetArtists() {
             try {
-                DataTable artistTable = DBMusicDatabase.GetEntity(DBSQLQueries.GetArtists(), "Artists");
+                DataTable artistTable = DBMusicDatabase.GetEntities(DBSQLQueries.GetArtists(), "Artists");
                 return artistTable;
             } catch (Exception ex) {
                 throw ex;
@@ -155,8 +162,17 @@ namespace MusicDatabase {
 
         public static DataTable GetAlbums() {
             try {
-                DataTable albumsTable = DBMusicDatabase.GetEntity(DBSQLQueries.GetAlbums(), "Albums");
+                DataTable albumsTable = DBMusicDatabase.GetEntities(DBSQLQueries.GetAlbums(), "Albums");
                 return albumsTable;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static DataTable GetAlbumTracks(string name) {
+            try {
+                DataTable trackTable = DBMusicDatabase.GetEntity(DBSQLQueries.GetAlbumTracks(), name, "Tracks");
+                return trackTable;
             } catch (Exception ex) {
                 throw ex;
             }
@@ -229,7 +245,7 @@ namespace MusicDatabase {
         }
         public static DataTable GetTracks() {
             try {
-                DataTable tracksTable = DBMusicDatabase.GetEntity(DBSQLQueries.GetTracks(), "Tracks");
+                DataTable tracksTable = DBMusicDatabase.GetEntities(DBSQLQueries.GetTracks(), "Tracks");
                 return tracksTable;
             } catch (Exception ex) {
                 throw ex;
@@ -268,7 +284,7 @@ namespace MusicDatabase {
         }
         public static DataTable GetGenres() {
             try {
-                DataTable genresTable = DBMusicDatabase.GetEntity(DBSQLQueries.GetGenres(), "Genres");
+                DataTable genresTable = DBMusicDatabase.GetEntities(DBSQLQueries.GetGenres(), "Genres");
                 return genresTable;
             } catch (Exception ex) {
                 throw ex;
@@ -322,7 +338,7 @@ namespace MusicDatabase {
         }
         public static DataTable GetCompanies() {
             try {
-                DataTable companiesTable = DBMusicDatabase.GetEntity(DBSQLQueries.GetCompanies(), "Companies");
+                DataTable companiesTable = DBMusicDatabase.GetEntities(DBSQLQueries.GetCompanies(), "Companies");
                 return companiesTable;
             } catch (Exception ex) {
                 throw ex;

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 
 namespace MusicDatabase {
+
     public partial class BLLogin {
         private string username;
         private string password;
@@ -45,6 +46,17 @@ namespace MusicDatabase {
                 messageToUser = message;
                 return false;
 
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public bool CheckIfAdmin() {
+            try {
+                if (DBMusicDatabase.CheckIfAdmin(username)) {
+                    return true;
+                }
+                return false;
             } catch (Exception ex) {
                 throw ex;
             }

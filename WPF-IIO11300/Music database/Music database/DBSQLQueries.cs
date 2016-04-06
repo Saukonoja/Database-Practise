@@ -75,8 +75,23 @@ namespace MusicDatabase {
             return addArtist;
         }
         public static string DeleteArtist() {
-            string deleteArtist = "DELETE FROM esittaja WHERE nimi = @NAME"; //(select avain from esittaja where nimi = @NAME);";
+            string deleteArtist = "DELETE FROM esittaja WHERE nimi = @NAME"; 
             return deleteArtist;
+        }
+        public static string UpdateArtist() {
+            string updateArtist = "UPDATE esittaja " +
+                                  "SET nimi = @NAME, " + 
+                                  "maa_avain = (SELECT avain from maa where nimi = @COUNTRY), " +
+                                  "vuosi_avain = (SELECT avain from vuosi where vuosi = @YEAR) " +
+                                  "WHERE avain = @KEY ";
+            return updateArtist;
+        }
+        public static string GetSelectedArtistKey() {
+            string selectedKey = "SELECT avain " +
+                                 "FROM esittaja " +
+                                 "WHERE nimi = @NAME";
+            return selectedKey;
+
         }
     }// end off class
 }

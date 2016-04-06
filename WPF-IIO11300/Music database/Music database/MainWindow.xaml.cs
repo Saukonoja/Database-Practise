@@ -21,7 +21,7 @@ namespace MusicDatabase {
     /// </summary>
     public partial class MainWindow : Window {
         WindowHandler handler = new WindowHandler();
-
+        int selectedKey;
         public MainWindow() {
             InitializeComponent();
             IniMyStuff();
@@ -40,6 +40,12 @@ namespace MusicDatabase {
                 MessageBox.Show(ex.Message);
             }
         }
+
+  
+        public int GetSelectedKey(string selectedName) {
+            int selectedKey = Artist.GetSelectedArtistKey(selectedName);
+            return selectedKey;
+        } 
 
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
 
@@ -64,10 +70,10 @@ namespace MusicDatabase {
         }
 
         private void btnAddArtist_Click(object sender, RoutedEventArgs e) {
-            string name = txtName.Text;
-            string country = txtCountry.Text;
-            int year = int.Parse(txtYear.Text);
             try {
+                string name = txtName.Text;
+                int year = int.Parse(txtYear.Text);
+                string country = txtCountry.Text;
                 Artist.AddNewArtist(name, country, year);
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
@@ -77,8 +83,8 @@ namespace MusicDatabase {
         private void btnDeleteArtist_Click(object sender, RoutedEventArgs e) {
             try {
                 DataRowView rowView = dgArtist.SelectedItem as DataRowView;
-                string name = rowView.Row[1] as string;
-                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
+                string name = rowView.Row[0] as string;
+                MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
                 switch (result.ToString()) {
                     case "Yes":
                         try {
@@ -99,13 +105,47 @@ namespace MusicDatabase {
         }
         private void btnChangeArtist_Click(object sender, RoutedEventArgs e) {
 
+            try {
+                string name = txtName.Text;
+                int year = int.Parse(txtYear.Text);
+                string country = txtCountry.Text;
+                MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
+                switch (result.ToString()) {
+                    case "Yes":
+                        try {
+                            Artist.UpdateArtist(selectedKey, name, country, year);
+                        } catch (Exception ex) {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
+                    case "No":
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception ex) {
+
+                MessageBox.Show(ex.Message);
+            }
+            finally {
+                IniMyStuff();
+            }
+   
         }
         private void btnRefresh_Click(object sender, RoutedEventArgs e) {
             IniMyStuff();
         }
-        private void dgTest_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            spArtist.DataContext = dgArtist.SelectedItem;
 
+        private void dgArtist_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            try {
+                DataRowView rowView = dgArtist.SelectedItem as DataRowView;
+                string selectedName = rowView.Row[0] as string;
+                selectedKey = GetSelectedKey(selectedName);
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+         
         }
 
         private void dgArtist_MouseDown(object sender, MouseButtonEventArgs e) {

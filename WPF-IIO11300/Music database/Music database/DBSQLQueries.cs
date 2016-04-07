@@ -78,9 +78,6 @@ namespace MusicDatabase {
         public static string DeleteArtist() {
 
             string deleteArtist = "DELETE FROM esittaja WHERE avain = @KEY"; 
-
-            string deleteArtist = "DELETE FROM esittaja WHERE nimi = @NAME";
-
             return deleteArtist;
         }
         public static string UpdateArtist() {

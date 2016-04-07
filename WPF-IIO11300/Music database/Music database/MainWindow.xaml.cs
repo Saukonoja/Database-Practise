@@ -49,17 +49,6 @@ namespace MusicDatabase {
                 MessageBox.Show(ex.Message);
             }
         }
-
-  
-
-        
-
-        public int GetSelectedKey(string selectedName) {
-            int selectedKey = Artist.GetSelectedArtistKey(selectedName);
-            return selectedKey;
-        }
-
-
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
 
         }
@@ -110,19 +99,12 @@ namespace MusicDatabase {
                 int key = (int)rowView[0];
                 string name = rowView.Row[1] as string;
 
-                DataRowView rowView = dgArtistEdit.SelectedItem as DataRowView;
-                string name = rowView.Row[0] as string;
-
                 MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
                 switch (result.ToString()) {
                     case "Yes":
                         try {
 
                             Artist.DeleteArtist(key);
-                        }
-                        catch (Exception ex) {
-
-                            Artist.DeleteArtist(name);
                         } catch (Exception ex) {
 
                             MessageBox.Show(ex.Message);
@@ -142,13 +124,8 @@ namespace MusicDatabase {
         private void btnUpdateArtist_Click(object sender, RoutedEventArgs e) {
 
             try {
-
                 DataRowView rowView = dgArtist.SelectedItem as DataRowView;
                 int key = (int)rowView[0];
-                string name = txtName.Text;
-                int year = int.Parse(txtYear.Text);
-                string country = txtCountry.Text;
-
                 string name = txtArtistName.Text;
                 int year = int.Parse(txtArtistYear.Text);
                 string country = txtArtistCountry.Text;
@@ -188,14 +165,6 @@ namespace MusicDatabase {
             }
         }
 
-        private void btnRefresh_Click(object sender, RoutedEventArgs e) {
-            //DataTable artists = Artist.GetArtists();
-            //string cont = artists.Columns[0] as string;
-        }
-
-        private void dgArtist_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
-
         private void dgArtistPage_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
                 DataRowView dataRow = (DataRowView)dgArtistPage.SelectedItem;
@@ -210,16 +179,6 @@ namespace MusicDatabase {
             }
         }
 
-        private void dgArtistEdit_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            try {
-                btnAddArtist.Content = "Add artist";
-                DataRowView rowView = dgArtistEdit.SelectedItem as DataRowView;
-                string selectedName = rowView.Row[0] as string;
-                selectedKey = GetSelectedKey(selectedName);
-            } catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
         private void ChangeArtistPage(string artist) {
             spArtists.Visibility = Visibility.Collapsed;
@@ -310,6 +269,10 @@ namespace MusicDatabase {
             (Application.Current as App).User = "guest";
             this.handler.MoveToLogin();
             this.Close();
+        }
+
+        private void dgArtistEdit_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
         }
     }
 }

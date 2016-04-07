@@ -13,7 +13,21 @@ namespace MusicDatabase {
 
 
         public static DataTable GetEntity(string sqlString, string tableName) {
-
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                msda.Fill(ds, tableName);
+                conn.Close();
+                return ds.Tables[tableName];
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
         public static int GetSelectedKey(string sqlString, string selectedName) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {

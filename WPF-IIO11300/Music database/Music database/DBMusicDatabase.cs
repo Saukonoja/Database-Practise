@@ -11,23 +11,6 @@ namespace MusicDatabase {
     public class DBMusicDatabase {
         private static string connStr = MusicDatabase.Properties.Settings.Default.Database;
 
-        public static int GetSelectedKey(string sqlString, string selectedName) {
-            MySqlConnection conn = new MySqlConnection(connStr);
-            try {
-                conn.Open();
-                string sql = sqlString;
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.Prepare();
-                cmd.Parameters.AddWithValue("@NAME", selectedName);
-                int selectedKey = Convert.ToInt32(cmd.ExecuteScalar());
-                return selectedKey;
-            }
-            catch (Exception ex) {
-
-                throw ex;
-            }
-        }
-
         public static DataTable GetEntity(string sqlString, string tableName) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {
@@ -59,14 +42,14 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static int DeleteArtist(string sqlString, string name) {
+        public static int DeleteArtist(string sqlString, int key) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {
                 conn.Open();
                 string sql = sqlString;
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.Prepare();
-                cmd.Parameters.AddWithValue("@NAME", name);
+                cmd.Parameters.AddWithValue("@KEY", key);
                 int deleted = cmd.ExecuteNonQuery();
                 return deleted;
 
@@ -75,14 +58,14 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static void UpdateArtist(string sqlString, int selectedKey, string name, string country, int year) {
+        public static void UpdateArtist(string sqlString, int key, string name, string country, int year) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {
                 conn.Open();
                 string sql = sqlString;
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.Prepare();
-                cmd.Parameters.AddWithValue("@KEY", selectedKey);
+                cmd.Parameters.AddWithValue("@KEY", key);
                 cmd.Parameters.AddWithValue("@NAME", name);
                 cmd.Parameters.AddWithValue("@COUNTRY", country);
                 cmd.Parameters.AddWithValue("@YEAR", year);

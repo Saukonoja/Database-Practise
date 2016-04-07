@@ -24,7 +24,7 @@ namespace MusicDatabase {
     /// </summary>
     public partial class MainWindow : Window {
         WindowHandler handler = new WindowHandler();
-        int selectedKey;
+
         public MainWindow() {
             InitializeComponent();
             IniMyStuff();
@@ -43,11 +43,6 @@ namespace MusicDatabase {
             }
         }
   
-        public int GetSelectedKey(string selectedName) {
-            int selectedKey = Artist.GetSelectedArtistKey(selectedName);
-            return selectedKey;
-        } 
-
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
 
         }
@@ -85,12 +80,13 @@ namespace MusicDatabase {
         private void btnDeleteArtist_Click(object sender, RoutedEventArgs e) {
             try {
                 DataRowView rowView = dgArtist.SelectedItem as DataRowView;
-                string name = rowView.Row[0] as string;
+                int key = (int)rowView[0];
+                string name = rowView.Row[1] as string;
                 MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
                 switch (result.ToString()) {
                     case "Yes":
                         try {
-                            Artist.DeleteArtist(name);
+                            Artist.DeleteArtist(key);
                         }
                         catch (Exception ex) {
                             MessageBox.Show(ex.Message);
@@ -109,6 +105,8 @@ namespace MusicDatabase {
         }
         private void btnChangeArtist_Click(object sender, RoutedEventArgs e) {
             try {
+                DataRowView rowView = dgArtist.SelectedItem as DataRowView;
+                int key = (int)rowView[0];
                 string name = txtName.Text;
                 int year = int.Parse(txtYear.Text);
                 string country = txtCountry.Text;
@@ -116,7 +114,7 @@ namespace MusicDatabase {
                 switch (result.ToString()) {
                     case "Yes":
                         try {
-                            Artist.UpdateArtist(selectedKey, name, country, year);
+                            Artist.UpdateArtist (key, name, country, year);
                         } catch (Exception ex) {
                             MessageBox.Show(ex.Message);
                         }
@@ -136,18 +134,11 @@ namespace MusicDatabase {
    
         }
         private void btnRefresh_Click(object sender, RoutedEventArgs e) {
-            IniMyStuff();
+            //DataTable artists = Artist.GetArtists();
+            //string cont = artists.Columns[0] as string;
         }
 
         private void dgArtist_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            try {
-                DataRowView rowView = dgArtist.SelectedItem as DataRowView;
-                string selectedName = rowView.Row[0] as string;
-                selectedKey = GetSelectedKey(selectedName);
-            }
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
          
         }
     }

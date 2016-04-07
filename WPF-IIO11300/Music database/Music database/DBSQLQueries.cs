@@ -9,6 +9,7 @@ namespace MusicDatabase {
 
         public static string GetArtists() {
             string getArtists = "SELECT " +
+                                            "esittaja.avain as ID, " +
                                             "esittaja.nimi as Artist, " +
                                             "vuosi.vuosi as Year, " +
                                             "maa.nimi as Country " +
@@ -75,7 +76,7 @@ namespace MusicDatabase {
             return addArtist;
         }
         public static string DeleteArtist() {
-            string deleteArtist = "DELETE FROM esittaja WHERE nimi = @NAME"; 
+            string deleteArtist = "DELETE FROM esittaja WHERE avain = @KEY"; 
             return deleteArtist;
         }
         public static string UpdateArtist() {
@@ -85,13 +86,6 @@ namespace MusicDatabase {
                                   "vuosi_avain = (SELECT avain from vuosi where vuosi = @YEAR) " +
                                   "WHERE avain = @KEY ";
             return updateArtist;
-        }
-        public static string GetSelectedArtistKey() {
-            string selectedKey = "SELECT avain " +
-                                 "FROM esittaja " +
-                                 "WHERE nimi = @NAME";
-            return selectedKey;
-
         }
     }// end off class
 }

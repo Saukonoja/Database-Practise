@@ -127,7 +127,63 @@ namespace MusicDatabase {
 
                 throw ex;
             }
-        } 
+        }
+        public static void UpdateUser(string sqlString, int key, string name, bool admin) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@KEY", key);
+                cmd.Parameters.AddWithValue("@NAME", name);
+                cmd.Parameters.AddWithValue("@ADMIN", admin);
+                cmd.ExecuteNonQuery();
+
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
+        public static int DeleteUser(string sqlString, int key) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@KEY", key);
+                int deleted = cmd.ExecuteNonQuery();
+                return deleted;
+
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
+        public static string GetTrackTubepath(string sqlString, string track) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                string tubepath = "";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@track", track);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                if (rdr.HasRows) {
+                    while (rdr.Read()) {
+                        tubepath = rdr.GetString(0);
+                    }
+                }
+                conn.Close();
+                return tubepath; 
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         public static bool RegisterUser(string username, string password, out string message) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
@@ -196,6 +252,24 @@ namespace MusicDatabase {
             }
         }
 
+        public static void UpdatePassword(string sqlString, string username, string password) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                string passW = BLRegister.EncryptPassword(password);
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@USERNAME", username);
+                cmd.Parameters.AddWithValue("@PASSWORD", passW);
+                cmd.ExecuteNonQuery();
+
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
         public static bool CheckIfAdmin(string username) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
@@ -214,6 +288,28 @@ namespace MusicDatabase {
                     conn.Close();
                     return admin;
                    
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static List<string> GetCountries() {
+            List<string> countries = new List<string>();
+            try {
+                using (MySqlConnection conn = new MySqlConnection(connStr)) {
+                    conn.Open();
+                    string sql = "select nimi from maa order by nimi;";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows) {
+                        while (rdr.Read()) {                       
+                            countries.Add(rdr.GetString(0));
+                        }
+                    }
+
+                    conn.Close();
+                    return countries;
                 }
             } catch (Exception ex) {
                 throw ex;

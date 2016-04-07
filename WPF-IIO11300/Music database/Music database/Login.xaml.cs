@@ -40,13 +40,14 @@ namespace MusicDatabase {
 
                     BLLogin login = new BLLogin(username, password);
                     if (login.LoginUser(out message)) {
+                        (Application.Current as App).Username = username;
                         if (login.CheckIfAdmin()) {
-                            (Application.Current as App).User = "admin";
+                            (Application.Current as App).Usertype = "admin";
                         }
                         else if (!login.CheckIfAdmin()) {
-                            (Application.Current as App).User = "user";
+                            (Application.Current as App).Usertype = "user";
                         } else {
-                            (Application.Current as App).User = "guest";
+                            (Application.Current as App).Usertype = "guest";
                         }
 
                         handler.MoveToMain();

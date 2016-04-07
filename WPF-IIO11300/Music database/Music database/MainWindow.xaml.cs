@@ -20,18 +20,20 @@ namespace MusicDatabase {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
-        private string user = (Application.Current as App).User;
+        private string userType = (Application.Current as App).Usertype;
+        private string userName = (Application.Current as App).Username;
+        private static string videoString = "http://student.labranet.jamk.fi/~H3298/iim50300/videoplayer.php?param=";
         WindowHandler handler = new WindowHandler();
 
         public MainWindow() {
             InitializeComponent();
             IniMyStuff();
-            wbMain.Navigate(new Uri("http://student.labranet.jamk.fi/~H3298/iim50300/videoplayer.php?param=DWRXTw9AJAA", UriKind.RelativeOrAbsolute));
+
         }
 
         public void IniMyStuff() {
             try {
-                
+
                 dgArtist.DataContext = Artist.GetArtists();
                 dgArtistEdit.DataContext = Artist.GetArtists();
                 dgAlbums.DataContext = Album.GetAlbums();
@@ -39,12 +41,18 @@ namespace MusicDatabase {
                 dgTracks.DataContext = Track.GetTracks();
                 dgGenres.DataContext = Genre.GetGenres();
                 dgCompanies.DataContext = Company.GetCompanies();
-                tbCurrentUser.Text = "Welcome, " + user + "!";
-                if(user == "admin" || user == "user") {
+                dgUsersEdit.DataContext = Users.GetUsers();
+                tbCurrentUser.Text = "Welcome, " + userName + "!";
+                tbCurrentUserHeader.Text = userName;
+                cbCountries.ItemsSource = DBMusicDatabase.GetCountries();
+                if (userType == "admin" || userType == "user") {
                     btnLogin.Visibility = Visibility.Collapsed;
                     btnSignUp.Visibility = Visibility.Collapsed;
                     btnLogout.Visibility = Visibility.Visible;
                 }
+
+                tabUserSettings.Visibility = Visibility.Visible;
+
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
@@ -71,8 +79,14 @@ namespace MusicDatabase {
         }
 
         private void btnContact_Click(object sender, RoutedEventArgs e) {
-            tabAlbums.IsSelected = true;
+            tabAbout.IsSelected = true;
         }
+
+
+
+        //ARTIST
+
+
 
         private void btnAddArtist_Click(object sender, RoutedEventArgs e) {
             try {
@@ -134,7 +148,7 @@ namespace MusicDatabase {
                 switch (result.ToString()) {
                     case "Yes":
                         try {
-                            Artist.UpdateArtist (key, name, country, year);
+                            Artist.UpdateArtist(key, name, country, year);
                         } catch (Exception ex) {
                             MessageBox.Show(ex.Message);
                         }
@@ -148,7 +162,7 @@ namespace MusicDatabase {
 
                 MessageBox.Show(ex.Message);
             }
-        } 
+        }
 
         private void dgArtist_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
@@ -156,7 +170,7 @@ namespace MusicDatabase {
                 int index = dgArtist.CurrentCell.Column.DisplayIndex;
                 string cellValue = dataRow.Row.ItemArray[index].ToString();
                 int columnIndex = dgArtist.CurrentColumn.DisplayIndex;
-                if(columnIndex == 0) {
+                if (columnIndex == 1) {
                     ChangeArtistPage(cellValue);
                     tabAlbums.IsSelected = true;
                 }
@@ -172,9 +186,9 @@ namespace MusicDatabase {
                 string cellValue = dataRow.Row.ItemArray[index].ToString();
                 int columnIndex = dgArtistPage.CurrentColumn.DisplayIndex;
                 if (columnIndex == 0) {
-                    ChangeAlbumPage(cellValue);                  
+                    ChangeAlbumPage(cellValue);
                 }
-            }catch(Exception ex) {
+            } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
@@ -206,6 +220,15 @@ namespace MusicDatabase {
             spEditArtistButton.Visibility = Visibility.Visible;
         }
 
+
+
+
+        //ALBUM
+
+
+
+
+
         private void btnAddAlbum_Click(object sender, RoutedEventArgs e) {
 
         }
@@ -232,13 +255,30 @@ namespace MusicDatabase {
             }
         }
 
-        private void dgAlbumPage_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-                
+        private void dgAlbumPage_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            try {
+                DataRowView dataRow = (DataRowView)dgAlbumPage.SelectedItem;
+                int index = dgAlbumPage.CurrentCell.Column.DisplayIndex;
+                string cellValue = dataRow.Row.ItemArray[index].ToString();
+                int columnIndex = dgAlbumPage.CurrentColumn.DisplayIndex;
+                if (columnIndex == 1) {
+                    PlayTrack(cellValue);
+                    tbTrackName.Text = cellValue;
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void dgAlbumEdit_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
         }
+
+        private void PlayTrack(string track) {
+            spYoutubePlayer.Visibility = Visibility.Visible;
+            youtubeVideo.Navigate(new Uri(videoString + Track.GetTrackTubepath(track), UriKind.RelativeOrAbsolute));
+        }
+
         private void ChangeAlbumPage(string album) {
             spAlbums.Visibility = Visibility.Collapsed;
             spAlbumPage.Visibility = Visibility.Visible;
@@ -266,13 +306,107 @@ namespace MusicDatabase {
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e) {
-            (Application.Current as App).User = "guest";
+            (Application.Current as App).Usertype = "guest";
+            (Application.Current as App).Username = "guest";
             this.handler.MoveToLogin();
             this.Close();
         }
 
         private void dgArtistEdit_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e) {
+            tabHome.IsSelected = true;
+        }
+
+        private void dgUserEdit_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
+        }
+
+        private void btnDeleteUser_Click(object sender, RoutedEventArgs e) {
+            try {
+
+                DataRowView rowView = dgUsersEdit.SelectedItem as DataRowView;
+                int key = (int)rowView[0];
+                string name = rowView.Row[1] as string;
+
+                MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
+                switch (result.ToString()) {
+                    case "Yes":
+                        try {
+
+                            Users.DeleteUser(key);
+                        } catch (Exception ex) {
+
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
+                    case "No":
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception ex) {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnUpdateUser_Click(object sender, RoutedEventArgs e) {
+            try {
+                DataRowView rowView = dgUsersEdit.SelectedItem as DataRowView;
+                int key = (int)rowView[0];
+                string name = txtUsername.Text;
+                bool admin = chkAdmin.IsChecked.Value;
+
+                MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
+                switch (result.ToString()) {
+                    case "Yes":
+                        try {
+                            Users.UpdateUser(key, name, admin);
+                        } catch (Exception ex) {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
+                    case "No":
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception ex) {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Hyperlink_Click_1(object sender, RoutedEventArgs e) {
+            tabUserSettings.IsSelected = true;
+
+        }
+
+        private void btnUpdatePassword_Click(object sender, RoutedEventArgs e) {
+            try {
+                string newPassword = txtPassword.Text;
+                string user = (Application.Current as App).Username;
+                MessageBoxResult result = MessageBox.Show("Save changes to " + user, "Save changes", MessageBoxButton.YesNo);
+                switch (result.ToString()) {
+                    case "Yes":
+                        try {
+                            Users.UpdatePassword(user, newPassword);
+                        } catch (Exception ex) {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
+                    case "No":
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception ex) {
+
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -124,5 +124,33 @@ namespace MusicDatabase {
             return albumTracks;
         }
 
+        public static string GetTrackTubepath() {
+            string tubepath = "select tubepath from kappale where nimi = @track";
+            return tubepath;
+        }
+
+        public static string GetUsers() {
+            string users = "select avain as ID, tunnus as Username, tyyppi as Admin from user;";
+            return users;
+        }
+
+        public static string UpdateUser() {
+            string updateUser = "UPDATE user " +
+                                  "SET tunnus = @NAME, " +
+                                  "tyyppi = @ADMIN " +
+                                  "WHERE avain = @KEY ";
+            return updateUser;
+        }
+
+        public static string DeleteUser() {
+            string deleteUser = "DELETE FROM user WHERE avain = @KEY";
+            return deleteUser;
+        }
+
+        public static string UpdatePassword() {
+            string updatePassword = "update user set salasana = @PASSWORD where tunnus = @USERNAME";
+            return updatePassword;
+        }
+
     }// end off class
 }

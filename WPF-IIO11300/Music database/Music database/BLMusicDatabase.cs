@@ -74,34 +74,33 @@ namespace MusicDatabase {
             try {
                 DBMusicDatabase.AddNewArtist(DBSQLQueries.AddArtist(), name, country, year);
                 return true;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw ex;
             }
         }
-         public static bool DeleteArtist(int key) {
-             try {
+        public static bool DeleteArtist(int key) {
+            try {
                 int deleted = DBMusicDatabase.DeleteArtist(DBSQLQueries.DeleteArtist(), key);
                 if (deleted == 1)
                     return true;
                 else
                     return false;
-             }
-             catch (Exception ex) {
-
-                 throw ex;
-             }
-         }
-        public static bool UpdateArtist(int key, string name, string country, int year) {
-            try {
-               DBMusicDatabase.UpdateArtist(DBSQLQueries.UpdateArtist(), key, name, country, year);
-                return true;
-               
             } catch (Exception ex) {
 
                 throw ex;
             }
         }
+        public static bool UpdateArtist(int key, string name, string country, int year) {
+            try {
+                DBMusicDatabase.UpdateArtist(DBSQLQueries.UpdateArtist(), key, name, country, year);
+                return true;
+
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
         #endregion
     }
     public class Album {
@@ -247,6 +246,15 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+
+        public static string GetTrackTubepath(string track) {
+            try {
+                string tubepath = DBMusicDatabase.GetTrackTubepath(DBSQLQueries.GetTrackTubepath(), track);
+                return tubepath;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
         #endregion
     }
     public class Genre {
@@ -340,6 +348,52 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        #endregion
     }
+    #endregion
+    public class Users {
+        #region METHODS
+        public static DataTable GetUsers() {
+            try {
+                DataTable users = DBMusicDatabase.GetEntities(DBSQLQueries.GetUsers(), "Users");
+                return users;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static bool UpdateUser(int key, string name, bool admin) {
+            try {
+                DBMusicDatabase.UpdateUser(DBSQLQueries.UpdateUser(), key, name, admin);
+                return true;
+
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+        public static bool DeleteUser(int key) {
+            try {
+                int deleted = DBMusicDatabase.DeleteUser(DBSQLQueries.DeleteUser(), key);
+                if (deleted == 1)
+                    return true;
+                else
+                    return false;
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
+        public static bool UpdatePassword(string username, string password) {
+            try {
+                DBMusicDatabase.UpdatePassword(DBSQLQueries.UpdatePassword(), username, password);
+                return true;
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
+    }
+    #endregion
 }

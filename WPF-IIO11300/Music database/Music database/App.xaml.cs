@@ -11,11 +11,18 @@ namespace MusicDatabase {
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application {
-        private string user = "guest";
+        private string usertype = "guest";
 
-        public String User {
-            get { return this.user; }
-            set { this.user = value; }
+        public String Usertype {
+            get { return this.usertype; }
+            set { this.usertype = value; }
+        }
+
+        private string username = "Guest";
+
+        public String Username {
+            get { return this.username; }
+            set { this.username = value; }
         }
     }
 }

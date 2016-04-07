@@ -51,10 +51,6 @@ namespace MusicDatabase {
                 string sql = sqlString;
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@NAME", name);
-                int totalSeconds = 222;
-                int seconds = totalSeconds % 60;
-                int minutes = totalSeconds / 60;
-                string time = minutes + ":" + seconds;
                 MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
                 DataSet ds = new DataSet();
                 msda.Fill(ds, tableName);

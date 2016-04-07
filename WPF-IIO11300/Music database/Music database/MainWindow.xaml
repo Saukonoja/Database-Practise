@@ -88,7 +88,7 @@
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Padding" Value="10" />
         </Style>
-  
+
     </Window.Resources>
 
     <DockPanel>
@@ -114,8 +114,7 @@
                             <TextBlock Text="Home" Style="{StaticResource headerStyle}" />
                         </TabItem.Header>
                         <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                            <TextBlock Style="{StaticResource pageName}">Home</TextBlock>
-                            <TextBlock x:Name="tbCurrentUser"></TextBlock>
+                            <TextBlock x:Name="tbCurrentUser" Style="{StaticResource pageName}"></TextBlock>
                         </StackPanel>
                     </TabItem>
                     <TabItem  x:Name="tabArtists">
@@ -161,40 +160,46 @@
                         <TabItem.Header>
                             <TextBlock Text="Albums" Style="{StaticResource headerStyle}" />
                         </TabItem.Header>
-                        <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="30,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel x:Name="spAlbums">
                                     <TextBlock Style="{StaticResource pageName}">Albums</TextBlock>
                                     <DataGrid x:Name="dgAlbums" MouseDoubleClick="dgAlbums_MouseDoubleClick" ItemsSource="{Binding}"/>
+                                    <StackPanel x:Name="spEditAlbumButton">
+                                        <Button x:Name="btnEditAlbum" Width="100" Click="btnEditAlbum_Click" Content="Edit"/>
+                                    </StackPanel>
                                 </StackPanel>
                                 <StackPanel x:Name="spAlbumPage" Visibility="Collapsed">
                                     <TextBlock Style="{StaticResource pageName}" x:Name="tbAlbumPage"></TextBlock>
                                     <DataGrid x:Name="dgAlbumPage" SelectionChanged="dgAlbumPage_SelectionChanged" ItemsSource="{Binding}"/>
                                     <Button x:Name="btnBackToAlbums" Click="btnBackToAlbums_Click" Content="Back"/>
-                                    <MediaElement Source="http://www.youtube.com/v/zcl448psbxE" Name="mePlayer" Stretch="None" />
+                                </StackPanel>
+                                <StackPanel x:Name="spAlbumEdit" Visibility="Collapsed">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource pageName}">Edit artist</TextBlock>
+                                        <DataGrid x:Name="dgAlbumEdit" CanUserAddRows="True" SelectionChanged="dgAlbumEdit_SelectionChanged" ItemsSource="{Binding}"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock>Name</TextBlock>
+                                        <TextBox x:Name="txtAlbumName" Text="{Binding SelectedItem.Album, ElementName=dgAlbumEdit}"></TextBox>
+                                        <TextBlock>Year</TextBlock>
+                                        <TextBox x:Name="txtAlbumArtist" Text="{Binding SelectedItem.Artist, ElementName=dgAlbumEdit}"></TextBox>
+                                        <TextBlock>Country</TextBlock>
+                                        <TextBox x:Name="txtAlbumYear" Text="{Binding SelectedItem.Year, ElementName=dgAlbumEdit}"></TextBox>
+                                        <TextBlock>Record company</TextBlock>
+                                        <TextBox x:Name="txtAlbumCompany" Text="{Binding SelectedItem.Company, ElementName=dgAlbumEdit}"></TextBox>
+                                        <Button x:Name="btnAddAlbum" Click="btnAddAlbum_Click">Add artist</Button>
+                                        <Button x:Name="btnDeleteAlbum" Click="btnDeleteAlbum_Click">Delete selected artist</Button>
+                                        <Button x:Name="btnUpdateAlbum" Click="btnUpdateAlbum_Click">Save changes</Button>
+                                        <Button x:Name="btnBackFromAlbumEdit" Click="btnBackFromAlbumEdit_Click">Back</Button>
+                                    </StackPanel>
+                                    
                                 </StackPanel>
                             </StackPanel>
-                            <StackPanel x:Name="spEditAlbumButton">
-                                <Button x:Name="btnEditAlbum" Click="btnEditAlbum_Click" Content="Edit"/>
-                            </StackPanel>
-                            <StackPanel x:Name="spAlbumEdit" Orientation="Horizontal" Visibility="Collapsed">
+                            <StackPanel>
+                                
                                 <StackPanel>
-                                    <TextBlock Style="{StaticResource pageName}">Edit artist</TextBlock>
-                                    <DataGrid x:Name="dgAlbumEdit" CanUserAddRows="True" SelectionChanged="dgAlbumEdit_SelectionChanged" ItemsSource="{Binding}"/>
-                                </StackPanel>
-                                <StackPanel>
-                                    <TextBlock>Name</TextBlock>
-                                    <TextBox x:Name="txtAlbumName" Text="{Binding SelectedItem.Album, ElementName=dgAlbumEdit}"></TextBox>
-                                    <TextBlock>Year</TextBlock>
-                                    <TextBox x:Name="txtAlbumArtist" Text="{Binding SelectedItem.Artist, ElementName=dgAlbumEdit}"></TextBox>
-                                    <TextBlock>Country</TextBlock>
-                                    <TextBox x:Name="txtAlbumYear" Text="{Binding SelectedItem.Year, ElementName=dgAlbumEdit}"></TextBox>
-                                    <TextBlock>Record company</TextBlock>
-                                    <TextBox x:Name="txtAlbumCompany" Text="{Binding SelectedItem.Company, ElementName=dgAlbumEdit}"></TextBox>
-                                    <Button x:Name="btnAddAlbum" Click="btnAddAlbum_Click">Add artist</Button>
-                                    <Button x:Name="btnDeleteAlbum" Click="btnDeleteAlbum_Click">Delete selected artist</Button>
-                                    <Button x:Name="btnUpdateAlbum" Click="btnUpdateAlbum_Click">Save changes</Button>
-                                    <Button x:Name="btnBackFromAlbumEdit" Click="btnBackFromAlbumEdit_Click">Back</Button>
+                                    <WebBrowser x:Name="wbMain" Width="740" Height="440" Margin="30"></WebBrowser>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>

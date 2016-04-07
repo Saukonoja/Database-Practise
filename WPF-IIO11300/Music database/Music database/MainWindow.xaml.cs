@@ -26,6 +26,7 @@ namespace MusicDatabase {
         public MainWindow() {
             InitializeComponent();
             IniMyStuff();
+            wbMain.Navigate(new Uri("http://student.labranet.jamk.fi/~H3298/iim50300/videoplayer.php?param=DWRXTw9AJAA", UriKind.RelativeOrAbsolute));
         }
 
         public void IniMyStuff() {
@@ -274,7 +275,7 @@ namespace MusicDatabase {
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e) {
-            user = "guest";
+            (Application.Current as App).User = "guest";
             this.handler.MoveToLogin();
             this.Close();
         }

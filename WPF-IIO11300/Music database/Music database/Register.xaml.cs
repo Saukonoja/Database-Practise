@@ -73,7 +73,7 @@ namespace MusicDatabase {
 
         private void txtReEnterPassword_KeyDown(object sender, KeyEventArgs e) {
             if ((e.Key == Key.Return)) {
-                btnRegister_Click(null, null);
+                btnRegister_Click(null, null);         
             }
         }
 
@@ -86,6 +86,10 @@ namespace MusicDatabase {
             } else {
                 btnRegister.Background = Brushes.Gray;
             }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e) {
+            Application.Current.Shutdown();
         }
     }
 }

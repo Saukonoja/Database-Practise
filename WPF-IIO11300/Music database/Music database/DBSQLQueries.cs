@@ -76,16 +76,56 @@ namespace MusicDatabase {
             return addArtist;
         }
         public static string DeleteArtist() {
+
             string deleteArtist = "DELETE FROM esittaja WHERE avain = @KEY"; 
+
+            string deleteArtist = "DELETE FROM esittaja WHERE nimi = @NAME";
+
             return deleteArtist;
         }
         public static string UpdateArtist() {
             string updateArtist = "UPDATE esittaja " +
-                                  "SET nimi = @NAME, " + 
+                                  "SET nimi = @NAME, " +
                                   "maa_avain = (SELECT avain from maa where nimi = @COUNTRY), " +
                                   "vuosi_avain = (SELECT avain from vuosi where vuosi = @YEAR) " +
                                   "WHERE avain = @KEY ";
             return updateArtist;
         }
+
+        public static string GetSelectedArtistKey() {
+            string selectedKey = "SELECT avain " +
+                                 "FROM esittaja " +
+                                 "WHERE nimi = @NAME";
+            return selectedKey;
+
+        }
+
+        public static string GetArtistAlbums() {
+            string artistAlbums = "select " +
+                                       "cd.nimi as Album, " +
+                                       "vuosi.vuosi as Year, " +
+                                       "yhtio.nimi as Company " +
+                                  "from cd " +
+                                  "left join cd_esittaja on cd_esittaja.cd_avain = cd.avain " +
+                                  "left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain " +
+                                  "left join vuosi on cd.vuosi_avain = vuosi.avain " +
+                                  "left join yhtio on cd.yhtio_avain = yhtio.avain " +
+                                  "where cd_esittaja.esittaja_avain = (select avain from esittaja where nimi = @NAME);";
+            return artistAlbums;
+        }
+
+        public static string GetAlbumTracks() {
+            string albumTracks = "select " +
+                                        "kappale.numero as '#', " +
+                                        "kappale.nimi as Track, " +
+                                        "kappale.kesto as Length " +
+                                 "from cd " +
+                                 "left join cd_kappale on cd_kappale.cd_avain = cd.avain " +
+                                 "left join kappale on cd_kappale.kappale_avain = kappale.avain " +
+                                 "where cd_kappale.cd_avain = (select avain from cd where nimi = @NAME) " +
+                                 "group by kappale.numero;";
+            return albumTracks;
+        }
+
     }// end off class
 }

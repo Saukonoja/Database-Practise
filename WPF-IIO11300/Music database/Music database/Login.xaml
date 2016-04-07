@@ -29,6 +29,7 @@
             <StackPanel Orientation="Vertical">
                 <Button x:Name="btnLogin" Margin="0,30,0,0" Width="70" Background="Gray" BorderBrush="Gray" Cursor="Hand" Click="btnLogin_Click" Content="Login"></Button>
                 <Button x:Name="btnBackToMain" Margin="0,10,0,0" Width="150" Background="#DD514C" BorderBrush="#DD514C" Cursor="Hand" Click="btnBackToMain_Click" Content="Back to Music Database"/>
+                <Button x:Name="btnClose" Margin="0,10,0,0" Width="70" Background="#DD514C" BorderBrush="#DD514C" Cursor="Hand" Click="btnClose_Click" Content="Close"/>
             </StackPanel>
         </StackPanel>
     </Grid>

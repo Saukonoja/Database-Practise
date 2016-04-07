@@ -40,6 +40,15 @@ namespace MusicDatabase {
 
                     BLLogin login = new BLLogin(username, password);
                     if (login.LoginUser(out message)) {
+                        if (login.CheckIfAdmin()) {
+                            (Application.Current as App).User = "admin";
+                        }
+                        else if (!login.CheckIfAdmin()) {
+                            (Application.Current as App).User = "user";
+                        } else {
+                            (Application.Current as App).User = "guest";
+                        }
+
                         handler.MoveToMain();
                         this.Close();
                     } else {
@@ -79,6 +88,10 @@ namespace MusicDatabase {
             } else {
                 btnLogin.Background = Brushes.Gray;
             }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e) {
+            Application.Current.Shutdown();
         }
     }
 }

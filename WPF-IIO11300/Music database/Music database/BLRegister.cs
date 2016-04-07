@@ -51,5 +51,8 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+        public static class User {
+            public static string user = "guest";
+        }
     }
 }

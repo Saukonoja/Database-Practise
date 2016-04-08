@@ -172,6 +172,24 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+
+        public static string GetImageUrl(string album) {
+            try {
+                string imageUrl = DBMusicDatabase.GetImageUrl(DBSQLQueries.GetImageUrl(), album);
+                return imageUrl;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static List<string> GetAlbumInfo(string album) {
+            try {
+                List<string> array = DBMusicDatabase.GetAlbumInfo(DBSQLQueries.GetAlbumInfo(), album);
+                return array;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
         #endregion
     }
     public class Track {

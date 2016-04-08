@@ -19,6 +19,7 @@ namespace MusicDatabase {
     public partial class BLRegister : Window {
         WindowHandler handler = new WindowHandler();
         Validator validator;
+        bool shutdown = true;
         public BLRegister() {
             InitializeComponent();
             txtUsername.Focus();
@@ -26,6 +27,7 @@ namespace MusicDatabase {
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e) {
+
             string username = txtUsername.Text;
             string password = txtPassword.Password;
             string repassword = txtReEnterPassword.Password;
@@ -37,6 +39,7 @@ namespace MusicDatabase {
 
                     BLRegister register = new BLRegister(username, password);
                     if (register.RegisterUser(out message)) {
+                        shutdown = false;
                         handler.MoveToLogin();
                         this.Close();
                         MessageBox.Show("Registration was successful!", "Registration Music Database");
@@ -62,18 +65,20 @@ namespace MusicDatabase {
             }
         }
         private void btnBackToLogin_Click_1(object sender, RoutedEventArgs e) {
+            shutdown = false;
             handler.MoveToLogin();
             this.Close();
         }
 
         private void btnBackToMain_Click(object sender, RoutedEventArgs e) {
+            shutdown = false;
             handler.MoveToMain();
             this.Close();
         }
 
         private void txtReEnterPassword_KeyDown(object sender, KeyEventArgs e) {
             if ((e.Key == Key.Return)) {
-                btnRegister_Click(null, null);         
+                btnRegister_Click(null, null);
             }
         }
 
@@ -88,8 +93,10 @@ namespace MusicDatabase {
             }
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            if (shutdown == true) {
+                Application.Current.Shutdown();
+            }
         }
     }
 }

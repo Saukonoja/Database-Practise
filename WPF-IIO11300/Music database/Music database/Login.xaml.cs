@@ -19,12 +19,14 @@ namespace MusicDatabase {
     public partial class BLLogin : Window {
         WindowHandler handler = new WindowHandler();
         Validator validator;
+        bool shutdown = true;
         public BLLogin() {
             InitializeComponent();
             txtUsername.Focus();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
         private void Hyperlink_Click(object sender, RoutedEventArgs e) {
+            shutdown = false;
             handler.MoveToRegister();
             this.Close();
         }
@@ -40,11 +42,11 @@ namespace MusicDatabase {
 
                     BLLogin login = new BLLogin(username, password);
                     if (login.LoginUser(out message)) {
+                        shutdown = false;
                         (Application.Current as App).Username = username;
                         if (login.CheckIfAdmin()) {
                             (Application.Current as App).Usertype = "admin";
-                        }
-                        else if (!login.CheckIfAdmin()) {
+                        } else if (!login.CheckIfAdmin()) {
                             (Application.Current as App).Usertype = "user";
                         } else {
                             (Application.Current as App).Usertype = "guest";
@@ -71,6 +73,7 @@ namespace MusicDatabase {
         }
 
         private void btnBackToMain_Click(object sender, RoutedEventArgs e) {
+            shutdown = false;
             handler.MoveToMain();
             this.Close();
         }
@@ -91,8 +94,10 @@ namespace MusicDatabase {
             }
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            if (shutdown == true) {
+                Application.Current.Shutdown();
+            }
         }
     }
 }

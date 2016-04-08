@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.ComponentModel;
 
 namespace MusicDatabase {
     /// <summary>
@@ -23,18 +24,23 @@ namespace MusicDatabase {
         private string userType = (Application.Current as App).Usertype;
         private string userName = (Application.Current as App).Username;
         private static string videoString = "http://student.labranet.jamk.fi/~H3298/iim50300/videoplayer.php?param=";
+        private static string imageFolderUri = "http://student.labranet.jamk.fi/~H3298/iim50300/images/";
+        private int columnIndex;
+        private string cellValue;
+        private string linkValue;
         WindowHandler handler = new WindowHandler();
+        bool shutdown = true;
 
         public MainWindow() {
             InitializeComponent();
             IniMyStuff();
-
         }
+
+        #region INIT
 
         public void IniMyStuff() {
             try {
-
-                dgArtist.DataContext = Artist.GetArtists();
+                dgArtist.DataContext = Artist.GetArtists().DefaultView;
                 dgArtistEdit.DataContext = Artist.GetArtists();
                 dgAlbums.DataContext = Album.GetAlbums();
                 dgAlbumEdit.DataContext = Album.GetAlbums();
@@ -50,13 +56,23 @@ namespace MusicDatabase {
                     btnSignUp.Visibility = Visibility.Collapsed;
                     btnLogout.Visibility = Visibility.Visible;
                 }
-
-                tabUserSettings.Visibility = Visibility.Visible;
-
+                if (userType != "guest") {
+                    tabUserSettings.Visibility = Visibility.Visible;
+                    usernameLink.IsEnabled = true;
+                }
+                if (userType == "admin") {
+                    spUsersEdit.Visibility = Visibility.Visible;
+                }
+                var mainImageUri = new Uri(imageFolderUri + "emptycd.png");
+                var bitmap = new BitmapImage(mainImageUri);
+                mainImage.Source = bitmap;
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
+
+        #endregion
+        #region MAIN BUTTONS AND METHODS
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
 
         }
@@ -64,29 +80,127 @@ namespace MusicDatabase {
             IniMyStuff();
         }
 
+        private void homeLink_Click(object sender, RoutedEventArgs e) {
+            tabHome.IsSelected = true;
+        }
+
+        private void usernameLink_Click(object sender, RoutedEventArgs e) {
+            if (userType != "guest") {
+                tabUserSettings.IsSelected = true;
+            }
+        }
+
         private void btnSignUp_Click(object sender, RoutedEventArgs e) {
+            shutdown = false;
+            youtubeVideo.Navigate(new Uri("http://google.fi", UriKind.RelativeOrAbsolute));
             handler.MoveToRegister();
             this.Close();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e) {
+            shutdown = false;
+            youtubeVideo.Navigate(new Uri("http://google.fi", UriKind.RelativeOrAbsolute));
             handler.MoveToLogin();
             this.Close();
         }
 
-        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
+        private void btnLogout_Click(object sender, RoutedEventArgs e) {
+            shutdown = false;
+            youtubeVideo.Navigate(new Uri("http://google.fi", UriKind.RelativeOrAbsolute));
+            (Application.Current as App).Usertype = "guest";
+            (Application.Current as App).Username = "guest";
+            this.handler.MoveToLogin();
+            this.Close();
         }
 
         private void btnContact_Click(object sender, RoutedEventArgs e) {
             tabAbout.IsSelected = true;
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            if (shutdown == true) {
+                Application.Current.Shutdown();
+            }
+        }
 
+        private void MouseDoubleClicked(DataGrid dg, out string cellValue, out int columnIndex) {
+            DataRowView dataRow = (DataRowView)dg.SelectedItem;
+            int index = dg.CurrentCell.Column.DisplayIndex;
+            cellValue = dataRow.Row.ItemArray[index].ToString();
+            columnIndex = dg.CurrentColumn.DisplayIndex;
+        }
 
-        //ARTIST
+        private void ChangePage(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
+            sp1.Visibility = Visibility.Collapsed;
+            sp2.Visibility = Visibility.Visible;
+            sp3.Visibility = Visibility.Collapsed;
+        }
 
+        private void ChangeArtistPage(string current) {
+            ChangePage(spArtists, spArtistPage, spEditArtistButton);
+            dgArtistPage.DataContext = Artist.GetArtistAlbums(current);
+            tbArtistPage.Text = current;
+        }
 
+        private void ChangeAlbumPage(string current) {
+            ChangePage(spAlbums, spAlbumPage, spEditAlbumButton);
+            dgAlbumPage.DataContext = Album.GetAlbumTracks(current);
+            tbAlbumPage.Text = current;
+            tabAlbums.IsSelected = true;
+            var albumImageUri = new Uri(Album.GetImageUrl(current));
+            var bitmap = new BitmapImage(albumImageUri);
+            albumImage.Source = bitmap;
+            List<string> array = Album.GetAlbumInfo(current);
+            int totalSeconds = int.Parse(array[3]);
+            int seconds = totalSeconds % 60;
+            int minutes = totalSeconds / 60;
+            string length = minutes + ":" + seconds;
+            Hyperlink link = new Hyperlink();
+            link.Inlines.Add(array[0]);
+            SolidColorBrush color = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            link.Foreground = color;
+            var run = link.Inlines.FirstOrDefault() as Run;
+            linkValue = run == null ? string.Empty : run.Text;
+            tbAlbumInfo.Inlines.Clear();
+            tbAlbumInfo.Inlines.Add("from artist ");
+            tbAlbumInfo.Inlines.Add(link);
+            tbAlbumInfo.Inlines.Add(" \u2022 " + array[1] + " \u2022 \n" + array[2] + " tracks, " + length);
+            link.Click += artistName_Click;    
+        }
+
+        private void artistName_Click(object sender, RoutedEventArgs e) {
+            tabArtists.IsSelected = true;     
+            ChangeArtistPage(linkValue);
+        }
+
+        private void BackTo(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
+            sp1.Visibility = Visibility.Visible;
+            sp2.Visibility = Visibility.Collapsed;
+            sp3.Visibility = Visibility.Visible;
+        }
+
+        private void Edit(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
+            sp1.Visibility = Visibility.Collapsed;
+            sp2.Visibility = Visibility.Visible;
+            sp3.Visibility = Visibility.Collapsed;
+        }
+
+        private void BackFromEdit(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
+            sp1.Visibility = Visibility.Visible;
+            sp2.Visibility = Visibility.Collapsed;
+            sp3.Visibility = Visibility.Visible;
+        }
+
+        private void PlayTrack(string track) {
+            spYoutubePlayer.Visibility = Visibility.Visible;
+            youtubeVideo.Navigate(new Uri(videoString + Track.GetTrackTubepath(track), UriKind.RelativeOrAbsolute));
+            tbTrackName.Text = track;
+            var mainImageUri = new Uri(Album.GetImageUrl(tbAlbumPage.Text));
+            var bitmap = new BitmapImage(mainImageUri);
+            mainImage.Source = bitmap;
+        }
+        #endregion
+        #region ARTIST
 
         private void btnAddArtist_Click(object sender, RoutedEventArgs e) {
             try {
@@ -166,13 +280,9 @@ namespace MusicDatabase {
 
         private void dgArtist_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
-                DataRowView dataRow = (DataRowView)dgArtist.SelectedItem;
-                int index = dgArtist.CurrentCell.Column.DisplayIndex;
-                string cellValue = dataRow.Row.ItemArray[index].ToString();
-                int columnIndex = dgArtist.CurrentColumn.DisplayIndex;
+                MouseDoubleClicked(dgArtist, out cellValue, out columnIndex);
                 if (columnIndex == 1) {
                     ChangeArtistPage(cellValue);
-                    tabAlbums.IsSelected = true;
                 }
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
@@ -181,10 +291,8 @@ namespace MusicDatabase {
 
         private void dgArtistPage_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
-                DataRowView dataRow = (DataRowView)dgArtistPage.SelectedItem;
-                int index = dgArtistPage.CurrentCell.Column.DisplayIndex;
-                string cellValue = dataRow.Row.ItemArray[index].ToString();
-                int columnIndex = dgArtistPage.CurrentColumn.DisplayIndex;
+                e.Handled = true;
+                MouseDoubleClicked(dgArtistPage, out cellValue, out columnIndex);
                 if (columnIndex == 0) {
                     ChangeAlbumPage(cellValue);
                 }
@@ -193,41 +301,19 @@ namespace MusicDatabase {
             }
         }
 
-
-        private void ChangeArtistPage(string artist) {
-            spArtists.Visibility = Visibility.Collapsed;
-            spArtistPage.Visibility = Visibility.Visible;
-            spEditArtistButton.Visibility = Visibility.Collapsed;
-            dgArtistPage.DataContext = Artist.GetArtistAlbums(artist);
-            tbArtistPage.Text = artist;
-        }
-
         private void btnBackToArtists_Click(object sender, RoutedEventArgs e) {
-            spArtists.Visibility = Visibility.Visible;
-            spArtistPage.Visibility = Visibility.Collapsed;
-            spEditArtistButton.Visibility = Visibility.Visible;
+            BackTo(spArtists, spArtistPage, spEditArtistButton);
         }
 
         private void btnEditArtist_Click(object sender, RoutedEventArgs e) {
-            spArtists.Visibility = Visibility.Collapsed;
-            spArtistEdit.Visibility = Visibility.Visible;
-            spEditArtistButton.Visibility = Visibility.Collapsed;
+            Edit(spArtists, spArtistEdit, spEditArtistButton);
         }
 
         private void btnBackFromArtistEdit_Click(object sender, RoutedEventArgs e) {
-            spArtists.Visibility = Visibility.Visible;
-            spArtistEdit.Visibility = Visibility.Collapsed;
-            spEditArtistButton.Visibility = Visibility.Visible;
+            BackFromEdit(spArtists, spArtistEdit, spEditArtistButton);
         }
-
-
-
-
-        //ALBUM
-
-
-
-
+        #endregion
+        #region ALBUM
 
         private void btnAddAlbum_Click(object sender, RoutedEventArgs e) {
 
@@ -243,10 +329,7 @@ namespace MusicDatabase {
 
         private void dgAlbums_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
-                DataRowView dataRow = (DataRowView)dgAlbums.SelectedItem;
-                int index = dgAlbums.CurrentCell.Column.DisplayIndex;
-                string cellValue = dataRow.Row.ItemArray[index].ToString();
-                int columnIndex = dgAlbums.CurrentColumn.DisplayIndex;
+                MouseDoubleClicked(dgAlbums, out cellValue, out columnIndex);
                 if (columnIndex == 0) {
                     ChangeAlbumPage(cellValue);
                 }
@@ -257,76 +340,31 @@ namespace MusicDatabase {
 
         private void dgAlbumPage_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
-                DataRowView dataRow = (DataRowView)dgAlbumPage.SelectedItem;
-                int index = dgAlbumPage.CurrentCell.Column.DisplayIndex;
-                string cellValue = dataRow.Row.ItemArray[index].ToString();
-                int columnIndex = dgAlbumPage.CurrentColumn.DisplayIndex;
+                MouseDoubleClicked(dgAlbumPage, out cellValue, out columnIndex);
                 if (columnIndex == 1) {
                     PlayTrack(cellValue);
-                    tbTrackName.Text = cellValue;
                 }
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
 
-        private void dgAlbumEdit_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
-        }
-
-        private void PlayTrack(string track) {
-            spYoutubePlayer.Visibility = Visibility.Visible;
-            youtubeVideo.Navigate(new Uri(videoString + Track.GetTrackTubepath(track), UriKind.RelativeOrAbsolute));
-        }
-
-        private void ChangeAlbumPage(string album) {
-            spAlbums.Visibility = Visibility.Collapsed;
-            spAlbumPage.Visibility = Visibility.Visible;
-            spEditAlbumButton.Visibility = Visibility.Collapsed;
-            dgAlbumPage.DataContext = Album.GetAlbumTracks(album);
-            tbAlbumPage.Text = album;
-        }
-
         private void btnBackToAlbums_Click(object sender, RoutedEventArgs e) {
-            spAlbums.Visibility = Visibility.Visible;
-            spAlbumPage.Visibility = Visibility.Collapsed;
-            spEditAlbumButton.Visibility = Visibility.Visible;
+            BackTo(spAlbums, spAlbumPage, spEditAlbumButton);
         }
 
         private void btnEditAlbum_Click(object sender, RoutedEventArgs e) {
-            spAlbums.Visibility = Visibility.Collapsed;
-            spAlbumEdit.Visibility = Visibility.Visible;
-            spEditAlbumButton.Visibility = Visibility.Collapsed;
+            Edit(spAlbums, spAlbumEdit, spEditAlbumButton);
         }
 
         private void btnBackFromAlbumEdit_Click(object sender, RoutedEventArgs e) {
-            spAlbums.Visibility = Visibility.Visible;
-            spAlbumEdit.Visibility = Visibility.Collapsed;
-            spEditAlbumButton.Visibility = Visibility.Visible;
+            BackFromEdit(spAlbums, spAlbumEdit, spEditAlbumButton);
         }
-
-        private void btnLogout_Click(object sender, RoutedEventArgs e) {
-            (Application.Current as App).Usertype = "guest";
-            (Application.Current as App).Username = "guest";
-            this.handler.MoveToLogin();
-            this.Close();
-        }
-
-        private void dgArtistEdit_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
-        }
-
-        private void Hyperlink_Click(object sender, RoutedEventArgs e) {
-            tabHome.IsSelected = true;
-        }
-
-        private void dgUserEdit_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
-        }
+        #endregion
+        #region USER
 
         private void btnDeleteUser_Click(object sender, RoutedEventArgs e) {
             try {
-
                 DataRowView rowView = dgUsersEdit.SelectedItem as DataRowView;
                 int key = (int)rowView[0];
                 string name = rowView.Row[1] as string;
@@ -380,11 +418,6 @@ namespace MusicDatabase {
             }
         }
 
-        private void Hyperlink_Click_1(object sender, RoutedEventArgs e) {
-            tabUserSettings.IsSelected = true;
-
-        }
-
         private void btnUpdatePassword_Click(object sender, RoutedEventArgs e) {
             try {
                 string newPassword = txtPassword.Text;
@@ -407,6 +440,11 @@ namespace MusicDatabase {
 
                 MessageBox.Show(ex.Message);
             }
+        }
+        #endregion
+
+        private void mainImage_MouseDown(object sender, MouseButtonEventArgs e) {
+            tabAlbums.IsSelected = true;
         }
     }
 }

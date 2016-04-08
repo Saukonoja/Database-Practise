@@ -38,7 +38,7 @@ namespace MusicDatabase {
                                         "kappale.nimi as Track, " +
                                         "esittaja.nimi as Artist, " +
                                         "cd.nimi as Album, " +
-                                        "vuosi.vuosi as Country " +
+                                        "vuosi.vuosi as Year " +
                                "FROM cd " +
                                "left join cd_kappale on cd_kappale.cd_avain = cd.avain " +
                                "left join kappale on cd_kappale.kappale_avain = kappale.avain " +
@@ -124,9 +124,29 @@ namespace MusicDatabase {
             return albumTracks;
         }
 
+        public static string GetAlbumInfo() {
+            string albumInfo = "select " +
+                                        "esittaja.nimi as Artist, " +
+                                        "vuosi.vuosi as Julkaisuvuosi, " +
+                                        "count(kappale.nimi), " +   
+                                        "sum(kappale.kesto) " +
+                                "from cd " +
+                                "left join cd_kappale on cd_kappale.cd_avain = cd.avain " +
+                                "left join kappale on cd_kappale.kappale_avain = kappale.avain " +
+                                "left join esittaja on kappale.esittaja_avain = esittaja.avain " +
+                                "left join vuosi on kappale.vuosi_avain = vuosi.avain " +
+                                "where cd_kappale.cd_avain = (select avain from cd where nimi = @album);";
+            return albumInfo;
+        }
+
         public static string GetTrackTubepath() {
             string tubepath = "select tubepath from kappale where nimi = @track";
             return tubepath;
+        }
+
+        public static string GetImageUrl() {
+            string imageUrl = "select kuvapath from cd where nimi = @album";
+            return imageUrl;
         }
 
         public static string GetUsers() {

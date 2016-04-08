@@ -18,6 +18,7 @@ namespace MusicDatabase {
                 conn.Open();
                 string sql = sqlString;
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
+
                 MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
                 DataSet ds = new DataSet();
                 msda.Fill(ds, tableName);
@@ -179,6 +180,52 @@ namespace MusicDatabase {
                 }
                 conn.Close();
                 return tubepath; 
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static List<string> GetAlbumInfo(string sqlString, string album) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                List<string> array = new List<string>();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@album", album);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                if (rdr.HasRows) {
+                    while (rdr.Read()) {
+                        for (int i = 0; i < 4; i++) {
+                            array.Add(rdr.GetString(i));
+                        }                    
+                    }
+                }
+                conn.Close();
+                return array;
+            } catch (Exception ex) {
+                
+                MessageBox.Show(ex.Message);
+                throw ex;
+            }
+        }
+
+        public static string GetImageUrl(string sqlString, string album) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                string imageUrl = "";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@album", album);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                if (rdr.HasRows) {
+                    while (rdr.Read()) {
+                        imageUrl = rdr.GetString(0);
+                    }
+                }
+                conn.Close();
+                return imageUrl;
             } catch (Exception ex) {
                 throw ex;
             }

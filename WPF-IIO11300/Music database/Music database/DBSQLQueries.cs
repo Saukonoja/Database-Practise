@@ -9,10 +9,10 @@ namespace MusicDatabase {
 
         public static string GetArtists() {
             string getArtists = "SELECT " +
-                                            "esittaja.avain as ID, " +
                                             "esittaja.nimi as Artist, " +
                                             "vuosi.vuosi as Year, " +
-                                            "maa.nimi as Country " +
+                                            "maa.nimi as Country, " +
+                                            "esittaja.avain as ID " +
                                 "FROM esittaja " +
                                 "left join vuosi on esittaja.vuosi_avain = vuosi.avain " +
                                 "left join maa on esittaja.maa_avain = maa.avain; ";
@@ -20,12 +20,13 @@ namespace MusicDatabase {
         }
 
         public static string GetAlbums() {
-            string getAlbums = "SELECT " +
-                                        "cd.avain as ID, " +
+            string getAlbums = "SELECT " +                                    
                                         "cd.nimi as Album, " +
                                         "esittaja.nimi as Artist, " +
                                         "vuosi.vuosi as Year, " +
-                                        "yhtio.nimi as Company " +
+                                        "yhtio.nimi as Company, " +
+                                        "cd.kuvapath as Imagelink, " +
+                                        "cd.avain as ID " +
                                 "FROM cd " +
                                 "left join cd_esittaja on cd_esittaja.cd_avain = cd.avain " +
                                 "left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain " +
@@ -35,12 +36,15 @@ namespace MusicDatabase {
         }
 
         public static string GetTracks() {
-            string getTracks = "SELECT " +
-                                        "kappale.avain as ID, " +
+            string getTracks = "SELECT " +                                     
                                         "kappale.nimi as Track, " +
                                         "esittaja.nimi as Artist, " +
                                         "cd.nimi as Album, " +
-                                        "vuosi.vuosi as Year " +
+                                        "vuosi.vuosi as Year, " +                                      
+                                        "kappale.tubepath as TubeLink, " +
+                                        "kappale.numero as '#', " +
+                                        "kappale.kesto as Length, " +
+                                        "kappale.avain as ID " +
                                "FROM cd " +
                                "left join cd_kappale on cd_kappale.cd_avain = cd.avain " +
                                "left join kappale on cd_kappale.kappale_avain = kappale.avain " +
@@ -101,7 +105,7 @@ namespace MusicDatabase {
             string addAlbum = "INSERT INTO cd (nimi, yhtio_avain, vuosi_avain, kuvapath) " +
                                  "VALUES (@NAME, " +
                                  "(SELECT avain FROM yhtio WHERE nimi = @COMPANY), " +
-                                 "(SELECT avain FROM vuosi WHERE vuosi = @YEAR),''); " +
+                                 "(SELECT avain FROM vuosi WHERE vuosi = @YEAR), @IMAGELINK); " +
                                  "INSERT INTO cd_esittaja (cd_avain, esittaja_avain) " +
                                  "VALUES (" +
                                  "(SELECT avain FROM cd WHERE nimi = @NAME), " +
@@ -112,7 +116,8 @@ namespace MusicDatabase {
             string updateAlbum = "UPDATE cd " +
                                  "SET nimi = @NAME, " +
                                  "yhtio_avain = (SELECT avain FROM yhtio WHERE nimi = @COMPANY), " +
-                                 "vuosi_avain = (SELECT avain FROM vuosi WHERE vuosi = @YEAR) " +
+                                 "vuosi_avain = (SELECT avain FROM vuosi WHERE vuosi = @YEAR), " +
+                                 "kuvapath = @IMAGELINK " +
                                  "WHERE avain = @KEY;" +
                                  "UPDATE cd_esittaja " +
                                  "SET esittaja_avain = (SELECT avain FROM esittaja WHERE nimi = @ARTIST)" +
@@ -149,9 +154,9 @@ namespace MusicDatabase {
         }
         public static string AddTrack() {
             string addTrack = "INSERT INTO kappale (nimi, kesto, esittaja_avain, vuosi_avain, tubepath, numero) " +
-                                 "VALUES (@NAME, '1', " +
+                                 "VALUES (@NAME, @LENGTH, " +
                                  "(SELECT avain FROM esittaja WHERE nimi = @ARTIST), " +
-                                 "(SELECT avain FROM vuosi WHERE vuosi = @YEAR), 'asdasd', '1'); " +
+                                 "(SELECT avain FROM vuosi WHERE vuosi = @YEAR), @LINK, @NUMBER); " +
                                  "INSERT INTO cd_kappale (cd_avain, kappale_avain) " +
                                  "VALUES ((SELECT avain FROM cd WHERE nimi = @ALBUM), " +
                                  "(SELECT avain FROM kappale WHERE nimi = @NAME));";
@@ -165,7 +170,10 @@ namespace MusicDatabase {
             string updateAlbum = "UPDATE kappale " +
                                  "SET nimi = @NAME, " +
                                  "esittaja_avain = (SELECT avain FROM esittaja WHERE nimi = @ARTIST), " +
-                                 "vuosi_avain = (SELECT avain FROM vuosi WHERE vuosi = @YEAR) " +
+                                 "vuosi_avain = (SELECT avain FROM vuosi WHERE vuosi = @YEAR), " +
+                                 "tubepath = @TUBELINK, " +
+                                 "numero = @NUMBER, " +
+                                 "kesto = @LENGTH " +
                                  "WHERE avain = @KEY;" +
                                  "UPDATE cd_kappale " +
                                  "SET cd_avain = (SELECT avain FROM cd WHERE nimi = @ALBUM)" +
@@ -225,6 +233,16 @@ namespace MusicDatabase {
             return albumInfo;
         }
 
+        public static string GetAlbumName() {
+            string albumName = "select " +
+                                        "cd.nimi " +
+                                "from kappale " +
+                                "left join cd_kappale on cd_kappale.kappale_avain = kappale.avain " +
+                                "left join cd on cd_kappale.cd_avain = cd.avain " +
+                                "where cd_kappale.kappale_avain = (select avain from kappale where nimi = @track);";
+            return albumName;
+        }
+
         public static string GetTrackTubepath() {
             string tubepath = "select tubepath from kappale where nimi = @track";
             return tubepath;
@@ -236,7 +254,7 @@ namespace MusicDatabase {
         }
 
         public static string GetUsers() {
-            string users = "select avain as ID, tunnus as Username, tyyppi as Admin from user;";
+            string users = "select tunnus as Username, tyyppi as Admin, avain as ID from user;";
             return users;
         }
 
@@ -256,6 +274,38 @@ namespace MusicDatabase {
         public static string UpdatePassword() {
             string updatePassword = "update user set salasana = @PASSWORD where tunnus = @USERNAME";
             return updatePassword;
+        }
+
+        public static string GetGenreTracks() {
+            string genreTracks = "select " +
+                                    "kappale.nimi as Track, " +
+	                                "esittaja.nimi as Artist, " +
+	                                "cd.nimi as Album, " +
+	                                "vuosi.vuosi as Year " +
+                                "from cd " +
+                                "left join cd_kappale on cd_kappale.cd_avain = cd.avain " +
+                                "left join kappale on cd_kappale.kappale_avain = kappale.avain " +
+                                "left join esittaja on kappale.esittaja_avain = esittaja.avain " +
+                                "left join vuosi on kappale.vuosi_avain = vuosi.avain " +
+                                "left join kappale_genre on kappale_genre.kappale_avain = kappale.avain " +
+                                "left join genre on kappale_genre.genre_avain = genre.avain " +
+                                "where genre.nimi = @NAME " +
+                                "order by kappale.nimi;";
+            return genreTracks;
+        }
+
+        public static string GetCompanyAlbums() {
+            string companyAlbums = "select " + 
+                                        "cd.nimi as Album, " +
+	                                    "esittaja.nimi as Artist, " +
+	                                    "vuosi.vuosi as Year " +
+                                    "from cd " +
+                                    "left join cd_esittaja on cd_esittaja.cd_avain = cd.avain " +
+                                    "left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain " +
+                                    "left join vuosi on cd.vuosi_avain = vuosi.avain " +
+                                    "left join yhtio on cd.yhtio_avain = yhtio.avain " +
+                                    "where cd.yhtio_avain = (select avain from yhtio where nimi = @name); ";
+            return companyAlbums;
         }
 
     }// end off class

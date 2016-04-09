@@ -24,8 +24,7 @@ namespace MusicDatabase {
                 msda.Fill(ds, tableName);
                 conn.Close();
                 return ds.Tables[tableName];
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw ex;
             }
         }
@@ -107,7 +106,7 @@ namespace MusicDatabase {
                 cmd.Parameters.AddWithValue("@COUNTRY", country);
                 cmd.Parameters.AddWithValue("@YEAR", year);
                 cmd.ExecuteNonQuery();
-               
+
             } catch (Exception ex) {
 
                 throw ex;
@@ -130,9 +129,9 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-         
 
-        public static void AddAlbum(string sqlString, string name, string artist, string company, int year) {
+
+        public static void AddAlbum(string sqlString, string name, string artist, string company, int year, string imageLink) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {
                 conn.Open();
@@ -143,16 +142,15 @@ namespace MusicDatabase {
                 cmd.Parameters.AddWithValue("@ARTIST", artist);
                 cmd.Parameters.AddWithValue("@COMPANY", company);
                 cmd.Parameters.AddWithValue("@YEAR", year);
+                cmd.Parameters.AddWithValue("@IMAGELINK", imageLink);
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex) { 
+            } catch (Exception ex) {
                 throw ex;
             }
         }
 
-
         public static int DeleteUser(string sqlString, int key) {
-             MySqlConnection conn = new MySqlConnection(connStr);
+            MySqlConnection conn = new MySqlConnection(connStr);
             try {
                 conn.Open();
                 string sql = sqlString;
@@ -182,8 +180,7 @@ namespace MusicDatabase {
                 cmd.Parameters.AddWithValue("@YEAR", year);
                 cmd.ExecuteNonQuery();
 
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
 
                 throw ex;
             }
@@ -204,7 +201,7 @@ namespace MusicDatabase {
                     }
                 }
                 conn.Close();
-                return tubepath; 
+                return tubepath;
             } catch (Exception ex) {
                 throw ex;
             }
@@ -233,7 +230,8 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
- public static void UpdateEntity(string sqlString, int key, string name, string artist, string album, string company, string country, int year) {
+        public static void UpdateEntity(string sqlString, int key, string name, string artist, string album, string company, 
+            string country, int year, string imageLink, string tubeLink, int number, int length) {
 
             try {
                 MySqlConnection conn = new MySqlConnection(connStr);
@@ -248,10 +246,13 @@ namespace MusicDatabase {
                 cmd.Parameters.AddWithValue("@COMPANY", company);
                 cmd.Parameters.AddWithValue("@COUNTRY", country);
                 cmd.Parameters.AddWithValue("@YEAR", year);
+                cmd.Parameters.AddWithValue("@IMAGELINK", imageLink);
+                cmd.Parameters.AddWithValue("@TUBELINK", tubeLink);
+                cmd.Parameters.AddWithValue("@NUMBER", number);
+                cmd.Parameters.AddWithValue("@LENGTH", length);
                 cmd.ExecuteNonQuery();
 
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw ex;
             }
         }
@@ -277,7 +278,29 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
- public static void AddEntity(string sqlString, int key, string name, string artist, string album, string company, string country, int year) {
+
+        public static string GetAlbumName(string sqlString, string track) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                string albumName = "";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@track", track);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                if (rdr.HasRows) {
+                    while (rdr.Read()) {
+                        albumName = rdr.GetString(0);
+                    }
+                }
+                conn.Close();
+                return albumName;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static void AddEntity(string sqlString, int key, string name, string artist, string album, string company, string country, int year, string link, int number, int length) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {
                 conn.Open();
@@ -291,9 +314,11 @@ namespace MusicDatabase {
                 cmd.Parameters.AddWithValue("@COMPANY", company);
                 cmd.Parameters.AddWithValue("@COUNTRY", country);
                 cmd.Parameters.AddWithValue("@YEAR", year);
+                cmd.Parameters.AddWithValue("@LINK", link);
+                cmd.Parameters.AddWithValue("@NUMBER", number);
+                cmd.Parameters.AddWithValue("@LENGTH", length);
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw ex;
             }
         }
@@ -401,7 +426,7 @@ namespace MusicDatabase {
 
                     conn.Close();
                     return admin;
-                   
+
                 }
             } catch (Exception ex) {
                 throw ex;
@@ -417,7 +442,7 @@ namespace MusicDatabase {
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     MySqlDataReader rdr = cmd.ExecuteReader();
                     if (rdr.HasRows) {
-                        while (rdr.Read()) {                       
+                        while (rdr.Read()) {
                             countries.Add(rdr.GetString(0));
                         }
                     }
@@ -429,6 +454,89 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-       
+
+        public static List<string> GetArtists() {
+            List<string> artists = new List<string>();
+            try {
+                using (MySqlConnection conn = new MySqlConnection(connStr)) {
+                    conn.Open();
+                    string sql = "select nimi from esittaja order by nimi;";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows) {
+                        while (rdr.Read()) {
+                            artists.Add(rdr.GetString(0));
+                        }
+                    }
+                    conn.Close();
+                    return artists;
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static List<string> GetAlbums() {
+            List<string> albums = new List<string>();
+            try {
+                using (MySqlConnection conn = new MySqlConnection(connStr)) {
+                    conn.Open();
+                    string sql = "select nimi from cd order by nimi;";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows) {
+                        while (rdr.Read()) {
+                            albums.Add(rdr.GetString(0));
+                        }
+                    }
+                    conn.Close();
+                    return albums;
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static List<string> GetCompanies() {
+            List<string> companies = new List<string>();
+            try {
+                using (MySqlConnection conn = new MySqlConnection(connStr)) {
+                    conn.Open();
+                    string sql = "select nimi from yhtio order by nimi;";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows) {
+                        while (rdr.Read()) {
+                            companies.Add(rdr.GetString(0));
+                        }
+                    }
+                    conn.Close();
+                    return companies;
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+        public static List<string> GetYears() {
+            List<string> years = new List<string>();
+            try {
+                using (MySqlConnection conn = new MySqlConnection(connStr)) {
+                    conn.Open();
+                    string sql = "select vuosi from vuosi order by vuosi;";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows) {
+                        while (rdr.Read()) {
+                            years.Add(rdr.GetString(0));
+                        }
+                    }
+                    conn.Close();
+                    return years;
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
     } //end of class
 }

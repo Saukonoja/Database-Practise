@@ -34,23 +34,13 @@ namespace MusicDatabase {
         public MainWindow() {
             InitializeComponent();
             IniMyStuff();
+            IniDatagrids();
         }
 
         #region INIT
 
         public void IniMyStuff() {
             try {
-                dgArtist.DataContext = Artist.GetArtists().DefaultView;
-                dgArtistEdit.DataContext = Artist.GetArtists();
-                dgAlbums.DataContext = Album.GetAlbums();
-                dgAlbumEdit.DataContext = Album.GetAlbums();
-                dgTracksEdit.DataContext = Track.GetTracks();
-                dgGenres.DataContext = Genre.GetGenres();
-                dgCompanies.DataContext = Company.GetCompanies();
-                dgUsersEdit.DataContext = Users.GetUsers();
-                tbCurrentUser.Text = "Welcome, " + userName + "!";
-                tbCurrentUserHeader.Text = userName;
-                cbCountries.ItemsSource = DBMusicDatabase.GetCountries();
                 if (userType == "admin" || userType == "user") {
                     btnLogin.Visibility = Visibility.Collapsed;
                     btnSignUp.Visibility = Visibility.Collapsed;
@@ -71,13 +61,34 @@ namespace MusicDatabase {
             }
         }
 
+        public void IniDatagrids() {
+            dgArtist.DataContext = Artist.GetArtists().DefaultView;
+            dgArtistEdit.DataContext = Artist.GetArtists();
+            dgAlbums.DataContext = Album.GetAlbums();
+            dgAlbumEdit.DataContext = Album.GetAlbums();
+            dgTracks.DataContext = Track.GetTracks();
+            dgTrackEdit.DataContext = Track.GetTracks();
+            dgGenres.DataContext = Genre.GetGenres();
+            dgGenreEdit.DataContext = Genre.GetGenres();
+            dgCompanies.DataContext = Company.GetCompanies();
+            dgCompanyEdit.DataContext = Company.GetCompanies();
+            dgUsersEdit.DataContext = Users.GetUsers();
+            tbCurrentUser.Text = "Welcome, " + userName + "!";
+            tbCurrentUserHeader.Text = userName;
+            cbArtistYear.ItemsSource = DBMusicDatabase.GetYears();
+            cbArtistCountry.ItemsSource = DBMusicDatabase.GetCountries();
+            cbAlbumArtist.ItemsSource = DBMusicDatabase.GetArtists();
+            cbAlbumYear.ItemsSource = DBMusicDatabase.GetYears();
+            cbAlbumCompany.ItemsSource = DBMusicDatabase.GetCompanies();
+            cbTrackArtist.ItemsSource = DBMusicDatabase.GetArtists();
+            cbTrackAlbum.ItemsSource = DBMusicDatabase.GetAlbums();
+            cbTrackYear.ItemsSource = DBMusicDatabase.GetYears();
+        }
+
         #endregion
         #region MAIN BUTTONS AND METHODS
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
 
-        }
-        private void btnRefresh_Click(object sender, RoutedEventArgs e) {
-            IniMyStuff();
         }
 
         private void homeLink_Click(object sender, RoutedEventArgs e) {
@@ -133,62 +144,94 @@ namespace MusicDatabase {
         private void ChangePage(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
             sp1.Visibility = Visibility.Collapsed;
             sp2.Visibility = Visibility.Visible;
-            sp3.Visibility = Visibility.Collapsed;
+            sp3.Visibility = Visibility.Visible;
         }
 
         private void ChangeArtistPage(string current) {
-            ChangePage(spArtists, spArtistPage, spEditArtistButton);
+            ChangePage(spArtists, spArtistPage, spBackToArtists);
             dgArtistPage.DataContext = Artist.GetArtistAlbums(current);
             tbArtistPage.Text = current;
+            tabArtists.IsSelected = true;
         }
 
         private void ChangeAlbumPage(string current) {
-            ChangePage(spAlbums, spAlbumPage, spEditAlbumButton);
-            dgAlbumPage.DataContext = Album.GetAlbumTracks(current);
-            tbAlbumPage.Text = current;
-            tabAlbums.IsSelected = true;
-            var albumImageUri = new Uri(Album.GetImageUrl(current));
-            var bitmap = new BitmapImage(albumImageUri);
-            albumImage.Source = bitmap;
-            List<string> array = Album.GetAlbumInfo(current);
-            int totalSeconds = int.Parse(array[3]);
-            int seconds = totalSeconds % 60;
-            int minutes = totalSeconds / 60;
-            string length = minutes + ":" + seconds;
-            Hyperlink link = new Hyperlink();
-            link.Inlines.Add(array[0]);
-            SolidColorBrush color = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            link.Foreground = color;
-            var run = link.Inlines.FirstOrDefault() as Run;
-            linkValue = run == null ? string.Empty : run.Text;
-            tbAlbumInfo.Inlines.Clear();
-            tbAlbumInfo.Inlines.Add("from artist ");
-            tbAlbumInfo.Inlines.Add(link);
-            tbAlbumInfo.Inlines.Add(" \u2022 " + array[1] + " \u2022 \n" + array[2] + " tracks, " + length);
-            link.Click += artistName_Click;    
+            try {
+                ChangePage(spAlbums, spAlbumPage, spBackToAlbums);
+                dgAlbumPage.DataContext = Album.GetAlbumTracks(current);
+                tbAlbumPage.Text = current;
+                tabAlbums.IsSelected = true;
+                spAlbumEdit.Visibility = Visibility.Collapsed;
+                var albumImageUri = new Uri(imageFolderUri + "emptycd.png");
+                if (Album.GetImageUrl(current) != "") {
+                    albumImageUri = new Uri(Album.GetImageUrl(current));
+                }
+                var bitmap = new BitmapImage(albumImageUri);
+                albumImage.Source = bitmap;
+                List<string> array = Album.GetAlbumInfo(current);
+                int totalSeconds = int.Parse(array[3]);
+                int seconds = totalSeconds % 60;
+                int minutes = totalSeconds / 60;
+                string length = minutes + ":" + seconds;
+                Hyperlink link = new Hyperlink();
+                link.Inlines.Add(array[0]);
+                SolidColorBrush color = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                link.Foreground = color;
+                var run = link.Inlines.FirstOrDefault() as Run;
+                linkValue = run == null ? string.Empty : run.Text;
+                tbAlbumInfo.Inlines.Clear();
+                tbAlbumInfo.Inlines.Add("from artist ");
+                tbAlbumInfo.Inlines.Add(link);
+                tbAlbumInfo.Inlines.Add(" \u2022 " + array[1] + " \u2022 \n" + array[2] + " tracks, " + length);
+                link.Click += artistName_Click;
+            } catch (Exception) {
+                MessageBox.Show("Some details are empty.");
+            }
+        }
+
+        private void ChangeGenrePage(string current) {
+            ChangePage(spGenres, spGenrePage, spBackToGenres);
+            dgGenrePage.DataContext = Genre.GetGenreTracks(current);
+            tbGenrePage.Text = current;
+        }
+        private void ChangeCompanyPage(string current) {
+            ChangePage(spCompanies, spCompanyPage, spBackToCompanies);
+            dgCompanyPage.DataContext = Company.GetCompanyAlbums(current);
+            tbCompanyPage.Text = current;
         }
 
         private void artistName_Click(object sender, RoutedEventArgs e) {
-            tabArtists.IsSelected = true;     
+            tabArtists.IsSelected = true;
             ChangeArtistPage(linkValue);
+        }
+
+        private void mainImage_MouseDown(object sender, MouseButtonEventArgs e) {
+            tabAlbums.IsSelected = true;
+            spBackFromAlbumEdit.Visibility = Visibility.Collapsed;
+            spYoutubePlayer.Visibility = Visibility.Visible;
+            try {
+                ChangeAlbumPage(Album.GetAlbumName(tbTrackName.Text));
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void BackTo(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
             sp1.Visibility = Visibility.Visible;
             sp2.Visibility = Visibility.Collapsed;
-            sp3.Visibility = Visibility.Visible;
+            sp3.Visibility = Visibility.Collapsed;
         }
 
         private void Edit(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
             sp1.Visibility = Visibility.Collapsed;
             sp2.Visibility = Visibility.Visible;
-            sp3.Visibility = Visibility.Collapsed;
+            sp3.Visibility = Visibility.Visible;
         }
 
-        private void BackFromEdit(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
+        private void BackFromEdit(StackPanel sp1, StackPanel sp2, StackPanel sp3, DataGrid dg) {
             sp1.Visibility = Visibility.Visible;
             sp2.Visibility = Visibility.Collapsed;
-            sp3.Visibility = Visibility.Visible;
+            sp3.Visibility = Visibility.Collapsed;
+            dg.SelectedIndex = -1;
         }
 
         private void PlayTrack(string track) {
@@ -198,91 +241,119 @@ namespace MusicDatabase {
             var mainImageUri = new Uri(Album.GetImageUrl(tbAlbumPage.Text));
             var bitmap = new BitmapImage(mainImageUri);
             mainImage.Source = bitmap;
+            tabAlbums.IsSelected = true;
         }
+
+        private void dg_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e) {
+            if ((string)e.Column.Header == "ID") {
+                e.Cancel = true;
+            }
+        }
+        private void dgEdit_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            btnAddArtist.Content = "Add artist"; btnAddAlbum.Content = "Add album";
+            btnAddTrack.Content = "Add track"; btnAddArtist.Content = "Add artist";
+            btnAddArtist.Content = "Add artist";
+        }
+
         #endregion
         #region ARTIST
 
-
         private void btnAddArtist_Click(object sender, RoutedEventArgs e) {
-            try {
-                if (btnAddArtist.Content.ToString() == "Add artist") {
-                    txtArtistName.Text = "";
-                    txtArtistYear.Text = "";
-                    txtArtistCountry.Text = "";
-                    btnAddArtist.Content = "Save new artist";
-                } else {
-                    string name = txtArtistName.Text;
-                    int year = int.Parse(txtArtistYear.Text);
-                    string country = txtArtistCountry.Text;
-                    Artist.AddNewArtist(name, country, year);
+            if (txtArtistName.Text != "" || txtArtistName.Text != "" ||
+                cbArtistCountry.Text != null) {
+                try {
+                    dgArtistEdit.SelectedIndex = -1;
+                    if (btnAddArtist.Content.ToString() == "Add artist") {
+                        txtArtistName.Text = "";
+                        cbArtistYear.Text = "";
+                        cbArtistCountry.Text = "";
+                        btnAddArtist.Content = "Save new artist";
+                    } else {
+                        string name = txtArtistName.Text;
+                        int year = int.Parse(cbArtistYear.Text);
+                        string country = cbArtistCountry.Text;
+                        Artist.AddNewArtist(name, country, year);
+                        btnAddArtist.Content = "Add artist";
+                        IniDatagrids();
+                        MessageBox.Show("New artist added to database.");
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
                 }
-            } catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+            } else {
+                MessageBox.Show("Fill fields first.");
             }
         }
 
         private void btnDeleteArtist_Click(object sender, RoutedEventArgs e) {
-            try {
+            if (dgArtistEdit.SelectedIndex > -1) {
+                try {
+                    DataRowView rowView = dgArtistEdit.SelectedItem as DataRowView;
+                    int key = (int)rowView[3];
+                    string name = rowView.Row[0] as string;
 
-                DataRowView rowView = dgArtistEdit.SelectedItem as DataRowView;
-                int key = (int)rowView[0];
-                string name = rowView.Row[1] as string;
+                    MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
+                    switch (result.ToString()) {
+                        case "Yes":
+                            try {
+                                Artist.DeleteArtist(key);
+                                IniDatagrids();
+                                MessageBox.Show("Artist deleted from the database.");
+                            } catch (Exception ex) {
+                                MessageBox.Show(ex.Message);
+                            }
+                            break;
+                        case "No":
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception ex) {
 
-                MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
-                switch (result.ToString()) {
-                    case "Yes":
-                        try {
-
-                            Artist.DeleteArtist(key);
-                        } catch (Exception ex) {
-
-                            MessageBox.Show(ex.Message);
-                        }
-                        break;
-                    case "No":
-                        break;
-                    default:
-                        break;
+                    MessageBox.Show(ex.Message);
                 }
-            } catch (Exception ex) {
-
-                MessageBox.Show(ex.Message);
+            } else {
+                MessageBox.Show("Select artist first.");
             }
         }
 
         private void btnUpdateArtist_Click(object sender, RoutedEventArgs e) {
+            if (dgArtistEdit.SelectedIndex > -1) {
+                try {
+                    DataRowView rowView = dgArtistEdit.SelectedItem as DataRowView;
+                    int key = (int)rowView[3];
+                    string name = txtArtistName.Text;
+                    int year = int.Parse(cbArtistYear.Text);
+                    string country = cbArtistCountry.Text;
 
-            try {
-                DataRowView rowView = dgArtistEdit.SelectedItem as DataRowView;
-                int key = (int)rowView[0];
-                string name = txtArtistName.Text;
-                int year = int.Parse(txtArtistYear.Text);
-                string country = txtArtistCountry.Text;
-
-                MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
-                switch (result.ToString()) {
-                    case "Yes":
-                        try {
-                            Artist.UpdateArtist(key, name, country, year);
-                        } catch (Exception ex) {
-                            MessageBox.Show(ex.Message);
-                        }
-                        break;
-                    case "No":
-                        break;
-                    default:
-                        break;
+                    MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
+                    switch (result.ToString()) {
+                        case "Yes":
+                            try {
+                                Artist.UpdateArtist(key, name, country, year);
+                                IniDatagrids();
+                                MessageBox.Show("Artist updated to database.");
+                            } catch (Exception ex) {
+                                MessageBox.Show(ex.Message);
+                            }
+                            break;
+                        case "No":
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
                 }
-            } catch (Exception ex) {
-
-                MessageBox.Show(ex.Message);
+            } else {
+                MessageBox.Show("Select artist first.");
             }
         }
 
         private void dgArtist_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
                 MouseDoubleClicked(dgArtist, out cellValue, out columnIndex);
-                if (columnIndex == 1) {
+                if (columnIndex == 0) {
                     ChangeArtistPage(cellValue);
                 }
             } catch (Exception ex) {
@@ -301,106 +372,124 @@ namespace MusicDatabase {
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void btnBackToArtists_Click(object sender, RoutedEventArgs e) {
-            BackTo(spArtists, spArtistPage, spEditArtistButton);
+            BackTo(spArtists, spArtistPage, spBackToArtists);
         }
 
         private void btnEditArtist_Click(object sender, RoutedEventArgs e) {
-            Edit(spArtists, spArtistEdit, spEditArtistButton);
+            Edit(spArtists, spArtistEdit, spBackFromArtistEdit);
         }
 
         private void btnBackFromArtistEdit_Click(object sender, RoutedEventArgs e) {
-            BackFromEdit(spArtists, spArtistEdit, spEditArtistButton);
+            BackFromEdit(spArtists, spArtistEdit, spBackFromArtistEdit, dgArtistEdit);
         }
         #endregion
         #region ALBUM
         private void btnAddAlbum_Click(object sender, RoutedEventArgs e) {
-            try {
-                //if (btnAddAlbum.Content.ToString() == "Add album") {
-                //    txtAlbumName.Text = "";
-                //    txtAlbumArtist.Text = "";
-                //    txtAlbumYear.Text = "";
-                //    txtAlbumCompany.Text = "";
-                //    btnAddArtist.Content = "Save new album";
-                //}
-                //else {
-                    string name = txtAlbumName.Text;
-                    string artist = txtAlbumArtist.Text;
-                    int year = int.Parse(txtAlbumYear.Text);
-                    string company = txtAlbumCompany.Text;
-                    Album.AddAlbum(name, artist, company, year);
-                //}
-            }
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+            if (txtAlbumName.Text != "" || cbAlbumArtist.Text != "" ||
+                cbAlbumYear.Text != "" || cbAlbumCompany.Text != "" || txtAlbumCover.Text != "") {
+                try {
+                    dgAlbumEdit.SelectedIndex = -1;
+                    if (btnAddAlbum.Content.ToString() == "Add album") {
+                        txtAlbumName.Text = "";
+                        cbAlbumArtist.Text = "";
+                        cbAlbumYear.Text = "";
+                        cbAlbumCompany.Text = "";
+                        txtAlbumCover.Text = "";
+                        btnAddAlbum.Content = "Save new album";
+                    } else {
+                        string name = txtAlbumName.Text;
+                        string artist = cbAlbumArtist.Text;
+                        int year = int.Parse(cbAlbumYear.Text);
+                        string company = cbAlbumCompany.Text;
+                        string imageLink = txtAlbumCover.Text;
+                        Album.AddAlbum(name, artist, company, year, imageLink);
+                        IniDatagrids();
+                        MessageBox.Show("New album added to database.");
+                        btnAddAlbum.Content = "Add album";
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            } else {
+                MessageBox.Show("Fill fields first.");
             }
         }
 
         private void btnDeleteAlbum_Click(object sender, RoutedEventArgs e) {
-            try {
-
-                DataRowView rowView = dgAlbumEdit.SelectedItem as DataRowView;
-                int key = (int)rowView[0];
-                string name = rowView.Row[1] as string;
-                MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
-                switch (result.ToString()) {
-                    case "Yes":
-                        try {
-                            Album.DeleteAlbum(key);
-                        }
-                        catch (Exception ex) {
-
-                            MessageBox.Show(ex.Message);
-                        }
-                        break;
-                    case "No":
-                        break;
-                    default:
-                        break;
+            if (dgAlbumEdit.SelectedIndex > 1) {
+                try {
+                    DataRowView rowView = dgAlbumEdit.SelectedItem as DataRowView;
+                    int key = (int)rowView[5];
+                    string name = rowView.Row[0] as string;
+                    MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
+                    switch (result.ToString()) {
+                        case "Yes":
+                            try {
+                                Album.DeleteAlbum(key);
+                                IniDatagrids();
+                                MessageBox.Show("Album deleted from the database.");
+                            } catch (Exception ex) {
+                                MessageBox.Show(ex.Message);
+                            }
+                            break;
+                        case "No":
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
                 }
-            }
-            catch (Exception ex) {
-
-                MessageBox.Show(ex.Message);
+            } else {
+                MessageBox.Show("Select album first.");
             }
         }
 
         private void btnUpdateAlbum_Click(object sender, RoutedEventArgs e) {
-            try {
-                DataRowView rowView = dgAlbumEdit.SelectedItem as DataRowView;
-                int key = (int)rowView[0];
-                string name = txtAlbumName.Text;
-                string artist = txtAlbumArtist.Text;
-                int year = int.Parse(txtAlbumYear.Text);
-                string company = txtAlbumCompany.Text;
-                MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
-                switch (result.ToString()) {
-                    case "Yes":
-                        try {
-                            Album.UpdateAlbum(key, name, artist, company, year);
-                        }
-                        catch (Exception ex) {
-                            MessageBox.Show(ex.Message);
-                        }
-                        break;
-                    case "No":
-                        break;
-                    default:
-                        break;
+            if (dgAlbumEdit.SelectedIndex > 1) {
+                try {
+                    DataRowView rowView = dgAlbumEdit.SelectedItem as DataRowView;
+                    int key = (int)rowView[5];
+                    string name = txtAlbumName.Text;
+                    string artist = cbAlbumArtist.Text;
+                    int year = int.Parse(cbAlbumYear.Text);
+                    string company = cbAlbumCompany.Text;
+                    string imageLink = txtAlbumCover.Text;
+                    MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
+                    switch (result.ToString()) {
+                        case "Yes":
+                            try {
+                                Album.UpdateAlbum(key, name, artist, company, year, imageLink);
+                                IniDatagrids();
+                                MessageBox.Show("Album updated to database.");
+                            } catch (Exception ex) {
+                                MessageBox.Show(ex.Message);
+                            }
+                            break;
+                        case "No":
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
                 }
-            }
-            catch (Exception ex) {
-
-                MessageBox.Show(ex.Message);
+            } else {
+                MessageBox.Show("Select album first.");
             }
         }
-    
 
         private void dgAlbums_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
+                e.Handled = true;
                 MouseDoubleClicked(dgAlbums, out cellValue, out columnIndex);
                 if (columnIndex == 0) {
                     ChangeAlbumPage(cellValue);
+                }
+                if (columnIndex == 1) {
+                    ChangeArtistPage(cellValue);
                 }
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
@@ -419,15 +508,333 @@ namespace MusicDatabase {
         }
 
         private void btnBackToAlbums_Click(object sender, RoutedEventArgs e) {
-            BackTo(spAlbums, spAlbumPage, spEditAlbumButton);
+            BackTo(spAlbums, spAlbumPage, spBackToAlbums);
         }
 
         private void btnEditAlbum_Click(object sender, RoutedEventArgs e) {
-            Edit(spAlbums, spAlbumEdit, spEditAlbumButton);
+            Edit(spAlbums, spAlbumEdit, spBackFromAlbumEdit);
+            spYoutubePlayer.Visibility = Visibility.Collapsed;
         }
 
         private void btnBackFromAlbumEdit_Click(object sender, RoutedEventArgs e) {
-            BackFromEdit(spAlbums, spAlbumEdit, spEditAlbumButton);
+            BackFromEdit(spAlbums, spAlbumEdit, spBackFromAlbumEdit, dgAlbumEdit);
+            spYoutubePlayer.Visibility = Visibility.Visible;
+        }
+        #endregion
+        #region TRACK
+        private void btnAddTrack_Click(object sender, RoutedEventArgs e) {
+            if (txtTrackName.Text != "" || cbTrackArtist.Text != "" ||
+                cbTrackYear.Text != "" || cbTrackAlbum.Text != "" || txtTubeLink.Text != "" ||
+                txtTrackNumber.Text != "" || txtTrackLength.Text != "") {
+                try {
+                    dgTrackEdit.SelectedIndex = -1;
+                    if (btnAddTrack.Content.ToString() == "Add track") {
+                        txtTrackName.Text = "";
+                        cbTrackArtist.Text = "";
+                        cbTrackYear.Text = "";
+                        cbTrackAlbum.Text = "";
+                        txtTubeLink.Text = "";
+                        txtTrackNumber.Text = "";
+                        txtTrackLength.Text = "";
+                        btnAddTrack.Content = "Save new track";
+                    } else {
+                        string name = txtTrackName.Text;
+                        string artist = cbTrackArtist.Text;
+                        int year = int.Parse(cbTrackYear.Text);
+                        string album = cbTrackAlbum.Text;
+                        string link = txtTubeLink.Text;
+                        int number = int.Parse(txtTrackNumber.Text);
+                        int length = int.Parse(txtTrackLength.Text);
+                        Track.AddTrack(name, artist, year, album, link, number, length);
+                        IniDatagrids();
+                        MessageBox.Show("New track added to database.");
+                        btnAddTrack.Content = "Add track";
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            } else {
+                MessageBox.Show("Fill fields first.");
+            }
+        }
+        private void btnDeleteTrack_Click(object sender, RoutedEventArgs e) {
+            if (dgTrackEdit.SelectedIndex > -1) {
+                try {
+                    DataRowView rowView = dgTrackEdit.SelectedItem as DataRowView;
+                    int key = (int)rowView[7];
+                    string name = rowView.Row[0] as string;
+                    MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
+                    switch (result.ToString()) {
+                        case "Yes":
+                            try {
+                                Track.DeleteTrack(key);
+                                IniDatagrids();
+                                MessageBox.Show("Track deleted from the database.");
+                            } catch (Exception ex) {
+                                MessageBox.Show(ex.Message);
+                            }
+                            break;
+                        case "No":
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            } else {
+                MessageBox.Show("Select track first.");
+            }
+        }
+
+        private void btnUpdateTrack_Click(object sender, RoutedEventArgs e) {
+            if (dgTrackEdit.SelectedIndex > -1) {
+                try {
+                    DataRowView rowView = dgTrackEdit.SelectedItem as DataRowView;
+                    int key = (int)rowView[7];
+                    string name = txtTrackName.Text;
+                    string artist = cbTrackArtist.Text;
+                    int year = int.Parse(cbTrackYear.Text);
+                    string album = cbTrackAlbum.Text;
+                    string link = txtTubeLink.Text;
+                    int number = int.Parse(txtTrackNumber.Text);
+                    int length = int.Parse(txtTrackLength.Text);
+                    MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
+                    switch (result.ToString()) {
+                        case "Yes":
+                            try {
+                                Track.UpdateTrack(key, name, artist, year, album, link, number, length);
+                                IniDatagrids();
+                                MessageBox.Show("Track updated to database.");
+                            } catch (Exception ex) {
+                                MessageBox.Show(ex.Message);
+                            }
+                            break;
+                        case "No":
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            } else {
+                MessageBox.Show("Select track first.");
+            }
+        }
+
+        private void dgTracks_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            try {
+                e.Handled = true;
+                MouseDoubleClicked(dgTracks, out cellValue, out columnIndex);
+                if (columnIndex == 0) {
+                    ChangeAlbumPage(Album.GetAlbumName(cellValue));
+                    PlayTrack(cellValue);
+                }
+                if (columnIndex == 1) {
+                    ChangeArtistPage(cellValue);
+                }
+                if (columnIndex == 2) {
+                    ChangeAlbumPage(cellValue);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnEditTrack_Click(object sender, RoutedEventArgs e) {
+            Edit(spTracks, spTrackEdit, spBackFromTrackEdit);
+        }
+
+        private void btnBackFromTrackEdit_Click(object sender, RoutedEventArgs e) {
+            BackFromEdit(spTracks, spTrackEdit, spBackFromTrackEdit, dgTrackEdit);
+        }
+        #endregion
+        #region GENRE
+
+        private void btnAddGenre_Click(object sender, RoutedEventArgs e) {
+            if (txtGenreName.Text != "") {
+                try {
+                    dgTrackEdit.SelectedIndex = -1;
+                    if (btnAddTrack.Content.ToString() == "Add genre") {
+                        txtGenreName.Text = "";
+                        btnAddTrack.Content = "Save new genre";
+                    } else {
+                        string name = txtGenreName.Text;
+                        //Genre.AddGenre(name);
+                        IniDatagrids();
+                        MessageBox.Show("New genre added to database.");
+                        btnAddTrack.Content = "Add genre";
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            } else {
+                MessageBox.Show("Fill fields first.");
+            }
+        }
+
+        private void btnDeleteGenre_Click(object sender, RoutedEventArgs e) {
+            if (dgTrackEdit.SelectedIndex > -1) {
+                //try {
+                //DataRowView rowView = dgTrackEdit.SelectedItem as DataRowView;
+                //int key = (int)rowView[7];
+                //string name = rowView.Row[0] as string;
+                //MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
+                //switch (result.ToString()) {
+                //    case "Yes":
+                //        try {
+                //Track.DeleteTrack(key);
+                //IniDatagrids();
+                //MessageBox.Show("Track deleted from the database.");
+                //            } catch (Exception ex) {
+                //                MessageBox.Show(ex.Message);
+                //            }
+                //            break;
+                //        case "No":
+                //            break;
+                //        default:
+                //            break;
+                //    }
+                //} catch (Exception ex) {
+                //    MessageBox.Show(ex.Message);
+                //}
+            } else {
+                MessageBox.Show("Select track first.");
+            }
+        }
+
+        private void btnUpdateGenre_Click(object sender, RoutedEventArgs e) {
+            if (dgTrackEdit.SelectedIndex > -1) {
+                //try {
+                //    DataRowView rowView = dgTrackEdit.SelectedItem as DataRowView;
+                //    int key = (int)rowView[7];
+                //    string name = txtTrackName.Text;
+                //    string artist = txtTrackArtist.Text;
+                //    int year = int.Parse(txtTrackYear.Text);
+                //    string album = txtTrackAlbum.Text;
+                //    string link = txtTubeLink.Text;
+                //    int number = int.Parse(txtTrackNumber.Text);
+                //    int length = int.Parse(txtTrackLength.Text);
+                //    MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
+                //    switch (result.ToString()) {
+                //        case "Yes":
+                //            try {
+                //                Track.UpdateTrack(key, name, artist, year, album, link, number, length);
+                //                IniDatagrids();
+                //                MessageBox.Show("Track updated to database.");
+                //            } catch (Exception ex) {
+                //                MessageBox.Show(ex.Message);
+                //            }
+                //            break;
+                //        case "No":
+                //            break;
+                //        default:
+                //            break;
+                //    }
+                //} catch (Exception ex) {
+                //    MessageBox.Show(ex.Message);
+                //}
+            } else {
+                MessageBox.Show("Select track first.");
+            }
+        }
+
+        private void dgGenres_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            try {
+                e.Handled = true;
+                MouseDoubleClicked(dgGenres, out cellValue, out columnIndex);
+                if (columnIndex == 0) {
+                    ChangeGenrePage(cellValue);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void dgGenrePage_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            try {
+                e.Handled = true;
+                MouseDoubleClicked(dgGenrePage, out cellValue, out columnIndex);
+                if (columnIndex == 0) {
+                    ChangeAlbumPage(Album.GetAlbumName(cellValue));
+                    PlayTrack(cellValue);
+                }
+                if (columnIndex == 1) {
+                    ChangeArtistPage(cellValue);
+                }
+                if (columnIndex == 2) {
+                    ChangeAlbumPage(cellValue);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnBackToGenres_Click(object sender, RoutedEventArgs e) {
+            BackTo(spGenres, spGenrePage, spBackToGenres);
+        }
+
+        private void btnEditGenre_Click(object sender, RoutedEventArgs e) {
+            Edit(spGenres, spGenreEdit, spBackFromGenreEdit);
+        }
+
+        private void btnBackFromGenreEdit_Click(object sender, RoutedEventArgs e) {
+            BackFromEdit(spGenres, spGenreEdit, spBackFromGenreEdit, dgGenreEdit);
+        }
+        #endregion
+
+        #region COMPANIES
+
+        private void btnAddCompany_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void btnDeleteCompany_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void btnUpdateCompany_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void dgCompanies_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            try {
+                e.Handled = true;
+                MouseDoubleClicked(dgCompanies, out cellValue, out columnIndex);
+                if (columnIndex == 0) {
+                    ChangeCompanyPage(cellValue);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void dgCompanyPage_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            try {
+                e.Handled = true;
+                MouseDoubleClicked(dgCompanyPage, out cellValue, out columnIndex);
+                if (columnIndex == 0) {
+                    ChangeAlbumPage(cellValue);
+                }
+                if (columnIndex == 1) {
+                    ChangeArtistPage(cellValue);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnBackToCompanies_Click(object sender, RoutedEventArgs e) {
+            BackTo(spCompanies, spCompanyPage, spBackToCompanies);
+        }
+
+        private void btnEditCompany_Click(object sender, RoutedEventArgs e) {
+            Edit(spCompanies, spCompanyEdit, spBackFromCompanyEdit);
+        }
+
+        private void btnBackFromCompanyEdit_Click(object sender, RoutedEventArgs e) {
+            BackFromEdit(spCompanies, spCompanyEdit, spBackFromCompanyEdit, dgCompanyEdit);
         }
         #endregion
         #region USER
@@ -435,8 +842,8 @@ namespace MusicDatabase {
         private void btnDeleteUser_Click(object sender, RoutedEventArgs e) {
             try {
                 DataRowView rowView = dgUsersEdit.SelectedItem as DataRowView;
-                int key = (int)rowView[0];
-                string name = rowView.Row[1] as string;
+                int key = (int)rowView[2];
+                string name = rowView.Row[0] as string;
 
                 MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
                 switch (result.ToString()) {
@@ -455,15 +862,17 @@ namespace MusicDatabase {
                         break;
                 }
             } catch (Exception ex) {
-
                 MessageBox.Show(ex.Message);
+            } finally {
+                IniDatagrids();
+                MessageBox.Show("User deleted from the database.");
             }
         }
 
         private void btnUpdateUser_Click(object sender, RoutedEventArgs e) {
             try {
                 DataRowView rowView = dgUsersEdit.SelectedItem as DataRowView;
-                int key = (int)rowView[0];
+                int key = (int)rowView[2];
                 string name = txtUsername.Text;
                 bool admin = chkAdmin.IsChecked.Value;
 
@@ -482,11 +891,12 @@ namespace MusicDatabase {
                         break;
                 }
             } catch (Exception ex) {
-
                 MessageBox.Show(ex.Message);
+            } finally {
+                IniDatagrids();
+                MessageBox.Show("User updated to database.");
             }
         }
-        #endregion
 
         private void btnUpdatePassword_Click(object sender, RoutedEventArgs e) {
             try {
@@ -507,97 +917,14 @@ namespace MusicDatabase {
                         break;
                 }
             } catch (Exception ex) {
-
                 MessageBox.Show(ex.Message);
+            } finally {
+                IniDatagrids();
+                MessageBox.Show("Password updated to database.");
             }
         }
 
-        private void mainImage_MouseDown(object sender, MouseButtonEventArgs e) {
-            tabAlbums.IsSelected = true;
-        }
-        #region TRACK
-        private void btnAddTrack_Click(object sender, RoutedEventArgs e) { 
-            try {
-                //if (btnAddAlbum.Content.ToString() == "Add album") {
-                //    txtAlbumName.Text = "";
-                //    txtAlbumArtist.Text = "";
-                //    txtAlbumYear.Text = "";
-                //    txtAlbumCompany.Text = "";
-                //    btnAddArtist.Content = "Save new album";
-                //}
-                //else {
-                string name = txtTrackName.Text;
-                string artist = txtTrackArtist.Text;
-                string album = txtTrackAlbum.Text;
-                int year = int.Parse(txtTrackYear.Text);
-                Track.AddTrack(name, artist, album, year);
-                //}
-            }
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-        }
-        private void btnDeleteTrack_Click(object sender, RoutedEventArgs e) {
-            try {
-                DataRowView rowView = dgTracksEdit.SelectedItem as DataRowView;
-                int key = (int)rowView[0];
-                string name = rowView.Row[1] as string;
-                MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
-                switch (result.ToString()) {
-                    case "Yes":
-                        try {
-                            Track.DeleteTrack(key);
-                        }
-                        catch (Exception ex) {
 
-                            MessageBox.Show(ex.Message);
-                        }
-                        break;
-                    case "No":
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (Exception ex) {
-
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void btnUpdateTrack_Click(object sender, RoutedEventArgs e) {
-            try {
-                DataRowView rowView = dgTracksEdit.SelectedItem as DataRowView;
-                int key = (int)rowView[0];
-                string name = txtTrackName.Text;
-                string artist = txtTrackArtist.Text;
-                string album = txtTrackAlbum.Text;
-                int year = int.Parse(txtTrackYear.Text);
-                MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
-                switch (result.ToString()) {
-                    case "Yes":
-                        try {
-                            Track.UpdateTrack(key, name, artist, album, year);
-                        }
-                        catch (Exception ex) {
-                            MessageBox.Show(ex.Message);
-                        }
-                        break;
-                    case "No":
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (Exception ex) {
-
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void btnBackFromTrackEdit_Click(object sender, RoutedEventArgs e) {
-
-        }
         #endregion
     }
 }

@@ -79,14 +79,18 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+
+     
+
          public static bool DeleteArtist(int key) {
              try {
-                int deleted = DBMusicDatabase.DeleteArtist(DBSQLQueries.DeleteArtist(), key);
-                if (deleted == 1)
-                    return true;
-                else
-                    return false;
-             }
+                    int deleted = DBMusicDatabase.DeleteEntity(DBSQLQueries.DeleteArtist(), key);
+                    if (deleted == 1)
+                        return true;
+                    else
+                        return false;
+            
+                }
              catch (Exception ex) {
 
                  throw ex;
@@ -94,7 +98,8 @@ namespace MusicDatabase {
          }
         public static bool UpdateArtist(int key, string name, string country, int year) {
             try {
-               DBMusicDatabase.UpdateArtist(DBSQLQueries.UpdateArtist(), key, name, country, year);
+                string fill = "1";
+                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateArtist(), key, name, fill, fill, fill, country, year);
                 return true;
                
             } catch (Exception ex) {
@@ -158,7 +163,7 @@ namespace MusicDatabase {
 
         public static DataTable GetAlbums() {
             try {
-                DataTable albumsTable = DBMusicDatabase.GetEntities(DBSQLQueries.GetAlbums(), "Albums");
+                DataTable albumsTable = DBMusicDatabase.GetEntity(DBSQLQueries.GetAlbums(), "Albums");
                 return albumsTable;
             } catch (Exception ex) {
                 throw ex;
@@ -170,6 +175,42 @@ namespace MusicDatabase {
                 DataTable trackTable = DBMusicDatabase.GetEntity(DBSQLQueries.GetAlbumTracks(), name, "Tracks");
                 return trackTable;
             } catch (Exception ex) {
+                throw ex;
+            }
+        }
+        public static bool AddAlbum(string name, string artist, string company, int year) {
+            try {
+                DBMusicDatabase.AddAlbum(DBSQLQueries.AddAlbum(), name, artist, company, year);
+                return true;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static bool DeleteAlbum(int key) {
+            try {
+                int deleted = DBMusicDatabase.DeleteEntity(DBSQLQueries.DeleteAlbum(), key);
+                if (deleted == 1)
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+        public static bool UpdateAlbum(int key, string name, string artist, string company, int year) {
+            try {
+                string fill = "1";
+                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateAlbum(), key, name, artist, fill, company, fill, year);
+                return true;
+
+            }
+            catch (Exception ex) {
+
                 throw ex;
             }
         }
@@ -247,6 +288,46 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+        public static bool AddTrack(string name, string artist, string album, int year) {
+            try {
+                int fillid = 1;
+                string fill = "1";
+                DBMusicDatabase.AddEntity(DBSQLQueries.AddTrack(), fillid, name, artist, album, fill, fill, year);
+                return true;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+        public static bool DeleteTrack(int key) {
+            try {
+                int deleted = DBMusicDatabase.DeleteEntity(DBSQLQueries.DeleteTrack(), key);
+                if (deleted == 1)
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+        public static bool UpdateTrack(int key, string name, string artist, string album, int year) {
+            try {
+                string fill = "1";
+                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateTrack(), key, name, artist, album, fill, fill, year);
+                return true;
+
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
+
+
         #endregion
     }
     public class Genre {
@@ -286,9 +367,46 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+        public static bool AddGenre(string name, string artist, string album, int year) {
+            try {
+                int fillid = 1;
+                string fill = "1";
+                DBMusicDatabase.AddEntity(DBSQLQueries.AddGenre(), fillid, name, artist, album, fill, fill, year);
+                return true;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+        public static bool DeleteGenre(int key) {
+            try {
+                int deleted = DBMusicDatabase.DeleteEntity(DBSQLQueries.DeleteGenre(), key);
+                if (deleted == 1)
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+        public static bool UpdateGenre(int key, string name) {
+            try {
+                int fillid = 1;
+                string fill = "1";
+                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateGenre(), key, name, fill, fill, fill, fill, fillid);
+                return true;
+
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
         #endregion
     }
-
     public class Company {
         #region PROPERTIES
 
@@ -337,6 +455,43 @@ namespace MusicDatabase {
                 DataTable companiesTable = DBMusicDatabase.GetEntities(DBSQLQueries.GetCompanies(), "Companies");
                 return companiesTable;
             } catch (Exception ex) {
+                throw ex;
+            }
+        }
+        public static bool AddCompany(string name, int year) {
+            try {
+                int fillid = 1;
+                string fill = "1";
+                DBMusicDatabase.AddEntity(DBSQLQueries.AddCompany(), fillid, name, fill, fill, fill, fill, year);
+                return true;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+        public static bool DeleteCompany(int key) {
+            try {
+                int deleted = DBMusicDatabase.DeleteEntity(DBSQLQueries.DeleteCompany(), key);
+                if (deleted == 1)
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+        public static bool UpdateCompany(int key, string name, int year) {
+            try {
+                string fill = "1";
+                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateCompany(), key, name, fill, fill, fill, fill, year);
+                return true;
+
+            }
+            catch (Exception ex) {
+
                 throw ex;
             }
         }

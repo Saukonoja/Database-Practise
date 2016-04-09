@@ -28,22 +28,6 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static int GetSelectedKey(string sqlString, string selectedName) {
-            MySqlConnection conn = new MySqlConnection(connStr);
-            try {
-                conn.Open();
-                string sql = sqlString;
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.Prepare();
-                cmd.Parameters.AddWithValue("@NAME", selectedName);
-                int selectedKey = Convert.ToInt32(cmd.ExecuteScalar());
-                return selectedKey;
-            }
-            catch (Exception ex) {
-
-                throw ex;
-            }
-        }
 
         public static DataTable GetEntities(string sqlString, string tableName) {
 
@@ -94,7 +78,7 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static int DeleteArtist(string sqlString, int key) {
+        public static int DeleteEntity(string sqlString, int key) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {
                 conn.Open();
@@ -128,6 +112,91 @@ namespace MusicDatabase {
                 throw ex;
             }
         } 
+
+        public static void AddAlbum(string sqlString, string name, string artist, string company, int year) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@NAME", name);
+                cmd.Parameters.AddWithValue("@ARTIST", artist);
+                cmd.Parameters.AddWithValue("@COMPANY", company);
+                cmd.Parameters.AddWithValue("@YEAR", year);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+        public static void UpdateAlbum(string sqlString, int key, string name, string artist, string company, int year) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@KEY", key);
+                cmd.Parameters.AddWithValue("@NAME", name);
+                cmd.Parameters.AddWithValue("@ARTIST", artist);
+                cmd.Parameters.AddWithValue("@COMPANY", company);
+                cmd.Parameters.AddWithValue("@YEAR", year);
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
+        public static void UpdateEntity(string sqlString, int key, string name, string artist, string album, string company, string country, int year) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@KEY", key);
+                cmd.Parameters.AddWithValue("@NAME", name);
+                cmd.Parameters.AddWithValue("@ARTIST", artist);
+                cmd.Parameters.AddWithValue("@ALBUM", album);
+                cmd.Parameters.AddWithValue("@COMPANY", company);
+                cmd.Parameters.AddWithValue("@COUNTRY", country);
+                cmd.Parameters.AddWithValue("@YEAR", year);
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
+        public static void AddEntity(string sqlString, int key, string name, string artist, string album, string company, string country, int year) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@KEY", key);
+                cmd.Parameters.AddWithValue("@NAME", name);
+                cmd.Parameters.AddWithValue("@ARTIST", artist);
+                cmd.Parameters.AddWithValue("@ALBUM", album);
+                cmd.Parameters.AddWithValue("@COMPANY", company);
+                cmd.Parameters.AddWithValue("@COUNTRY", country);
+                cmd.Parameters.AddWithValue("@YEAR", year);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex) {
+
+                throw ex;
+            }
+        }
+
         public static bool RegisterUser(string username, string password, out string message) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {

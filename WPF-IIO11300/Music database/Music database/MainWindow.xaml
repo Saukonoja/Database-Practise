@@ -202,12 +202,13 @@
                                         <Button x:Name="btnBackFromAlbumEdit" Click="btnBackFromAlbumEdit_Click">Back</Button>
                                     </StackPanel>
                                 </StackPanel>
+
                             </StackPanel>
                             <StackPanel>
                                 <StackPanel x:Name="spYoutubePlayer" Visibility="Collapsed">
                                     <TextBlock x:Name="tbTrackName" Margin="30,50,10,10" FontSize="20"></TextBlock>
                                     <WebBrowser x:Name="youtubeVideo" Width="740" Height="440" Margin="30"></WebBrowser>
-                                </StackPanel>
+                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </TabItem>
@@ -217,7 +218,27 @@
                         </TabItem.Header>
                         <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
                             <TextBlock Style="{StaticResource pageName}">Tracks</TextBlock>
-                            <DataGrid x:Name="dgTracks" Height="400" ItemsSource="{Binding}"/>
+                            <!--<DataGrid x:Name="dgTracks" Height="400" ItemsSource="{Binding}"/>-->
+                                <StackPanel x:Name="spTracksEdit" Visibility="Visible" Orientation="Horizontal">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource pageName}">Edit artist</TextBlock>
+                                    <DataGrid x:Name="dgTracksEdit" CanUserAddRows="True" ItemsSource="{Binding}"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <TextBlock>Name</TextBlock>
+                                    <TextBox x:Name="txtTrackName" Text="{Binding SelectedItem.Track, ElementName=dgTracksEdit}"></TextBox>
+                                    <TextBlock>Artist</TextBlock>
+                                    <TextBox x:Name="txtTrackArtist" Text="{Binding SelectedItem.Artist, ElementName=dgTracksEdit}"></TextBox>
+                                    <TextBlock>Album</TextBlock>
+                                    <TextBox x:Name="txtTrackAlbum" Text="{Binding SelectedItem.Album, ElementName=dgTracksEdit}"></TextBox>
+                                    <TextBlock>Year</TextBlock>
+                                    <TextBox x:Name="txtTrackYear" Text="{Binding SelectedItem.Year, ElementName=dgTracksEdit}"></TextBox>
+                                    <Button x:Name="btnAddTrack" Click="btnAddTrack_Click">Add track</Button>
+                                    <Button x:Name="btnDeleteTrack" Click="btnDeleteTrack_Click">Delete selected track</Button>
+                                    <Button x:Name="btnUpdateTrack" Click="btnUpdateTrack_Click">Save changes</Button>
+                                    <Button x:Name="btnBackFromTrackEdit" Click="btnBackFromTrackEdit_Click">Back</Button>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
                     </TabItem>
                     <TabItem x:Name="tabGenres">

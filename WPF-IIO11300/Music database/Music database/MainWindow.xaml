@@ -48,8 +48,8 @@
         <Style x:Key="headerName" TargetType="{x:Type TextBlock}">
             <Setter Property="Control.FontSize" Value="25" />
             <Setter Property="Control.Foreground" Value="White"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="0,10,200,0"/>
         </Style>
 
         <Style TargetType="{x:Type DataGrid}">
@@ -67,11 +67,12 @@
         </Style>
 
         <Style TargetType="{x:Type DataGridCell}">
-            <Setter Property="Height" Value="40"/>
+            <Setter Property="Height" Value="42"/>
             <Setter Property="Background" Value="#282828"/>
             <Setter Property="BorderBrush" Value="#282828" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Padding" Value="10" />
+            
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -256,12 +257,12 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Margin="40,80,0,0" Width="200">
-                                        <TextBlock>Name</TextBlock>
-                                        <TextBox x:Name="txtArtistName" Text="{Binding SelectedItem.Artist, ElementName=dgArtistEdit}"></TextBox>
-                                        <TextBlock>Year</TextBlock>
-                                        <ComboBox x:Name="cbArtistYear" Text="{Binding SelectedItem.Year, ElementName=dgArtistEdit}"></ComboBox>
-                                        <TextBlock>Country</TextBlock>
-                                        <ComboBox x:Name="cbArtistCountry" Text="{Binding SelectedItem.Country, ElementName=dgArtistEdit}"></ComboBox>
+                                        <TextBlock>Name <Span Foreground="Red">*</Span></TextBlock>
+                                        <TextBox x:Name="txtArtistName" Margin="0,0,0,10" Text="{Binding SelectedItem.Artist, ElementName=dgArtistEdit, Mode=OneWay}"></TextBox>
+                                        <TextBlock>Year <Span Foreground="Red">*</Span></TextBlock>
+                                        <ComboBox x:Name="cbArtistYear" Margin="0,0,0,10" Text="{Binding SelectedItem.Year, ElementName=dgArtistEdit, Mode=OneWay}"></ComboBox>
+                                        <TextBlock>Country <Span Foreground="Red">*</Span></TextBlock>
+                                        <ComboBox x:Name="cbArtistCountry" Text="{Binding SelectedItem.Country, ElementName=dgArtistEdit, Mode=OneWay}"></ComboBox>
                                     </StackPanel>
                                     <StackPanel Orientation="Vertical" Margin="100,20,50,0">
                                         <Button x:Name="btnAddArtist" Margin="0,10,0,0" Style="{StaticResource addButton}" Click="btnAddArtist_Click">Add artist</Button>
@@ -308,7 +309,7 @@
                                         <TextBlock x:Name="tbAlbumInfo" FontSize="20"></TextBlock>
                                     </StackPanel>
                                     <StackPanel>
-                                        <DataGrid x:Name="dgAlbumPage" AutoGeneratingColumn="dg_AutoGeneratingColumn" MouseDoubleClick="dgAlbumPage_MouseDoubleClick" ItemsSource="{Binding}"/>
+                                        <DataGrid x:Name="dgAlbumPage" Margin="10,30,10,0" AutoGeneratingColumn="dg_AutoGeneratingColumn" MouseDoubleClick="dgAlbumPage_MouseDoubleClick" ItemsSource="{Binding}"></DataGrid>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -326,17 +327,17 @@
                                     </DataGrid>
                                 </StackPanel>
                                 <StackPanel Orientation="Vertical">
-                                    <StackPanel Margin="40,80,0,0" Width="200">
-                                        <TextBlock>Album</TextBlock>
-                                        <TextBox x:Name="txtAlbumName" Text="{Binding SelectedItem.Album, ElementName=dgAlbumEdit}"></TextBox>
-                                        <TextBlock>Artist</TextBlock>
-                                        <ComboBox x:Name="cbAlbumArtist" Text="{Binding SelectedItem.Artist, ElementName=dgAlbumEdit}"></ComboBox>
-                                        <TextBlock>Year</TextBlock>
-                                        <ComboBox x:Name="cbAlbumYear" Text="{Binding SelectedItem.Year, ElementName=dgAlbumEdit}"></ComboBox>
+                                    <StackPanel Margin="40,60,0,0" Width="200">
+                                        <TextBlock>Album <Span Foreground="Red">*</Span></TextBlock>
+                                        <TextBox x:Name="txtAlbumName" Margin="0,0,0,10" Text="{Binding SelectedItem.Album, ElementName=dgAlbumEdit, Mode=OneWay}"></TextBox>
+                                        <TextBlock>Artist <Span Foreground="Red">*</Span></TextBlock>
+                                        <ComboBox x:Name="cbAlbumArtist" Margin="0,0,0,10" Text="{Binding SelectedItem.Artist, ElementName=dgAlbumEdit, Mode=OneWay}"></ComboBox>
+                                        <TextBlock>Year <Span Foreground="Red">*</Span></TextBlock>
+                                        <ComboBox x:Name="cbAlbumYear" Margin="0,0,0,10" Text="{Binding SelectedItem.Year, ElementName=dgAlbumEdit, Mode=OneWay}"></ComboBox>
                                         <TextBlock>Record company</TextBlock>
-                                        <ComboBox x:Name="cbAlbumCompany" Text="{Binding SelectedItem.Company, ElementName=dgAlbumEdit}"></ComboBox>
+                                        <ComboBox x:Name="cbAlbumCompany" Margin="0,0,0,10" Text="{Binding SelectedItem.Company, ElementName=dgAlbumEdit, Mode=OneWay}"></ComboBox>
                                         <TextBlock>Image link</TextBlock>
-                                        <TextBox x:Name="txtAlbumCover" Text="{Binding SelectedItem.Imagelink, ElementName=dgAlbumEdit}"></TextBox>
+                                        <TextBox x:Name="txtAlbumCover" Text="{Binding SelectedItem.Imagelink, ElementName=dgAlbumEdit, Mode=OneWay}"></TextBox>
                                     </StackPanel>
                                     <StackPanel Orientation="Vertical" Margin="100,20,50,0">
                                         <Button x:Name="btnAddAlbum" Margin="0,10,0,0" Style="{StaticResource addButton}" Click="btnAddAlbum_Click">Add album</Button>
@@ -384,27 +385,29 @@
                                     <DataGrid x:Name="dgTrackEdit" SelectionChanged="dgEdit_SelectionChanged" AutoGeneratingColumn="dg_AutoGeneratingColumn" CanUserAddRows="True" ItemsSource="{Binding}"/>
                                 </StackPanel>
 
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel Margin="40,30,0,0" Width="200">
-                                        <TextBlock>Name</TextBlock>
-                                        <TextBox x:Name="txtTrackName" Text="{Binding SelectedItem.Track, ElementName=dgTrackEdit}"></TextBox>
-                                        <TextBlock>Artist</TextBlock>
-                                        <ComboBox x:Name="cbTrackArtist" Text="{Binding SelectedItem.Artist, ElementName=dgTrackEdit}"></ComboBox>
-                                        <TextBlock>Year</TextBlock>
-                                        <ComboBox x:Name="cbTrackYear" Text="{Binding SelectedItem.Year, ElementName=dgTrackEdit}"></ComboBox>
-                                        <TextBlock>Album</TextBlock>
-                                        <ComboBox x:Name="cbTrackAlbum" Text="{Binding SelectedItem.Album, ElementName=dgTrackEdit}"></ComboBox>
-                                        <TextBlock>Youtube link</TextBlock>
-                                        <TextBox x:Name="txtTubeLink" Text="{Binding SelectedItem.TubeLink, ElementName=dgTrackEdit}"></TextBox>
-                                        <TextBlock>Number</TextBlock>
-                                        <TextBox x:Name="txtTrackNumber" Text="{Binding SelectedItem.#, ElementName=dgTrackEdit}"></TextBox>
-                                        <TextBlock>Length</TextBlock>
-                                        <TextBox x:Name="txtTrackLength" Text="{Binding SelectedItem.Length, ElementName=dgTrackEdit}"></TextBox>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Vertical" Margin="100,10,50,0">
-                                        <Button x:Name="btnAddTrack" Margin= "0,10,0,0" Style= "{StaticResource addButton}"  Click="btnAddTrack_Click">Add track</Button>
-                                        <Button x:Name="btnUpdateTrack" Margin= "0,10,0,0" Style= "{StaticResource saveButton}"  Click="btnUpdateTrack_Click">Save changes</Button>
-                                        <Button x:Name="btnDeleteTrack" Margin= "0,10,0,0" Style= "{StaticResource deleteButton}"  Click="btnDeleteTrack_Click">Delete selected track</Button>
+                                <StackPanel  Margin="40,80,0,0"  Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Width="200">
+                                            <TextBlock>Name <Span Foreground="Red">*</Span></TextBlock>
+                                            <TextBox x:Name="txtTrackName" Margin="0,0,0,10" Text="{Binding SelectedItem.Track, ElementName=dgTrackEdit, Mode=OneWay}"></TextBox>
+                                            <TextBlock>Artist <Span Foreground="Red">*</Span></TextBlock>
+                                            <ComboBox x:Name="cbTrackArtist" Margin="0,0,0,10" Text="{Binding SelectedItem.Artist, ElementName=dgTrackEdit, Mode=OneWay}"></ComboBox>
+                                            <TextBlock>Year <Span Foreground="Red">*</Span></TextBlock>
+                                            <ComboBox x:Name="cbTrackYear" Margin="0,0,0,10" Text="{Binding SelectedItem.Year, ElementName=dgTrackEdit, Mode=OneWay}"></ComboBox>
+                                            <TextBlock>Album <Span Foreground="Red">*</Span></TextBlock>
+                                            <ComboBox x:Name="cbTrackAlbum" Margin="0,0,0,10" Text="{Binding SelectedItem.Album, ElementName=dgTrackEdit, Mode=OneWay}"></ComboBox>
+                                            <Button x:Name="btnAddTrack" Margin= "0,10,0,0" Style= "{StaticResource addButton}"  Click="btnAddTrack_Click">Add track</Button>
+                                            <Button x:Name="btnUpdateTrack" Margin= "0,10,0,0" Style= "{StaticResource saveButton}"  Click="btnUpdateTrack_Click">Save changes</Button>
+                                            <Button x:Name="btnDeleteTrack" Margin= "0,10,0,0" Style= "{StaticResource deleteButton}"  Click="btnDeleteTrack_Click">Delete selected track</Button>
+                                        </StackPanel>
+                                        <StackPanel Margin="20,0,0,0">
+                                            <TextBlock>Youtube link (https://...)</TextBlock>
+                                            <TextBox x:Name="txtTubeLink" Margin="0,0,0,10" Text="{Binding SelectedItem.TubeLink, ElementName=dgTrackEdit, Mode=OneWay}"></TextBox>
+                                            <TextBlock>Number <Span Foreground="Red">*</Span></TextBlock>
+                                            <TextBox x:Name="txtTrackNumber" Margin="0,0,0,10" Text="{Binding SelectedItem.#, ElementName=dgTrackEdit, Mode=OneWay}"></TextBox>
+                                            <TextBlock>Length (4:30) <Span Foreground="Red">*</Span></TextBlock>
+                                            <TextBox x:Name="txtTrackLength" Margin="0,0,0,10" Text="{Binding SelectedItem.Length, ElementName=dgTrackEdit, Mode=OneWay}"></TextBox>
+                                        </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>

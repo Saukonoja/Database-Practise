@@ -28,6 +28,7 @@ namespace MusicDatabase {
         private int columnIndex;
         private string cellValue;
         private string linkValue;
+        Uri mainImageUri = new Uri(imageFolderUri + "emptycd.png");
         WindowHandler handler = new WindowHandler();
         bool shutdown = true;
 
@@ -40,7 +41,13 @@ namespace MusicDatabase {
         #region INIT
 
         public void IniMyStuff() {
+            tbCurrentUser.Text = "Welcome, " + userName + "!";
+            tbCurrentUserHeader.Text = userName;
             try {
+                cbArtistYear.ItemsSource = DBMusicDatabase.GetYears();
+                cbArtistCountry.ItemsSource = DBMusicDatabase.GetCountries();
+                cbAlbumYear.ItemsSource = DBMusicDatabase.GetYears();
+                cbTrackYear.ItemsSource = DBMusicDatabase.GetYears();
                 if (userType == "admin" || userType == "user") {
                     btnLogin.Visibility = Visibility.Collapsed;
                     btnSignUp.Visibility = Visibility.Collapsed;
@@ -53,7 +60,7 @@ namespace MusicDatabase {
                 if (userType == "admin") {
                     spUsersEdit.Visibility = Visibility.Visible;
                 }
-                var mainImageUri = new Uri(imageFolderUri + "emptycd.png");
+
                 var bitmap = new BitmapImage(mainImageUri);
                 mainImage.Source = bitmap;
             } catch (Exception ex) {
@@ -62,29 +69,45 @@ namespace MusicDatabase {
         }
 
         public void IniDatagrids() {
-            dgArtist.DataContext = Artist.GetArtists().DefaultView;
-            dgArtistEdit.DataContext = Artist.GetArtists();
-            dgAlbums.DataContext = Album.GetAlbums();
-            dgAlbumEdit.DataContext = Album.GetAlbums();
-            dgTracks.DataContext = Track.GetTracks();
-            dgTrackEdit.DataContext = Track.GetTracks();
-            dgGenres.DataContext = Genre.GetGenres();
-            dgGenreEdit.DataContext = Genre.GetGenres();
-            dgCompanies.DataContext = Company.GetCompanies();
-            dgCompanyEdit.DataContext = Company.GetCompanies();
-            dgUsersEdit.DataContext = Users.GetUsers();
-            tbCurrentUser.Text = "Welcome, " + userName + "!";
-            tbCurrentUserHeader.Text = userName;
-            cbArtistYear.ItemsSource = DBMusicDatabase.GetYears();
-            cbArtistCountry.ItemsSource = DBMusicDatabase.GetCountries();
-            cbAlbumArtist.ItemsSource = DBMusicDatabase.GetArtists();
-            cbAlbumYear.ItemsSource = DBMusicDatabase.GetYears();
-            cbAlbumCompany.ItemsSource = DBMusicDatabase.GetCompanies();
-            cbTrackArtist.ItemsSource = DBMusicDatabase.GetArtists();
-            cbTrackAlbum.ItemsSource = DBMusicDatabase.GetAlbums();
-            cbTrackYear.ItemsSource = DBMusicDatabase.GetYears();
+            IniArtists();
+            IniAlbums();
+            IniTracks();
+            IniGenres();
+            IniCompanies();
         }
 
+        public void IniArtists() {
+            dgArtist.DataContext = Artist.GetArtists().DefaultView;
+            dgArtistEdit.DataContext = Artist.GetArtists();
+            cbAlbumArtist.ItemsSource = DBMusicDatabase.GetArtists();
+            cbTrackArtist.ItemsSource = DBMusicDatabase.GetArtists();
+        }
+
+        public void IniAlbums() {
+            dgAlbums.DataContext = Album.GetAlbums();
+            dgAlbumEdit.DataContext = Album.GetAlbums();
+            cbTrackAlbum.ItemsSource = DBMusicDatabase.GetAlbums();
+        }
+
+        public void IniTracks() {
+            dgTracks.DataContext = Track.GetTracks();
+            dgTrackEdit.DataContext = Track.GetTracks();
+        }
+
+        public void IniGenres() {
+            dgGenres.DataContext = Genre.GetGenres();
+            dgGenreEdit.DataContext = Genre.GetGenres();
+        }
+
+        public void IniCompanies() {
+            dgCompanies.DataContext = Company.GetCompanies();
+            dgCompanyEdit.DataContext = Company.GetCompanies();
+            cbAlbumCompany.ItemsSource = DBMusicDatabase.GetCompanies();
+        }
+
+        public void IniUsers() {
+            dgUsersEdit.DataContext = Users.GetUsers();
+        }
         #endregion
         #region MAIN BUTTONS AND METHODS
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
@@ -141,6 +164,11 @@ namespace MusicDatabase {
             columnIndex = dg.CurrentColumn.DisplayIndex;
         }
 
+        private void artistName_Click(object sender, RoutedEventArgs e) {
+            tabArtists.IsSelected = true;
+            ChangeArtistPage(linkValue);
+        }
+
         private void ChangePage(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
             sp1.Visibility = Visibility.Collapsed;
             sp2.Visibility = Visibility.Visible;
@@ -149,6 +177,8 @@ namespace MusicDatabase {
 
         private void ChangeArtistPage(string current) {
             ChangePage(spArtists, spArtistPage, spBackToArtists);
+            spArtistEdit.Visibility = Visibility.Collapsed;
+            spBackFromArtistEdit.Visibility = Visibility.Collapsed;
             dgArtistPage.DataContext = Artist.GetArtistAlbums(current);
             tbArtistPage.Text = current;
             tabArtists.IsSelected = true;
@@ -172,6 +202,9 @@ namespace MusicDatabase {
                 int seconds = totalSeconds % 60;
                 int minutes = totalSeconds / 60;
                 string length = minutes + ":" + seconds;
+                if (seconds < 10) {
+                    length = minutes + ":0" + seconds;
+                }
                 Hyperlink link = new Hyperlink();
                 link.Inlines.Add(array[0]);
                 SolidColorBrush color = new SolidColorBrush(Color.FromRgb(0, 0, 0));
@@ -199,19 +232,17 @@ namespace MusicDatabase {
             tbCompanyPage.Text = current;
         }
 
-        private void artistName_Click(object sender, RoutedEventArgs e) {
-            tabArtists.IsSelected = true;
-            ChangeArtistPage(linkValue);
-        }
-
         private void mainImage_MouseDown(object sender, MouseButtonEventArgs e) {
-            tabAlbums.IsSelected = true;
-            spBackFromAlbumEdit.Visibility = Visibility.Collapsed;
-            spYoutubePlayer.Visibility = Visibility.Visible;
-            try {
-                ChangeAlbumPage(Album.GetAlbumName(tbTrackName.Text));
-            } catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+            string uri = imageFolderUri + "emptycd.png";
+            if (mainImageUri.ToString() != uri) {
+                tabAlbums.IsSelected = true;
+                spBackFromAlbumEdit.Visibility = Visibility.Collapsed;
+                spYoutubePlayer.Visibility = Visibility.Visible;
+                try {
+                    ChangeAlbumPage(Album.GetAlbumName(tbTrackName.Text));
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -238,7 +269,7 @@ namespace MusicDatabase {
             spYoutubePlayer.Visibility = Visibility.Visible;
             youtubeVideo.Navigate(new Uri(videoString + Track.GetTrackTubepath(track), UriKind.RelativeOrAbsolute));
             tbTrackName.Text = track;
-            var mainImageUri = new Uri(Album.GetImageUrl(tbAlbumPage.Text));
+            mainImageUri = new Uri(Album.GetImageUrl(tbAlbumPage.Text));
             var bitmap = new BitmapImage(mainImageUri);
             mainImage.Source = bitmap;
             tabAlbums.IsSelected = true;
@@ -259,23 +290,26 @@ namespace MusicDatabase {
         #region ARTIST
 
         private void btnAddArtist_Click(object sender, RoutedEventArgs e) {
-            if (txtArtistName.Text != "" || txtArtistName.Text != "" ||
-                cbArtistCountry.Text != null) {
+            if (txtArtistName.Text != "" && txtArtistName.Text != "" &&
+                cbArtistCountry.Text != "") {
                 try {
-                    dgArtistEdit.SelectedIndex = -1;
-                    if (btnAddArtist.Content.ToString() == "Add artist") {
-                        txtArtistName.Text = "";
-                        cbArtistYear.Text = "";
-                        cbArtistCountry.Text = "";
-                        btnAddArtist.Content = "Save new artist";
-                    } else {
+                    if (dgArtistEdit.SelectedIndex > -1) {
+                        if (btnAddArtist.Content.ToString() == "Add artist") {
+                            dgArtistEdit.SelectedIndex = -1;
+                            txtArtistName.Text = "";
+                            cbArtistYear.Text = "";
+                            cbArtistCountry.Text = "";
+                            btnAddArtist.Content = "Save new artist";
+                        }
+                    } else if (dgArtistEdit.SelectedIndex == -1) {
                         string name = txtArtistName.Text;
                         int year = int.Parse(cbArtistYear.Text);
                         string country = cbArtistCountry.Text;
                         Artist.AddNewArtist(name, country, year);
                         btnAddArtist.Content = "Add artist";
-                        IniDatagrids();
+                        IniArtists();
                         MessageBox.Show("New artist added to database.");
+                        dgArtistEdit.SelectedIndex = 0;
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
@@ -297,7 +331,7 @@ namespace MusicDatabase {
                         case "Yes":
                             try {
                                 Artist.DeleteArtist(key);
-                                IniDatagrids();
+                                IniArtists();
                                 MessageBox.Show("Artist deleted from the database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -331,7 +365,7 @@ namespace MusicDatabase {
                         case "Yes":
                             try {
                                 Artist.UpdateArtist(key, name, country, year);
-                                IniDatagrids();
+                                IniArtists();
                                 MessageBox.Show("Artist updated to database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -386,28 +420,32 @@ namespace MusicDatabase {
         }
         #endregion
         #region ALBUM
+
         private void btnAddAlbum_Click(object sender, RoutedEventArgs e) {
-            if (txtAlbumName.Text != "" || cbAlbumArtist.Text != "" ||
-                cbAlbumYear.Text != "" || cbAlbumCompany.Text != "" || txtAlbumCover.Text != "") {
+            if (txtAlbumName.Text != "" && cbAlbumArtist.Text != "" &&
+                cbAlbumYear.Text != "") {
                 try {
-                    dgAlbumEdit.SelectedIndex = -1;
-                    if (btnAddAlbum.Content.ToString() == "Add album") {
-                        txtAlbumName.Text = "";
-                        cbAlbumArtist.Text = "";
-                        cbAlbumYear.Text = "";
-                        cbAlbumCompany.Text = "";
-                        txtAlbumCover.Text = "";
-                        btnAddAlbum.Content = "Save new album";
-                    } else {
+                    if (dgAlbumEdit.SelectedIndex > -1) {
+                        if (btnAddAlbum.Content.ToString() == "Add album") {
+                            dgAlbumEdit.SelectedIndex = -1;
+                            txtAlbumName.Text = "";
+                            cbAlbumArtist.Text = "";
+                            cbAlbumYear.Text = "";
+                            cbAlbumCompany.Text = "";
+                            txtAlbumCover.Text = "";
+                            btnAddAlbum.Content = "Save new album";
+                        }
+                    } else if (dgAlbumEdit.SelectedIndex == -1) {
                         string name = txtAlbumName.Text;
                         string artist = cbAlbumArtist.Text;
                         int year = int.Parse(cbAlbumYear.Text);
                         string company = cbAlbumCompany.Text;
                         string imageLink = txtAlbumCover.Text;
                         Album.AddAlbum(name, artist, company, year, imageLink);
-                        IniDatagrids();
+                        IniAlbums();
                         MessageBox.Show("New album added to database.");
                         btnAddAlbum.Content = "Add album";
+                        dgAlbumEdit.SelectedIndex = 0;
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
@@ -428,7 +466,7 @@ namespace MusicDatabase {
                         case "Yes":
                             try {
                                 Album.DeleteAlbum(key);
-                                IniDatagrids();
+                                IniAlbums();
                                 MessageBox.Show("Album deleted from the database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -462,7 +500,7 @@ namespace MusicDatabase {
                         case "Yes":
                             try {
                                 Album.UpdateAlbum(key, name, artist, company, year, imageLink);
-                                IniDatagrids();
+                                IniAlbums();
                                 MessageBox.Show("Album updated to database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -523,32 +561,37 @@ namespace MusicDatabase {
         #endregion
         #region TRACK
         private void btnAddTrack_Click(object sender, RoutedEventArgs e) {
-            if (txtTrackName.Text != "" || cbTrackArtist.Text != "" ||
-                cbTrackYear.Text != "" || cbTrackAlbum.Text != "" || txtTubeLink.Text != "" ||
-                txtTrackNumber.Text != "" || txtTrackLength.Text != "") {
+            if (txtTrackName.Text != "" && cbTrackArtist.Text != "" &&
+                cbTrackYear.Text != "" && cbTrackAlbum.Text != "" &&
+                txtTrackNumber.Text != "" && txtTrackLength.Text != "") {
                 try {
-                    dgTrackEdit.SelectedIndex = -1;
-                    if (btnAddTrack.Content.ToString() == "Add track") {
-                        txtTrackName.Text = "";
-                        cbTrackArtist.Text = "";
-                        cbTrackYear.Text = "";
-                        cbTrackAlbum.Text = "";
-                        txtTubeLink.Text = "";
-                        txtTrackNumber.Text = "";
-                        txtTrackLength.Text = "";
-                        btnAddTrack.Content = "Save new track";
-                    } else {
+                    if (dgTrackEdit.SelectedIndex > -1) {
+                        if (btnAddTrack.Content.ToString() == "Add track") {
+                            dgTrackEdit.SelectedIndex = -1;
+                            txtTrackName.Text = "";
+                            cbTrackArtist.Text = "";
+                            cbTrackYear.Text = "";
+                            cbTrackAlbum.Text = "";
+                            txtTubeLink.Text = "";
+                            txtTrackNumber.Text = "";
+                            txtTrackLength.Text = "4:30";
+                            btnAddTrack.Content = "Save new track";
+                        }
+                    } else if (dgTrackEdit.SelectedIndex == -1) {
                         string name = txtTrackName.Text;
                         string artist = cbTrackArtist.Text;
                         int year = int.Parse(cbTrackYear.Text);
                         string album = cbTrackAlbum.Text;
                         string link = txtTubeLink.Text;
+                        string linkParsed = link.Substring(link.LastIndexOf('=') + 1);
                         int number = int.Parse(txtTrackNumber.Text);
-                        int length = int.Parse(txtTrackLength.Text);
-                        Track.AddTrack(name, artist, year, album, link, number, length);
-                        IniDatagrids();
+                        string length = "00:" + txtTrackLength.Text;
+                        int lengthSeconds = (int)TimeSpan.Parse(length).TotalSeconds;
+                        Track.AddTrack(name, artist, year, album, linkParsed, number, lengthSeconds);
+                        IniTracks();
                         MessageBox.Show("New track added to database.");
                         btnAddTrack.Content = "Add track";
+                        dgTrackEdit.SelectedIndex = 0;
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
@@ -557,6 +600,7 @@ namespace MusicDatabase {
                 MessageBox.Show("Fill fields first.");
             }
         }
+
         private void btnDeleteTrack_Click(object sender, RoutedEventArgs e) {
             if (dgTrackEdit.SelectedIndex > -1) {
                 try {
@@ -568,7 +612,7 @@ namespace MusicDatabase {
                         case "Yes":
                             try {
                                 Track.DeleteTrack(key);
-                                IniDatagrids();
+                                IniTracks();
                                 MessageBox.Show("Track deleted from the database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -597,14 +641,15 @@ namespace MusicDatabase {
                     int year = int.Parse(cbTrackYear.Text);
                     string album = cbTrackAlbum.Text;
                     string link = txtTubeLink.Text;
+                    string linkParsed = link.Substring(link.LastIndexOf('=') + 1);
                     int number = int.Parse(txtTrackNumber.Text);
                     int length = int.Parse(txtTrackLength.Text);
                     MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
                     switch (result.ToString()) {
                         case "Yes":
                             try {
-                                Track.UpdateTrack(key, name, artist, year, album, link, number, length);
-                                IniDatagrids();
+                                Track.UpdateTrack(key, name, artist, year, album, linkParsed, number, length);
+                                IniTracks();
                                 MessageBox.Show("Track updated to database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -662,7 +707,7 @@ namespace MusicDatabase {
                     } else {
                         string name = txtGenreName.Text;
                         //Genre.AddGenre(name);
-                        IniDatagrids();
+                        IniGenres();
                         MessageBox.Show("New genre added to database.");
                         btnAddTrack.Content = "Add genre";
                     }
@@ -685,7 +730,7 @@ namespace MusicDatabase {
                 //    case "Yes":
                 //        try {
                 //Track.DeleteTrack(key);
-                //IniDatagrids();
+                //IniGenres();
                 //MessageBox.Show("Track deleted from the database.");
                 //            } catch (Exception ex) {
                 //                MessageBox.Show(ex.Message);
@@ -721,7 +766,7 @@ namespace MusicDatabase {
                 //        case "Yes":
                 //            try {
                 //                Track.UpdateTrack(key, name, artist, year, album, link, number, length);
-                //                IniDatagrids();
+                //                IniGenres();
                 //                MessageBox.Show("Track updated to database.");
                 //            } catch (Exception ex) {
                 //                MessageBox.Show(ex.Message);
@@ -851,6 +896,8 @@ namespace MusicDatabase {
                         try {
 
                             Users.DeleteUser(key);
+                            IniUsers();
+                            MessageBox.Show("User deleted from the database.");
                         } catch (Exception ex) {
 
                             MessageBox.Show(ex.Message);
@@ -863,9 +910,6 @@ namespace MusicDatabase {
                 }
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
-            } finally {
-                IniDatagrids();
-                MessageBox.Show("User deleted from the database.");
             }
         }
 
@@ -881,6 +925,8 @@ namespace MusicDatabase {
                     case "Yes":
                         try {
                             Users.UpdateUser(key, name, admin);
+                            IniUsers();
+                            MessageBox.Show("User updated to database.");
                         } catch (Exception ex) {
                             MessageBox.Show(ex.Message);
                         }
@@ -892,9 +938,6 @@ namespace MusicDatabase {
                 }
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
-            } finally {
-                IniDatagrids();
-                MessageBox.Show("User updated to database.");
             }
         }
 
@@ -907,6 +950,8 @@ namespace MusicDatabase {
                     case "Yes":
                         try {
                             Users.UpdatePassword(user, newPassword);
+                            IniUsers();
+                            MessageBox.Show("Password updated to database.");
                         } catch (Exception ex) {
                             MessageBox.Show(ex.Message);
                         }
@@ -918,13 +963,12 @@ namespace MusicDatabase {
                 }
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
-            } finally {
-                IniDatagrids();
-                MessageBox.Show("Password updated to database.");
             }
         }
-
-
         #endregion
+
+        private void btnEmptyBoxes_Click(object sender, RoutedEventArgs e) {
+
+        }
     }
 }

@@ -163,7 +163,7 @@ namespace MusicDatabase {
             return addTrack;
         }
         public static string DeleteTrack() {
-            string deleteTrack = "DELETE FROM cd_kappale WHERE kappale_avain = @KEY; DELETE FROM kappale WHERE avain = @KEY;";
+            string deleteTrack = "DELETE FROM kappale_genre where kappale_avain = @KEY; DELETE FROM cd_kappale WHERE kappale_avain = @KEY; DELETE FROM kappale WHERE avain = @KEY;";
             return deleteTrack;
         }
         public static string UpdateTrack() {
@@ -177,7 +177,9 @@ namespace MusicDatabase {
                                  "WHERE avain = @KEY;" +
                                  "UPDATE cd_kappale " +
                                  "SET cd_avain = (SELECT avain FROM cd WHERE nimi = @ALBUM)" +
-                                 "WHERE kappale_avain = @KEY;";
+                                 "WHERE kappale_avain = @KEY; " +
+                                 "UPDATE kappale_genre " +
+                                 "SET genre_avain = (SELECT avain FROM genre where nimi = @GENRE;";
             return updateAlbum;
         }
 

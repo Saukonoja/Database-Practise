@@ -190,7 +190,9 @@ where cd.nimi like '%1986%' or esittaja.nimi like '%1986%' or vuosi.vuosi like '
 
 -- Staattinen pivot tulostaa montako albumia levy-yhtiö on julkaissut tiettynä vuonna
 
-with TEMP as(
+select 
+	* 
+from (
 	select 
 		vuosi.vuosi,
 		yhtio.nimi as yhtionimi,
@@ -198,10 +200,7 @@ with TEMP as(
 	from cd
 	inner join yhtio on cd.yhtio_avain = (select avain from cd where yhtio_avain = cd.avain)
 	inner join vuosi on cd.vuosi_avain = vuosi.avain
-)
-select * 
-from 
-TEMP 
+) as tt
 pivot (COUNT(cdnimi) for vuosi in ([1986],[1992])) P
 
 
@@ -211,25 +210,10 @@ pivot (COUNT(cdnimi) for vuosi in ([1986],[1992])) P
 DECLARE @DynamicPivotQuery AS NVARCHAR(MAX)
 DECLARE @ColumnName AS NVARCHAR(MAX)
 
-with TEMP as(
-	select 
-		vuosi.vuosi,
-		yhtio.nimi as yhtionimi,
-		cd.nimi as cdnimi
-	from cd
-	inner join yhtio on cd.yhtio_avain = (select avain from cd where yhtio_avain = cd.avain)
-	inner join vuosi on cd.vuosi_avain = vuosi.avain
-)
-
 --Get distinct values of the PIVOT Column 
 SELECT @ColumnName= ISNULL(@ColumnName + ',','') 
        + QUOTENAME(vuosi)
-FROM (SELECT DISTINCT vuosi FROM TEMP) AS C
- 
---Prepare the PIVOT query using the dynamic 
-SET @DynamicPivotQuery = 
-
-  N'with TEMP as(
+FROM (SELECT DISTINCT vuosi FROM (
 	select 
 		vuosi.vuosi,
 		yhtio.nimi as yhtionimi,
@@ -237,13 +221,19 @@ SET @DynamicPivotQuery =
 	from cd
 	inner join yhtio on cd.yhtio_avain = (select avain from cd where yhtio_avain = cd.avain)
 	inner join vuosi on cd.vuosi_avain = vuosi.avain
-)
-  SELECT *
-    FROM TEMP	
+) as tt) AS C
+ 
+--Prepare the PIVOT query using the dynamic 
+SET @DynamicPivotQuery = 
+  N'SELECT *
+    FROM (select 
+		vuosi.vuosi,
+		yhtio.nimi as yhtionimi,
+		cd.nimi as cdnimi
+	from cd
+	inner join yhtio on cd.yhtio_avain = (select avain from cd where yhtio_avain = cd.avain)
+	inner join vuosi on cd.vuosi_avain = vuosi.avain) as tt
     PIVOT(COUNT(cdnimi) 
           FOR vuosi IN (' + @ColumnName + ')) AS PVTTable'
 --Execute the Dynamic Pivot Query
 EXEC sp_executesql @DynamicPivotQuery
-
-
-

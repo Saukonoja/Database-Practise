@@ -250,8 +250,8 @@ namespace MusicDatabase {
             string albumInfo = "select " +
                                         "esittaja.nimi as Artist, " +
                                         "vuosi.vuosi as Julkaisuvuosi, " +
-                                        "count(kappale.nimi), " +   
-                                        "sum(kappale.kesto) " +
+                                        "count(kappale.nimi), " +
+                                        "SEC_TO_TIME(SUM(TIME_TO_SEC(kappale.kesto))) AS Length " +
                                 "from cd " +
                                 "left join cd_kappale on cd_kappale.cd_avain = cd.avain " +
                                 "left join kappale on cd_kappale.kappale_avain = kappale.avain " +

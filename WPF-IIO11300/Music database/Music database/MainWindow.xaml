@@ -64,7 +64,6 @@
             <Setter Property="IsReadOnly" Value="True" />
             <Setter Property="Background" Value="#282828"/>
             <Setter Property="Height" Value="400"/>
-            <Setter Property="MinWidth" Value="300"/>
         </Style>
 
         <Style TargetType="{x:Type DataGridCell}">
@@ -73,7 +72,8 @@
             <Setter Property="BorderBrush" Value="#282828" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Padding" Value="10" />
-            
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Margin" Value="0,0,-1,0"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -209,6 +209,23 @@
             </Setter>
         </Style>
 
+        <Style TargetType="ScrollBar">
+            <Setter Property="Background" Value="#282828" />
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#282828"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="#282828"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#282828"/>
+        </Style>
+        
     </Window.Resources>
     <Grid Background="#575757">
 
@@ -310,7 +327,13 @@
                                         <TextBlock x:Name="tbAlbumInfo" FontSize="20"></TextBlock>
                                     </StackPanel>
                                     <StackPanel>
-                                        <DataGrid x:Name="dgAlbumPage" Margin="10,30,10,0" AutoGeneratingColumn="dg_AutoGeneratingColumn" MouseDoubleClick="dgAlbumPage_MouseDoubleClick" ItemsSource="{Binding}"></DataGrid>
+                                        <DataGrid x:Name="dgAlbumPage" Margin="10,30,10,0" AutoGenerateColumns="False" AutoGeneratingColumn="dg_AutoGeneratingColumn" MouseDoubleClick="dgAlbumPage_MouseDoubleClick" ItemsSource="{Binding}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Binding="{Binding Path=#}" Header="#" Width="40"></DataGridTextColumn>
+                                                <DataGridTextColumn Binding="{Binding Path=Track}" Header="Track"></DataGridTextColumn>
+                                                <DataGridTextColumn Binding="{Binding Path=Length, StringFormat=mm\\:ss}" Header="Length" Width="80"></DataGridTextColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -383,7 +406,19 @@
                             <StackPanel x:Name="spTrackEdit" Orientation="Horizontal" Visibility="Collapsed">
                                 <StackPanel>
                                     <TextBlock Style="{StaticResource pageName}">Edit track</TextBlock>
-                                    <DataGrid x:Name="dgTrackEdit" SelectionChanged="dgEdit_SelectionChanged" AutoGeneratingColumn="dg_AutoGeneratingColumn" CanUserAddRows="True" ItemsSource="{Binding}"/>
+                                    <DataGrid x:Name="dgTrackEdit" SelectionChanged="dgEdit_SelectionChanged" AutoGenerateColumns="False" AutoGeneratingColumn="dg_AutoGeneratingColumn" CanUserAddRows="True" ItemsSource="{Binding}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Path=Track}" Header="Track"></DataGridTextColumn>
+                                            <DataGridTextColumn Binding="{Binding Path=Artist}" Header="Artist"></DataGridTextColumn>
+                                            <DataGridTextColumn Binding="{Binding Path=Album}" Header="Album"></DataGridTextColumn>
+                                            <DataGridTextColumn Binding="{Binding Path=Year}" Header="Year"></DataGridTextColumn>
+                                            <DataGridTextColumn Binding="{Binding Path=TubeLink}" Header="TubeLink"></DataGridTextColumn>
+                                            <DataGridTextColumn Binding="{Binding Path=#}" Header="#" Width="30"></DataGridTextColumn>
+                                            <DataGridTextColumn Binding="{Binding Path=TubeLink}" Header="TubeLink"></DataGridTextColumn>
+                                            <DataGridTextColumn Binding="{Binding Path=Length, StringFormat=mm\\:ss}" Header="Length"></DataGridTextColumn>
+                                            <DataGridTextColumn Binding="{Binding Path=Genre}" Header="Genre"></DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
                                 </StackPanel>
 
                                 <StackPanel  Margin="40,80,0,0"  Orientation="Vertical">
@@ -401,7 +436,7 @@
                                             <Button x:Name="btnUpdateTrack" Margin= "0,10,0,0" Style= "{StaticResource saveButton}"  Click="btnUpdateTrack_Click">Save changes</Button>
                                             <Button x:Name="btnDeleteTrack" Margin= "0,10,0,0" Style= "{StaticResource deleteButton}"  Click="btnDeleteTrack_Click">Delete selected track</Button>
                                         </StackPanel>
-                                        <StackPanel Margin="20,0,0,0">
+                                        <StackPanel Margin="20,0,0,0" Width="200">
                                             <TextBlock>Genre <Span Foreground="Red">*</Span></TextBlock>
                                             <ComboBox x:Name="cbTrackGenre"  Margin="0,0,0,10" Text="{Binding SelectedItem.Genre, ElementName=dgTrackEdit}"></ComboBox>
                                             <TextBlock>Youtube link (https://...)</TextBlock>
@@ -571,11 +606,10 @@
             <TextBlock x:Name="tbCopyright" Text="© Music database 2016" HorizontalAlignment="Left" Foreground="White" FontSize="24" Margin="10,10,0,5"></TextBlock>
         </StackPanel>
         <StackPanel Background="#E3E3E3" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,55,0,0" Height="50">
-            <TextBox x:Name="txtSearchFromDatabase" FontSize="18" Width="400" Margin="10,10,10,10" BorderThickness="0"></TextBox>
-            <Button x:Name="btnSearchFromDatabase" Content="Search from database" Background="#3FA9F5" BorderBrush="#3FA9F5" FontSize="14" Margin="0,10,0,10" Foreground="White" Width="200" Click="btnSearchFromDatabase_Click" />
+            <TextBox x:Name="txtSearchFromDatabase" Padding="10,0,0,0" Text="Search from database" Foreground="#A9A9AF" GotFocus="txtSearchFromDatabase_GotFocus" LostFocus="txtSearchFromDatabase_LostFocus" TextChanged="txtSearchFromDatabase_TextChanged" FontSize="18" Width="400" Height="30" Margin="10,10,10,10" BorderThickness="0"></TextBox>
         </StackPanel>
 
-        <TextBlock Style="{StaticResource headerName}" VerticalAlignment="Top" ><Hyperlink x:Name="usernameLink" IsEnabled="False" Foreground="White" Click="usernameLink_Click"><TextBlock x:Name="tbCurrentUserHeader"/></Hyperlink></TextBlock>
+        <TextBlock Style="{StaticResource headerName}" VerticalAlignment="Top"><Hyperlink x:Name="usernameLink" IsEnabled="False" Foreground="White" Click="usernameLink_Click"><TextBlock x:Name="tbCurrentUserHeader"/></Hyperlink></TextBlock>
         <Button x:Name="btnSignUp" Content="SIGN UP" Background="#ACCB12" BorderBrush="#ACCB12" FontSize="16" Foreground="White" Margin="10,10,90,5" Width="80" Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnSignUp_Click"/>
         <Button x:Name="btnLogin" Content="LOGIN" Background="#B8B8B8" BorderBrush="#B8B8B8" FontSize="16" Foreground="White" Margin="0,10,10,5" Width="70"  Height="35"  VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnLogin_Click"/>
         <Button x:Name="btnLogout" Visibility="Collapsed" Content="LOGOUT" Background="#DD514C" BorderBrush="#DD514C" FontSize="16" Foreground="White" Margin="0,10,10,5" Width="70" Height="35"  VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnLogout_Click"/>

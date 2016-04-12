@@ -28,7 +28,8 @@ namespace MusicDatabase {
         private int columnIndex;
         private string cellValue;
         private string linkValue;
-        Uri mainImageUri = new Uri(imageFolderUri + "emptycd.png");
+        private static string emptyCD = imageFolderUri + "emptycd.png";
+        Uri mainImageUri = new Uri(emptyCD);
         WindowHandler handler = new WindowHandler();
         bool shutdown = true;
 
@@ -114,25 +115,38 @@ namespace MusicDatabase {
         }
         #endregion
         #region MAIN BUTTONS AND METHODS
-        private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
-            string srcparam = "%"+txtSearchFromDatabase.Text+"%";
-            if (tabArtists.IsSelected == true) {
-              dgArtist.DataContext =  Artist.SearchArtist(srcparam);
+
+        private void txtSearchFromDatabase_TextChanged(object sender, TextChangedEventArgs e) {
+            if (txtSearchFromDatabase.Text != "Search from database") {
+                string srcparam = "%" + txtSearchFromDatabase.Text + "%";
+                if (tabArtists.IsSelected == true) {
+                    dgArtist.DataContext = Artist.SearchArtist(srcparam);
+                } else if (tabAlbums.IsSelected == true) {
+
+                } else if (tabTracks.IsSelected == true) {
+
+                } else if (tabGenres.IsSelected == true) {
+
+                } else if (tabRecordCompanies.IsSelected == true) {
+
+                }
             }
-            else if(tabAlbums.IsSelected == true) {
+        }
+
+        private void txtSearchFromDatabase_GotFocus(object sender, RoutedEventArgs e) {
+            TextBox tb = (TextBox)sender;
+            if (tb.Text == "Search from database") {
+                tb.Text = "";
 
             }
-            else if (tabTracks.IsSelected == true) {
+        }
+
+        private void txtSearchFromDatabase_LostFocus(object sender, RoutedEventArgs e) {
+            TextBox tb = (TextBox)sender;
+            if (tb.Text == "") {
+                tb.Text = "Search from database";
 
             }
-            else if (tabGenres.IsSelected == true) {
-
-            }
-            else if (tabRecordCompanies.IsSelected == true) {
-
-            }
-
-
         }
 
         private void homeLink_Click(object sender, RoutedEventArgs e) {
@@ -208,6 +222,8 @@ namespace MusicDatabase {
         private void ChangeAlbumPage(string current) {
             try {
                 ChangePage(spAlbums, spAlbumPage, spBackToAlbums);
+                spAlbumEdit.Visibility = Visibility.Collapsed;
+                spBackFromAlbumEdit.Visibility = Visibility.Collapsed;
                 dgAlbumPage.DataContext = Album.GetAlbumTracks(current);
                 tbAlbumPage.Text = current;
                 tabAlbums.IsSelected = true;
@@ -219,13 +235,8 @@ namespace MusicDatabase {
                 var bitmap = new BitmapImage(albumImageUri);
                 albumImage.Source = bitmap;
                 List<string> array = Album.GetAlbumInfo(current);
-                int totalSeconds = int.Parse(array[3]);
-                int seconds = totalSeconds % 60;
-                int minutes = totalSeconds / 60;
-                string length = minutes + ":" + seconds;
-                if (seconds < 10) {
-                    length = minutes + ":0" + seconds;
-                }
+                string length = array[3].ToString();
+                length = length.Substring(1);
                 Hyperlink link = new Hyperlink();
                 link.Inlines.Add(array[0]);
                 SolidColorBrush color = new SolidColorBrush(Color.FromRgb(0, 0, 0));
@@ -254,8 +265,7 @@ namespace MusicDatabase {
         }
 
         private void mainImage_MouseDown(object sender, MouseButtonEventArgs e) {
-            string uri = imageFolderUri + "emptycd.png";
-            if (mainImageUri.ToString() != uri) {
+            if (mainImageUri.ToString() != emptyCD) {
                 tabAlbums.IsSelected = true;
                 spBackFromAlbumEdit.Visibility = Visibility.Collapsed;
                 spYoutubePlayer.Visibility = Visibility.Visible;
@@ -577,7 +587,9 @@ namespace MusicDatabase {
 
         private void btnBackFromAlbumEdit_Click(object sender, RoutedEventArgs e) {
             BackFromEdit(spAlbums, spAlbumEdit, spBackFromAlbumEdit, dgAlbumEdit);
-            spYoutubePlayer.Visibility = Visibility.Visible;
+            if (mainImageUri.ToString() != emptyCD) {
+                spYoutubePlayer.Visibility = Visibility.Visible;
+            }
         }
         #endregion
         #region TRACK
@@ -608,7 +620,7 @@ namespace MusicDatabase {
                         string link = txtTubeLink.Text;
                         string linkParsed = link.Substring(link.LastIndexOf('=') + 1);
                         int number = int.Parse(txtTrackNumber.Text);
-                        string length = txtTrackLength.Text;
+                        string length = ":" + txtTrackLength.Text;
                         Track.AddTrack(name, artist, year, album, genre, linkParsed, number, length);
                         IniTracks();
                         MessageBox.Show("New track added to database.");
@@ -665,7 +677,7 @@ namespace MusicDatabase {
                     string link = txtTubeLink.Text;
                     string linkParsed = link.Substring(link.LastIndexOf('=') + 1);
                     int number = int.Parse(txtTrackNumber.Text);
-                    string length = txtTrackLength.Text;
+                    string length = ":" + txtTrackLength.Text;
                     string genre = cbTrackGenre.Text;
                     MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
                     switch (result.ToString()) {
@@ -1066,8 +1078,6 @@ namespace MusicDatabase {
         }
         #endregion
 
-        private void btnEmptyBoxes_Click(object sender, RoutedEventArgs e) {
-
-        }
+       
     }
 }

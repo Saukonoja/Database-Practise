@@ -343,6 +343,24 @@ namespace MusicDatabase {
             }
         }
 
+
+        public static void AddTest(string sqlString, params object[] parameters) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@NAME", parameters[0]);
+                cmd.Parameters.AddWithValue("@COUNTRY", parameters[1]);
+                cmd.Parameters.AddWithValue("@YEAR", parameters[2]);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         public static bool RegisterUser(string username, string password, out string message) {
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {

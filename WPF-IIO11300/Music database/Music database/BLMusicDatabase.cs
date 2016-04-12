@@ -115,6 +115,16 @@ namespace MusicDatabase {
             return resultTable;
         }
 
+        public static bool AddNewTest(string name, string country, int year) {
+            try {
+                DBMusicDatabase.AddTest(DBSQLQueries.AddArtist(), name, country, year);
+                return true;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         #endregion
     }
     public class Album {
@@ -253,7 +263,10 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-
+        public static DataTable SearchAlbum(string srcparam) {
+            DataTable resultTable = DBMusicDatabase.SearchTable(DBSQLQueries.SearchAlbum(), srcparam, "Result");
+            return resultTable;
+        }
         #endregion
     }
     public class Track {
@@ -370,7 +383,10 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-
+        public static DataTable SearchTrack(string srcparam) {
+            DataTable resultTable = DBMusicDatabase.SearchTable(DBSQLQueries.SearchTrack(), srcparam, "Result");
+            return resultTable;
+        }
 
         #endregion
     }
@@ -461,6 +477,10 @@ namespace MusicDatabase {
             } catch (Exception ex) {
                 throw ex;
             }
+        }
+        public static DataTable SearchGenre(string srcparam) {
+            DataTable resultTable = DBMusicDatabase.SearchTable(DBSQLQueries.SearchGenre(), srcparam, "Result");
+            return resultTable;
         }
         #endregion
     }
@@ -565,6 +585,10 @@ namespace MusicDatabase {
             } catch (Exception ex) {
                 throw ex;
             }
+        }
+        public static DataTable SearchCompanies(string srcparam) {
+            DataTable resultTable = DBMusicDatabase.SearchTable(DBSQLQueries.SearchCompanies(), srcparam, "Result");
+            return resultTable;
         }
         #endregion
     }

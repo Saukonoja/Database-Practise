@@ -50,6 +50,27 @@ namespace MusicDatabase {
             return getAlbums;
         }
 
+        public static string SearchAlbum() {
+            string searchAlbums = "SELECT " +
+                                        "cd.nimi as Album, " +
+                                        "esittaja.nimi as Artist, " +
+                                        "vuosi.vuosi as Year, " +
+                                        "yhtio.nimi as Company, " +
+                                        "cd.kuvapath as Imagelink, " +
+                                        "cd.avain as ID " +
+                                "FROM cd " +
+                                "left join cd_esittaja on cd_esittaja.cd_avain = cd.avain " +
+                                "left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain " +
+                                "left join vuosi on cd.vuosi_avain = vuosi.avain " +
+                                "left join yhtio on cd.yhtio_avain = yhtio.avain " +
+                                "WHERE cd.nimi LIKE @SRC " +
+                                "OR esittaja.nimi LIKE @SRC " +
+                                "OR vuosi.vuosi LIKE @SRC " +
+                                "OR yhtio.nimi LIKE @SRC;";
+            return searchAlbums;
+        }
+
+
         public static string GetTracks() {
             string getTracks = "SELECT " +                                     
                                         "kappale.nimi as Track, " +
@@ -73,12 +94,48 @@ namespace MusicDatabase {
             return getTracks;
         }
 
+        public static string SearchTrack() {
+            string getTracks = "SELECT " +
+                                        "kappale.nimi as Track, " +
+                                        "esittaja.nimi as Artist, " +
+                                        "cd.nimi as Album, " +
+                                        "vuosi.vuosi as Year, " +
+                                        "kappale.tubepath as TubeLink, " +
+                                        "kappale.numero as '#', " +
+                                        "kappale.kesto as Length, " +
+                                        "genre.nimi as Genre, " +
+                                        "kappale.avain as ID " +
+                               "FROM cd " +
+                               "left join cd_kappale on cd_kappale.cd_avain = cd.avain " +
+                               "left join kappale on cd_kappale.kappale_avain = kappale.avain " +
+                               "left join kappale_genre on kappale_genre.kappale_avain = kappale.avain " +
+                               "left join genre on kappale_genre.genre_avain = genre.avain " +
+                               "left join esittaja on kappale.esittaja_avain = esittaja.avain " +
+                               "left join vuosi on kappale.vuosi_avain = vuosi.avain " +
+                               "WHERE kappale.nimi LIKE @SRC " +
+                               "OR esittaja.nimi LIKE @SRC " +
+                               "OR cd.nimi LIKE @SRC " +
+                               "OR vuosi.vuosi LIKE @SRC " +
+                               "OR kappale.numero LIKE @SRC " +
+                               "OR genre.nimi LIKE @SRC;";
+            return getTracks;
+        }
+
         public static string GetGenres() {
             string getGenres = "SELECT " +
                                "genre.nimi as Genre, " +
                                "genre.avain as ID " +
                                "FROM genre " +
                                "GROUP BY genre.nimi;";
+            return getGenres;
+        }
+
+        public static string SearchGenre() {
+            string getGenres = "SELECT " +
+                               "genre.nimi as Genre, " +
+                               "genre.avain as ID " +
+                               "FROM genre " +
+                               "WHERE genre.nimi LIKE @SRC;";
             return getGenres;
         }
 
@@ -92,6 +149,21 @@ namespace MusicDatabase {
                                "left join maa on yhtio.maa_avain = maa.avain " +
                                "left join vuosi on yhtio.vuosi_avain = vuosi.avain " +
                                "GROUP BY yhtio.nimi;";
+            return getCompanies;
+        }
+
+        public static string SearchCompanies() {
+            string getCompanies = "SELECT " +
+                                        "yhtio.nimi as Company, " +
+                                        "maa.nimi as Country, " +
+                                        "vuosi.vuosi as Year, " +
+                                        "yhtio.avain as ID " +
+                               "FROM yhtio " +
+                               "left join maa on yhtio.maa_avain = maa.avain " +
+                               "left join vuosi on yhtio.vuosi_avain = vuosi.avain " +
+                               "WHERE yhtio.nimi LIKE @SRC " +
+                               "OR maa.nimi LIKE @SRC " +
+                               "OR vuosi.vuosi LIKE @SRC;";
             return getCompanies;
         }
 

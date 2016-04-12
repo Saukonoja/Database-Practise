@@ -121,14 +121,19 @@ namespace MusicDatabase {
                 string srcparam = "%" + txtSearchFromDatabase.Text + "%";
                 if (tabArtists.IsSelected == true) {
                     dgArtist.DataContext = Artist.SearchArtist(srcparam);
+                    dgArtistEdit.DataContext = Artist.SearchArtist(srcparam);
                 } else if (tabAlbums.IsSelected == true) {
-
+                    dgAlbums.DataContext = Album.SearchAlbum(srcparam);
+                    dgAlbumEdit.DataContext = Album.SearchAlbum(srcparam);
                 } else if (tabTracks.IsSelected == true) {
-
+                    dgTracks.DataContext = Track.SearchTrack(srcparam);
+                    dgTrackEdit.DataContext = Track.SearchTrack(srcparam);
                 } else if (tabGenres.IsSelected == true) {
-
+                    dgGenres.DataContext = Genre.SearchGenre(srcparam);
+                    dgGenreEdit.DataContext = Genre.SearchGenre(srcparam);
                 } else if (tabRecordCompanies.IsSelected == true) {
-
+                    dgCompanies.DataContext = Company.SearchCompanies(srcparam);
+                    dgCompanyEdit.DataContext = Company.SearchCompanies(srcparam);
                 }
             }
         }
@@ -336,7 +341,7 @@ namespace MusicDatabase {
                         string name = txtArtistName.Text;
                         int year = int.Parse(cbArtistYear.Text);
                         string country = cbArtistCountry.Text;
-                        Artist.AddNewArtist(name, country, year);
+                        Artist.AddNewTest(name, country, year);
                         btnAddArtist.Content = "Add artist";
                         IniArtists();
                         MessageBox.Show("New artist added to database.");

@@ -110,6 +110,10 @@ namespace MusicDatabase {
                 throw ex;
             } 
         }
+        public static DataTable SearchArtist(string srcparam) {
+            DataTable resultTable = DBMusicDatabase.SearchTable(DBSQLQueries.SearchArtist(), srcparam, "Result");
+            return resultTable;
+        }
 
         #endregion
     }

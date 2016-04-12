@@ -301,6 +301,24 @@ namespace MusicDatabase {
             }
         }
 
+        public static DataTable SearchTable (string sqlString, string srcparam, string tableName) {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try {
+                conn.Open();
+                string sql = sqlString;
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@SRC", srcparam);
+                MySqlDataAdapter msda = new MySqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                msda.Fill(ds, tableName);
+                conn.Close();
+                return ds.Tables[tableName];
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         public static void AddEntity(string sqlString, int key, string name, string artist, string album, string company, string country, int year, string link, int number, string length, string genre) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {

@@ -115,6 +115,23 @@ namespace MusicDatabase {
         #endregion
         #region MAIN BUTTONS AND METHODS
         private void btnSearchFromDatabase_Click(object sender, RoutedEventArgs e) {
+            string srcparam = "%"+txtSearchFromDatabase.Text+"%";
+            if (tabArtists.IsSelected == true) {
+              dgArtist.DataContext =  Artist.SearchArtist(srcparam);
+            }
+            else if(tabAlbums.IsSelected == true) {
+
+            }
+            else if (tabTracks.IsSelected == true) {
+
+            }
+            else if (tabGenres.IsSelected == true) {
+
+            }
+            else if (tabRecordCompanies.IsSelected == true) {
+
+            }
+
 
         }
 

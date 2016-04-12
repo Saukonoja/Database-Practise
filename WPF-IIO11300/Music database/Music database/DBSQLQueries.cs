@@ -19,6 +19,21 @@ namespace MusicDatabase {
             return getArtists;
         }
 
+        public static string SearchArtist() {
+            string searchArtist = "SELECT " +
+                                            "esittaja.nimi as Artist, " +
+                                            "vuosi.vuosi as Year, " +
+                                            "maa.nimi as Country, " +
+                                            "esittaja.avain as ID " +
+                                "FROM esittaja " +
+                                "left join vuosi on esittaja.vuosi_avain = vuosi.avain " +
+                                "left join maa on esittaja.maa_avain = maa.avain " +
+                                "WHERE esittaja.nimi LIKE @SRC " +
+                                "OR vuosi.vuosi LIKE @SRC " +
+                                "OR maa.nimi LIKE @SRC;";
+            return searchArtist;
+        }
+
         public static string GetAlbums() {
             string getAlbums = "SELECT " +                                    
                                         "cd.nimi as Album, " +

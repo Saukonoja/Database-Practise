@@ -412,7 +412,6 @@
                                             <DataGridTextColumn Binding="{Binding Path=Artist}" Header="Artist"></DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding Path=Album}" Header="Album"></DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding Path=Year}" Header="Year"></DataGridTextColumn>
-                                            <DataGridTextColumn Binding="{Binding Path=TubeLink}" Header="TubeLink"></DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding Path=#}" Header="#" Width="30"></DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding Path=TubeLink}" Header="TubeLink"></DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding Path=Length, StringFormat=mm\\:ss}" Header="Length"></DataGridTextColumn>

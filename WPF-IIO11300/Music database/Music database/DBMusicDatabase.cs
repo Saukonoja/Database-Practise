@@ -231,7 +231,7 @@ namespace MusicDatabase {
             }
         }
         public static void UpdateEntity(string sqlString, int key, string name, string artist, string album, string company, 
-            string country, int year, string imageLink, string tubeLink, int number, int length) {
+            string country, int year, string imageLink, string tubeLink, int number, string length, string genre) {
 
             try {
                 MySqlConnection conn = new MySqlConnection(connStr);
@@ -250,6 +250,7 @@ namespace MusicDatabase {
                 cmd.Parameters.AddWithValue("@TUBELINK", tubeLink);
                 cmd.Parameters.AddWithValue("@NUMBER", number);
                 cmd.Parameters.AddWithValue("@LENGTH", length);
+                cmd.Parameters.AddWithValue("@GENRE", genre);
                 cmd.ExecuteNonQuery();
 
             } catch (Exception ex) {
@@ -300,7 +301,7 @@ namespace MusicDatabase {
             }
         }
 
-        public static void AddEntity(string sqlString, int key, string name, string artist, string album, string company, string country, int year, string link, int number, int length) {
+        public static void AddEntity(string sqlString, int key, string name, string artist, string album, string company, string country, int year, string link, int number, string length, string genre) {
             MySqlConnection conn = new MySqlConnection(connStr);
             try {
                 conn.Open();
@@ -317,6 +318,7 @@ namespace MusicDatabase {
                 cmd.Parameters.AddWithValue("@LINK", link);
                 cmd.Parameters.AddWithValue("@NUMBER", number);
                 cmd.Parameters.AddWithValue("@LENGTH", length);
+                cmd.Parameters.AddWithValue("@GENRE", genre);
                 cmd.ExecuteNonQuery();
             } catch (Exception ex) {
                 throw ex;
@@ -433,105 +435,21 @@ namespace MusicDatabase {
             }
         }
 
-        public static List<string> GetCountries() {
-            List<string> countries = new List<string>();
+        public static List<string> GetCombobox(string stringSQL) {
+            List<string> comboBox = new List<string>();
             try {
                 using (MySqlConnection conn = new MySqlConnection(connStr)) {
                     conn.Open();
-                    string sql = "select nimi from maa order by nimi;";
+                    string sql = stringSQL;         
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     MySqlDataReader rdr = cmd.ExecuteReader();
                     if (rdr.HasRows) {
                         while (rdr.Read()) {
-                            countries.Add(rdr.GetString(0));
-                        }
-                    }
-
-                    conn.Close();
-                    return countries;
-                }
-            } catch (Exception ex) {
-                throw ex;
-            }
-        }
-
-        public static List<string> GetArtists() {
-            List<string> artists = new List<string>();
-            try {
-                using (MySqlConnection conn = new MySqlConnection(connStr)) {
-                    conn.Open();
-                    string sql = "select nimi from esittaja order by nimi;";
-                    MySqlCommand cmd = new MySqlCommand(sql, conn);
-                    MySqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows) {
-                        while (rdr.Read()) {
-                            artists.Add(rdr.GetString(0));
+                            comboBox.Add(rdr.GetString(0));
                         }
                     }
                     conn.Close();
-                    return artists;
-                }
-            } catch (Exception ex) {
-                throw ex;
-            }
-        }
-
-        public static List<string> GetAlbums() {
-            List<string> albums = new List<string>();
-            try {
-                using (MySqlConnection conn = new MySqlConnection(connStr)) {
-                    conn.Open();
-                    string sql = "select nimi from cd order by nimi;";
-                    MySqlCommand cmd = new MySqlCommand(sql, conn);
-                    MySqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows) {
-                        while (rdr.Read()) {
-                            albums.Add(rdr.GetString(0));
-                        }
-                    }
-                    conn.Close();
-                    return albums;
-                }
-            } catch (Exception ex) {
-                throw ex;
-            }
-        }
-
-        public static List<string> GetCompanies() {
-            List<string> companies = new List<string>();
-            try {
-                using (MySqlConnection conn = new MySqlConnection(connStr)) {
-                    conn.Open();
-                    string sql = "select nimi from yhtio order by nimi;";
-                    MySqlCommand cmd = new MySqlCommand(sql, conn);
-                    MySqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows) {
-                        while (rdr.Read()) {
-                            companies.Add(rdr.GetString(0));
-                        }
-                    }
-                    conn.Close();
-                    return companies;
-                }
-            } catch (Exception ex) {
-                throw ex;
-            }
-        }
-        public static List<string> GetYears() {
-            List<string> years = new List<string>();
-            try {
-                using (MySqlConnection conn = new MySqlConnection(connStr)) {
-                    conn.Open();
-                    string sql = "select vuosi from vuosi order by vuosi;";
-                    MySqlCommand cmd = new MySqlCommand(sql, conn);
-                    MySqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows) {
-                        while (rdr.Read()) {
-                            years.Add(rdr.GetString(0));
-                        }
-                    }
-                    conn.Close();
-                    return years;
+                    return comboBox;
                 }
             } catch (Exception ex) {
                 throw ex;

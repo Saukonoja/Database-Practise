@@ -44,10 +44,11 @@ namespace MusicDatabase {
             tbCurrentUser.Text = "Welcome, " + userName + "!";
             tbCurrentUserHeader.Text = userName;
             try {
-                cbArtistYear.ItemsSource = DBMusicDatabase.GetYears();
-                cbArtistCountry.ItemsSource = DBMusicDatabase.GetCountries();
-                cbAlbumYear.ItemsSource = DBMusicDatabase.GetYears();
-                cbTrackYear.ItemsSource = DBMusicDatabase.GetYears();
+                cbArtistYear.ItemsSource = Users.GetComboBoxYears();
+                cbArtistCountry.ItemsSource = Users.GetComboBoxCountries();
+                cbAlbumYear.ItemsSource = Users.GetComboBoxYears();
+                cbTrackYear.ItemsSource = Users.GetComboBoxYears();
+                cbTrackGenre.ItemsSource = Genre.GetComboBoxGenres();
                 if (userType == "admin" || userType == "user") {
                     btnLogin.Visibility = Visibility.Collapsed;
                     btnSignUp.Visibility = Visibility.Collapsed;
@@ -79,14 +80,14 @@ namespace MusicDatabase {
         public void IniArtists() {
             dgArtist.DataContext = Artist.GetArtists().DefaultView;
             dgArtistEdit.DataContext = Artist.GetArtists();
-            cbAlbumArtist.ItemsSource = DBMusicDatabase.GetArtists();
-            cbTrackArtist.ItemsSource = DBMusicDatabase.GetArtists();
+            cbAlbumArtist.ItemsSource = Artist.GetComboBoxArtists();
+            cbTrackArtist.ItemsSource = Artist.GetComboBoxArtists();
         }
 
         public void IniAlbums() {
             dgAlbums.DataContext = Album.GetAlbums();
             dgAlbumEdit.DataContext = Album.GetAlbums();
-            cbTrackAlbum.ItemsSource = DBMusicDatabase.GetAlbums();
+            cbTrackAlbum.ItemsSource = Album.GetComboBoxAlbums();
         }
 
         public void IniTracks() {
@@ -97,12 +98,15 @@ namespace MusicDatabase {
         public void IniGenres() {
             dgGenres.DataContext = Genre.GetGenres();
             dgGenreEdit.DataContext = Genre.GetGenres();
+            cbTrackGenre.ItemsSource = Genre.GetComboBoxGenres();
         }
 
         public void IniCompanies() {
             dgCompanies.DataContext = Company.GetCompanies();
             dgCompanyEdit.DataContext = Company.GetCompanies();
-            cbAlbumCompany.ItemsSource = DBMusicDatabase.GetCompanies();
+            cbAlbumCompany.ItemsSource = Company.GetComboBoxCompanies();
+            cbCompanyCountry.ItemsSource = Users.GetComboBoxCountries();
+            cbCompanyYear.ItemsSource = Users.GetComboBoxYears();
         }
 
         public void IniUsers() {
@@ -282,8 +286,8 @@ namespace MusicDatabase {
         }
         private void dgEdit_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             btnAddArtist.Content = "Add artist"; btnAddAlbum.Content = "Add album";
-            btnAddTrack.Content = "Add track"; btnAddArtist.Content = "Add artist";
-            btnAddArtist.Content = "Add artist";
+            btnAddTrack.Content = "Add track"; btnAddGenre.Content = "Add genre";
+            btnAddCompany.Content = "Add company";
         }
 
         #endregion
@@ -562,7 +566,7 @@ namespace MusicDatabase {
         #region TRACK
         private void btnAddTrack_Click(object sender, RoutedEventArgs e) {
             if (txtTrackName.Text != "" && cbTrackArtist.Text != "" &&
-                cbTrackYear.Text != "" && cbTrackAlbum.Text != "" &&
+                cbTrackYear.Text != "" && cbTrackAlbum.Text != "" && cbTrackGenre.Text != "" &&
                 txtTrackNumber.Text != "" && txtTrackLength.Text != "") {
                 try {
                     if (dgTrackEdit.SelectedIndex > -1) {
@@ -572,6 +576,7 @@ namespace MusicDatabase {
                             cbTrackArtist.Text = "";
                             cbTrackYear.Text = "";
                             cbTrackAlbum.Text = "";
+                            cbTrackGenre.Text = "";
                             txtTubeLink.Text = "";
                             txtTrackNumber.Text = "";
                             txtTrackLength.Text = "4:30";
@@ -582,12 +587,12 @@ namespace MusicDatabase {
                         string artist = cbTrackArtist.Text;
                         int year = int.Parse(cbTrackYear.Text);
                         string album = cbTrackAlbum.Text;
+                        string genre = cbTrackGenre.Text;
                         string link = txtTubeLink.Text;
                         string linkParsed = link.Substring(link.LastIndexOf('=') + 1);
                         int number = int.Parse(txtTrackNumber.Text);
-                        string length = "00:" + txtTrackLength.Text;
-                        int lengthSeconds = (int)TimeSpan.Parse(length).TotalSeconds;
-                        Track.AddTrack(name, artist, year, album, linkParsed, number, lengthSeconds);
+                        string length = txtTrackLength.Text;
+                        Track.AddTrack(name, artist, year, album, genre, linkParsed, number, length);
                         IniTracks();
                         MessageBox.Show("New track added to database.");
                         btnAddTrack.Content = "Add track";
@@ -605,7 +610,7 @@ namespace MusicDatabase {
             if (dgTrackEdit.SelectedIndex > -1) {
                 try {
                     DataRowView rowView = dgTrackEdit.SelectedItem as DataRowView;
-                    int key = (int)rowView[7];
+                    int key = (int)rowView[8];
                     string name = rowView.Row[0] as string;
                     MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
                     switch (result.ToString()) {
@@ -635,7 +640,7 @@ namespace MusicDatabase {
             if (dgTrackEdit.SelectedIndex > -1) {
                 try {
                     DataRowView rowView = dgTrackEdit.SelectedItem as DataRowView;
-                    int key = (int)rowView[7];
+                    int key = (int)rowView[8];
                     string name = txtTrackName.Text;
                     string artist = cbTrackArtist.Text;
                     int year = int.Parse(cbTrackYear.Text);
@@ -643,12 +648,13 @@ namespace MusicDatabase {
                     string link = txtTubeLink.Text;
                     string linkParsed = link.Substring(link.LastIndexOf('=') + 1);
                     int number = int.Parse(txtTrackNumber.Text);
-                    int length = int.Parse(txtTrackLength.Text);
+                    string length = txtTrackLength.Text;
+                    string genre = cbTrackGenre.Text;
                     MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
                     switch (result.ToString()) {
                         case "Yes":
                             try {
-                                Track.UpdateTrack(key, name, artist, year, album, linkParsed, number, length);
+                                Track.UpdateTrack(key, name, artist, year, album, linkParsed, number, length, genre);
                                 IniTracks();
                                 MessageBox.Show("Track updated to database.");
                             } catch (Exception ex) {
@@ -700,16 +706,19 @@ namespace MusicDatabase {
         private void btnAddGenre_Click(object sender, RoutedEventArgs e) {
             if (txtGenreName.Text != "") {
                 try {
-                    dgTrackEdit.SelectedIndex = -1;
-                    if (btnAddTrack.Content.ToString() == "Add genre") {
-                        txtGenreName.Text = "";
-                        btnAddTrack.Content = "Save new genre";
-                    } else {
+                    if (dgGenreEdit.SelectedIndex > -1) {
+                        if (btnAddGenre.Content.ToString() == "Add genre") {
+                            dgGenreEdit.SelectedIndex = -1;
+                            txtGenreName.Text = "";
+                            btnAddGenre.Content = "Save new genre";
+                        }
+                    } else if(dgGenreEdit.SelectedIndex == -1) {
                         string name = txtGenreName.Text;
-                        //Genre.AddGenre(name);
+                        Genre.AddGenre(name);
                         IniGenres();
                         MessageBox.Show("New genre added to database.");
-                        btnAddTrack.Content = "Add genre";
+                        btnAddGenre.Content = "Add genre";
+                        dgGenreEdit.SelectedIndex = 0;
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
@@ -720,68 +729,62 @@ namespace MusicDatabase {
         }
 
         private void btnDeleteGenre_Click(object sender, RoutedEventArgs e) {
-            if (dgTrackEdit.SelectedIndex > -1) {
-                //try {
-                //DataRowView rowView = dgTrackEdit.SelectedItem as DataRowView;
-                //int key = (int)rowView[7];
-                //string name = rowView.Row[0] as string;
-                //MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
-                //switch (result.ToString()) {
-                //    case "Yes":
-                //        try {
-                //Track.DeleteTrack(key);
-                //IniGenres();
-                //MessageBox.Show("Track deleted from the database.");
-                //            } catch (Exception ex) {
-                //                MessageBox.Show(ex.Message);
-                //            }
-                //            break;
-                //        case "No":
-                //            break;
-                //        default:
-                //            break;
-                //    }
-                //} catch (Exception ex) {
-                //    MessageBox.Show(ex.Message);
-                //}
+            if (dgGenreEdit.SelectedIndex > -1) {
+                try {
+                    DataRowView rowView = dgGenreEdit.SelectedItem as DataRowView;
+                    int key = (int)rowView[1];
+                    string name = rowView.Row[0] as string;
+                    MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
+                    switch (result.ToString()) {
+                        case "Yes":
+                            try {
+                                Genre.DeleteGenre(key);
+                                IniGenres();
+                                MessageBox.Show("Genre deleted from the database.");
+                            } catch (Exception ex) {
+                                MessageBox.Show(ex.Message);
+                            }
+                            break;
+                        case "No":
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
             } else {
-                MessageBox.Show("Select track first.");
+                MessageBox.Show("Select genre first.");
             }
         }
 
         private void btnUpdateGenre_Click(object sender, RoutedEventArgs e) {
-            if (dgTrackEdit.SelectedIndex > -1) {
-                //try {
-                //    DataRowView rowView = dgTrackEdit.SelectedItem as DataRowView;
-                //    int key = (int)rowView[7];
-                //    string name = txtTrackName.Text;
-                //    string artist = txtTrackArtist.Text;
-                //    int year = int.Parse(txtTrackYear.Text);
-                //    string album = txtTrackAlbum.Text;
-                //    string link = txtTubeLink.Text;
-                //    int number = int.Parse(txtTrackNumber.Text);
-                //    int length = int.Parse(txtTrackLength.Text);
-                //    MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
-                //    switch (result.ToString()) {
-                //        case "Yes":
-                //            try {
-                //                Track.UpdateTrack(key, name, artist, year, album, link, number, length);
-                //                IniGenres();
-                //                MessageBox.Show("Track updated to database.");
-                //            } catch (Exception ex) {
-                //                MessageBox.Show(ex.Message);
-                //            }
-                //            break;
-                //        case "No":
-                //            break;
-                //        default:
-                //            break;
-                //    }
-                //} catch (Exception ex) {
-                //    MessageBox.Show(ex.Message);
-                //}
+            if (dgGenreEdit.SelectedIndex > -1) {
+                try {
+                    DataRowView rowView = dgGenreEdit.SelectedItem as DataRowView;
+                    int key = (int)rowView[1];
+                    string name = txtGenreName.Text;            
+                    MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
+                    switch (result.ToString()) {
+                        case "Yes":
+                            try {
+                                Genre.UpdateGenre(key, name);
+                                IniGenres();
+                                MessageBox.Show("Genre updated to database.");
+                            } catch (Exception ex) {
+                                MessageBox.Show(ex.Message);
+                            }
+                            break;
+                        case "No":
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
             } else {
-                MessageBox.Show("Select track first.");
+                MessageBox.Show("Select genre first.");
             }
         }
 
@@ -832,15 +835,94 @@ namespace MusicDatabase {
         #region COMPANIES
 
         private void btnAddCompany_Click(object sender, RoutedEventArgs e) {
-
+            if (txtCompanyName.Text != "" && cbCompanyCountry.Text != "" && cbCompanyYear.Text != "") {
+                try {
+                    if (dgCompanyEdit.SelectedIndex > -1) {
+                        if (btnAddCompany.Content.ToString() == "Add company") {
+                            dgCompanyEdit.SelectedIndex = -1;
+                            txtCompanyName.Text = "";
+                            cbCompanyCountry.Text = "";
+                            cbCompanyYear.Text = "";
+                            btnAddCompany.Content = "Save new company";
+                        }
+                    } else if (dgCompanyEdit.SelectedIndex == -1) {
+                        string name = txtCompanyName.Text;
+                        string country = cbCompanyCountry.Text;
+                        int year = (int.Parse(cbCompanyYear.Text));
+                        Company.AddCompany(name, country, year);
+                        IniCompanies();
+                        MessageBox.Show("New company added to database.");
+                        btnAddCompany.Content = "Add company";
+                        dgCompanyEdit.SelectedIndex = 0;
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            } else {
+                MessageBox.Show("Fill fields first.");
+            }
         }
 
         private void btnDeleteCompany_Click(object sender, RoutedEventArgs e) {
-
+            if (dgCompanyEdit.SelectedIndex > -1) {
+                try {
+                    DataRowView rowView = dgCompanyEdit.SelectedItem as DataRowView;
+                    int key = (int)rowView[3];
+                    string name = rowView.Row[0] as string;
+                    MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
+                    switch (result.ToString()) {
+                        case "Yes":
+                            try {
+                                Company.DeleteCompany(key);
+                                IniCompanies();
+                                MessageBox.Show("Company deleted from the database.");
+                            } catch (Exception ex) {
+                                MessageBox.Show(ex.Message);
+                            }
+                            break;
+                        case "No":
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            } else {
+                MessageBox.Show("Select company first.");
+            }
         }
 
         private void btnUpdateCompany_Click(object sender, RoutedEventArgs e) {
-
+            if (dgCompanyEdit.SelectedIndex > -1) {
+                try {
+                    DataRowView rowView = dgCompanyEdit.SelectedItem as DataRowView;
+                    int key = (int)rowView[3];
+                    string name = txtCompanyName.Text;
+                    string country = cbCompanyCountry.Text;
+                    int year = int.Parse(cbCompanyYear.Text);
+                    MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
+                    switch (result.ToString()) {
+                        case "Yes":
+                            try {
+                                Company.UpdateCompany(key, name, country, year);
+                                IniCompanies();
+                                MessageBox.Show("Company updated to database.");
+                            } catch (Exception ex) {
+                                MessageBox.Show(ex.Message);
+                            }
+                            break;
+                        case "No":
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            } else {
+                MessageBox.Show("Select company first.");
+            }
         }
 
         private void dgCompanies_MouseDoubleClick(object sender, MouseButtonEventArgs e) {

@@ -93,13 +93,22 @@ namespace MusicDatabase {
         public static bool UpdateArtist(int key, string name, string country, int year) {
             try {
                 string fill = "1";
-                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateArtist(), key, name, fill, fill, fill, country, year, fill, fill, int.Parse(fill), int.Parse(fill));
+                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateArtist(), key, name, fill, fill, fill, country, year, fill, fill, int.Parse(fill), fill, fill);
                 return true;
 
             } catch (Exception ex) {
 
                 throw ex;
             }
+        }
+
+        public static List<string> GetComboBoxArtists() {
+            try {
+                List<string> comboArtists = DBMusicDatabase.GetCombobox(DBSQLQueries.GetComboBoxArtists());
+                return comboArtists;
+            } catch (Exception ex) {
+                throw ex;
+            } 
         }
 
         #endregion
@@ -225,12 +234,22 @@ namespace MusicDatabase {
         public static bool UpdateAlbum(int key, string name, string artist, string company, int year, string imageLink) {
             try {
                 string fill = "1";
-                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateAlbum(), key, name, artist, fill, company, fill, year, imageLink, fill, int.Parse(fill), int.Parse(fill));
+                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateAlbum(), key, name, artist, fill, company, fill, year, imageLink, fill, int.Parse(fill), fill, fill);
                 return true;
             } catch (Exception ex) {
                 throw ex;
             }
         }
+
+        public static List<string> GetComboBoxAlbums() {
+            try {
+                List<string> comboAlbums = DBMusicDatabase.GetCombobox(DBSQLQueries.GetComboBoxAlbums());
+                return comboAlbums;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         #endregion
     }
     public class Track {
@@ -306,7 +325,6 @@ namespace MusicDatabase {
             }
         }
 
-
         public static string GetTrackTubepath(string track) {
             try {
                 string tubepath = DBMusicDatabase.GetTrackTubepath(DBSQLQueries.GetTrackTubepath(), track);
@@ -315,11 +333,10 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static bool AddTrack(string name, string artist, int year, string album, string link, int number, int length) {
+        public static bool AddTrack(string name, string artist, int year, string album, string genre, string link, int number, string length) {
             try {
-                int fillid = 1;
                 string fill = "1";
-                DBMusicDatabase.AddEntity(DBSQLQueries.AddTrack(), fillid, name, artist, album, fill, fill, year, link, number, length);
+                DBMusicDatabase.AddEntity(DBSQLQueries.AddTrack(), int.Parse(fill), name, artist, album, fill, fill, year, link, number, length, genre);
                 return true;
             } catch (Exception ex) {
                 throw ex;
@@ -338,10 +355,10 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static bool UpdateTrack(int key, string name, string artist, int year, string album, string link, int number, int length) {
+        public static bool UpdateTrack(int key, string name, string artist, int year, string album, string link, int number, string length, string genre) {
             try {
                 string fill = "1";
-                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateTrack(), key, name, artist, album, fill, fill, year, fill, link, number, length);
+                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateTrack(), key, name, artist, album, fill, fill, year, fill, link, number, length, genre);
                 return true;
 
             } catch (Exception ex) {
@@ -349,6 +366,8 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
+
+
         #endregion
     }
     public class Genre {
@@ -388,10 +407,10 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static bool AddGenre(string name, string artist, string album, int year) {
+        public static bool AddGenre(string name) {
             try {
                 string fill = "1";
-                DBMusicDatabase.AddEntity(DBSQLQueries.AddGenre(), int.Parse(fill), name, artist, album, fill, fill, year, fill, int.Parse(fill), int.Parse(fill));
+                DBMusicDatabase.AddEntity(DBSQLQueries.AddGenre(), int.Parse(fill), name, fill, fill, fill, fill, int.Parse(fill), fill, int.Parse(fill), fill, fill);
                 return true;
             } catch (Exception ex) {
                 throw ex;
@@ -413,7 +432,7 @@ namespace MusicDatabase {
         public static bool UpdateGenre(int key, string name) {
             try {
                 string fill = "1";
-                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateGenre(), key, name, fill, fill, fill, fill, int.Parse(fill), fill, fill, int.Parse(fill), int.Parse(fill));
+                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateGenre(), key, name, fill, fill, fill, fill, int.Parse(fill), fill, fill, int.Parse(fill), fill, fill);
                 return true;
 
             } catch (Exception ex) {
@@ -426,6 +445,15 @@ namespace MusicDatabase {
             try {
                 DataTable genreTracks = DBMusicDatabase.GetEntity(DBSQLQueries.GetGenreTracks(), name, "Tracks");
                 return genreTracks;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static List<string> GetComboBoxGenres() {
+            try {
+                List<string> comboGenres = DBMusicDatabase.GetCombobox(DBSQLQueries.GetComboBoxGenres());
+                return comboGenres;
             } catch (Exception ex) {
                 throw ex;
             }
@@ -483,11 +511,10 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static bool AddCompany(string name, int year) {
+        public static bool AddCompany(string name, string country, int year) {
             try {
-                int fillid = 1;
                 string fill = "1";
-                DBMusicDatabase.AddEntity(DBSQLQueries.AddCompany(), fillid, name, fill, fill, fill, fill, year, fill, int.Parse(fill), int.Parse(fill));
+                DBMusicDatabase.AddEntity(DBSQLQueries.AddCompany(), int.Parse(fill), name, fill, fill, fill, country, year, fill, int.Parse(fill), fill, fill);
                 return true;
             } catch (Exception ex) {
                 throw ex;
@@ -506,10 +533,10 @@ namespace MusicDatabase {
                 throw ex;
             }
         }
-        public static bool UpdateCompany(int key, string name, int year) {
+        public static bool UpdateCompany(int key, string name, string country, int year) {
             try {
                 string fill = "1";
-                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateCompany(), key, name, fill, fill, fill, fill, year, fill, fill, int.Parse(fill), int.Parse(fill));
+                DBMusicDatabase.UpdateEntity(DBSQLQueries.UpdateCompany(), key, name, fill, fill, fill, country, year, fill, fill, int.Parse(fill), fill, fill);
                 return true;
 
             } catch (Exception ex) {
@@ -522,6 +549,15 @@ namespace MusicDatabase {
             try {
                 DataTable companyAlbums = DBMusicDatabase.GetEntity(DBSQLQueries.GetCompanyAlbums(), name, "Albums");
                 return companyAlbums;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static List<string> GetComboBoxCompanies() {
+            try {
+                List<string> comboCompanies = DBMusicDatabase.GetCombobox(DBSQLQueries.GetComboBoxCompanies());
+                return comboCompanies;
             } catch (Exception ex) {
                 throw ex;
             }
@@ -568,6 +604,24 @@ namespace MusicDatabase {
                 return true;
             } catch (Exception ex) {
 
+                throw ex;
+            }
+        }
+
+        public static List<string> GetComboBoxCountries() {
+            try {
+                List<string> comboCountries = DBMusicDatabase.GetCombobox(DBSQLQueries.GetComboBoxCountries());
+                return comboCountries;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public static List<string> GetComboBoxYears() {
+            try {
+                List<string> comboYears = DBMusicDatabase.GetCombobox(DBSQLQueries.GetComboBoxYears());
+                return comboYears;
+            } catch (Exception ex) {
                 throw ex;
             }
         }

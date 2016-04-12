@@ -44,19 +44,24 @@ namespace MusicDatabase {
                                         "kappale.tubepath as TubeLink, " +
                                         "kappale.numero as '#', " +
                                         "kappale.kesto as Length, " +
+                                        "genre.nimi as Genre, " +
                                         "kappale.avain as ID " +
                                "FROM cd " +
                                "left join cd_kappale on cd_kappale.cd_avain = cd.avain " +
                                "left join kappale on cd_kappale.kappale_avain = kappale.avain " +
+                               "left join kappale_genre on kappale_genre.kappale_avain = kappale.avain " +
+                               "left join genre on kappale_genre.genre_avain = genre.avain " +
                                "left join esittaja on kappale.esittaja_avain = esittaja.avain " +
                                "left join vuosi on kappale.vuosi_avain = vuosi.avain " +
+                               "WHERE kappale.nimi is not null " +
                                "GROUP BY kappale.nimi;";
             return getTracks;
         }
 
         public static string GetGenres() {
             string getGenres = "SELECT " +
-                               "genre.nimi as Genre " +
+                               "genre.nimi as Genre, " +
+                               "genre.avain as ID " +
                                "FROM genre " +
                                "GROUP BY genre.nimi;";
             return getGenres;
@@ -66,7 +71,8 @@ namespace MusicDatabase {
             string getCompanies = "SELECT " +
                                         "yhtio.nimi as Company, " +
                                         "maa.nimi as Country, " +
-                                        "vuosi.vuosi as Year " +
+                                        "vuosi.vuosi as Year, " +
+                                        "yhtio.avain as ID " +
                                "FROM yhtio " +
                                "left join maa on yhtio.maa_avain = maa.avain " +
                                "left join vuosi on yhtio.vuosi_avain = vuosi.avain " +
@@ -159,7 +165,11 @@ namespace MusicDatabase {
                                  "(SELECT avain FROM vuosi WHERE vuosi = @YEAR), @LINK, @NUMBER); " +
                                  "INSERT INTO cd_kappale (cd_avain, kappale_avain) " +
                                  "VALUES ((SELECT avain FROM cd WHERE nimi = @ALBUM), " +
-                                 "(SELECT avain FROM kappale WHERE nimi = @NAME));";
+                                 "(SELECT avain FROM kappale WHERE nimi = @NAME));" +
+                                 "INSERT INTO kappale_genre (kappale_avain, genre_avain) " +
+                                 "VALUES ((SELECT avain FROM kappale WHERE nimi = @NAME), " +
+                                 "(SELECT avain from genre WHERE nimi = @GENRE));";
+
             return addTrack;
         }
         public static string DeleteTrack() {
@@ -174,12 +184,13 @@ namespace MusicDatabase {
                                  "tubepath = @TUBELINK, " +
                                  "numero = @NUMBER, " +
                                  "kesto = @LENGTH " +
-                                 "WHERE avain = @KEY;" +
+                                 "WHERE avain = @KEY; " +
                                  "UPDATE cd_kappale " +
-                                 "SET cd_avain = (SELECT avain FROM cd WHERE nimi = @ALBUM)" +
+                                 "SET cd_avain = (SELECT avain FROM cd WHERE nimi = @ALBUM) " +
                                  "WHERE kappale_avain = @KEY; " +
                                  "UPDATE kappale_genre " +
-                                 "SET genre_avain = (SELECT avain FROM genre where nimi = @GENRE;";
+                                 "SET genre_avain = (SELECT avain FROM genre where nimi = @GENRE) " +
+                                 "WHERE kappale_avain = @KEY;";
             return updateAlbum;
         }
 
@@ -194,29 +205,29 @@ namespace MusicDatabase {
         }
         public static string UpdateGenre() {
             string updateGenre = "UPDATE genre " +
-                                 "SET nimi = @NAME, " +
+                                 "SET nimi = @NAME " +
                                  "WHERE avain = @KEY;";
             return updateGenre;
         }
 
         public static string AddCompany() {
-            string addGenre = "INSERT INTO yhtio (nimi, maa_avain, vuosi_avain) " +
-                                 "VALUES (@NAME, ;" +
+            string addCompany = "INSERT INTO yhtio (nimi, maa_avain, vuosi_avain) " +
+                                 "VALUES (@NAME, " +
                                  "(SELECT avain FROM maa WHERE nimi = @COUNTRY), " +
                                  "(SELECT avain FROM vuosi WHERE vuosi = @YEAR));";
-            return addGenre;
+            return addCompany;
         }
         public static string DeleteCompany() {
-            string deleteGenre = "DELETE FROM yhtio WHERE avain = @KEY;";
-            return deleteGenre;
+            string deleteCompany = "DELETE FROM yhtio WHERE avain = @KEY;";
+            return deleteCompany;
         }
         public static string UpdateCompany() {
-            string updateGenre = "UPDATE yhtio " +
+            string updateCompany = "UPDATE yhtio " +
                                  "SET nimi = @NAME, " +
-                                 "(SELECT avain FROM maa WHERE nimi = @COUNTRY), " +
-                                 "(SELECT avain FROM vuosi WHERE vuosi = @YEAR) " +
+                                 "maa_avain = (SELECT avain FROM maa WHERE nimi = @COUNTRY), " +
+                                 "vuosi_avain = (SELECT avain FROM vuosi WHERE vuosi = @YEAR) " +
                                  "WHERE avain = @KEY;";
-            return updateGenre;
+            return updateCompany;
         }
 
 
@@ -231,7 +242,7 @@ namespace MusicDatabase {
                                 "left join kappale on cd_kappale.kappale_avain = kappale.avain " +
                                 "left join esittaja on kappale.esittaja_avain = esittaja.avain " +
                                 "left join vuosi on kappale.vuosi_avain = vuosi.avain " +
-                                "where cd_kappale.cd_avain = (select avain from cd where nimi = @album);";
+                                "where cd_kappale.cd_avain = (select avain from cd where nimi = @ALBUM);";
             return albumInfo;
         }
 
@@ -309,6 +320,37 @@ namespace MusicDatabase {
                                     "where cd.yhtio_avain = (select avain from yhtio where nimi = @name); ";
             return companyAlbums;
         }
+
+        public static string GetComboBoxYears() {
+            string comboYears = "select vuosi from vuosi order by vuosi desc;";
+            return comboYears;
+        }
+
+        public static string GetComboBoxCountries() {
+            string comboCountries = "select nimi from maa order by nimi;";
+            return comboCountries;
+        }
+
+        public static string GetComboBoxArtists() {
+            string comboArtists = "select nimi from esittaja order by nimi;";
+            return comboArtists;
+        }
+
+        public static string GetComboBoxAlbums() {
+            string comboAlbums = "select nimi from cd order by nimi;";
+            return comboAlbums;
+        }
+
+        public static string GetComboBoxCompanies() {
+            string comboCompanies = "select nimi from yhtio order by nimi;";
+            return comboCompanies;
+        }
+
+        public static string GetComboBoxGenres() {
+            string comboGenres = "select nimi from genre order by nimi;";
+            return comboGenres;
+        }
+
 
     }// end off class
 }

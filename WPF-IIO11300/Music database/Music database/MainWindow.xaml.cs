@@ -140,22 +140,27 @@ namespace MusicDatabase {
         private void txtSearchFromDatabase_TextChanged(object sender, TextChangedEventArgs e) {
             if (txtSearchFromDatabase.Text != "Search from database") {
                 string srcparam = "%" + txtSearchFromDatabase.Text + "%";
-                if (tabArtists.IsSelected == true) {
-                    dgArtist.DataContext = Artist.SearchArtist(srcparam);
-                    dgArtistEdit.DataContext = Artist.SearchArtist(srcparam);
-                } else if (tabAlbums.IsSelected == true) {
-                    dgAlbums.DataContext = Album.SearchAlbum(srcparam);
-                    dgAlbumEdit.DataContext = Album.SearchAlbum(srcparam);
-                } else if (tabTracks.IsSelected == true) {
-                    dgTracks.DataContext = Track.SearchTrack(srcparam);
-                    dgTrackEdit.DataContext = Track.SearchTrack(srcparam);
-                } else if (tabGenres.IsSelected == true) {
-                    dgGenres.DataContext = Genre.SearchGenre(srcparam);
-                    dgGenreEdit.DataContext = Genre.SearchGenre(srcparam);
-                } else if (tabRecordCompanies.IsSelected == true) {
-                    dgCompanies.DataContext = Company.SearchCompanies(srcparam);
-                    dgCompanyEdit.DataContext = Company.SearchCompanies(srcparam);
+                try {
+                    if (tabArtists.IsSelected == true) {
+                        dgArtist.DataContext = Artist.SearchArtist(srcparam);
+                        dgArtistEdit.DataContext = Artist.SearchArtist(srcparam);
+                    } else if (tabAlbums.IsSelected == true) {
+                        dgAlbums.DataContext = Album.SearchAlbum(srcparam);
+                        dgAlbumEdit.DataContext = Album.SearchAlbum(srcparam);
+                    } else if (tabTracks.IsSelected == true) {
+                        dgTracks.DataContext = Track.SearchTrack(srcparam);
+                        dgTrackEdit.DataContext = Track.SearchTrack(srcparam);
+                    } else if (tabGenres.IsSelected == true) {
+                        dgGenres.DataContext = Genre.SearchGenre(srcparam);
+                        dgGenreEdit.DataContext = Genre.SearchGenre(srcparam);
+                    } else if (tabRecordCompanies.IsSelected == true) {
+                        dgCompanies.DataContext = Company.SearchCompanies(srcparam);
+                        dgCompanyEdit.DataContext = Company.SearchCompanies(srcparam);
+                    }
                 }
+                catch(Exception ex) {
+                    MessageBox.Show(ex.Message);
+                } 
             }
         }
 

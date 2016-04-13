@@ -278,7 +278,7 @@ namespace MusicDatabase {
                                "genre.nimi as Genre, " +
                                "genre.avain as ID " +
                                "FROM genre " +
-                               "WHERE genre.nimi LIKE @SRC" +
+                               "WHERE genre.nimi LIKE @SRC " +
                                "GROUP BY genre.nimi;";
             return getGenres;
         }

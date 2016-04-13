@@ -63,6 +63,14 @@ namespace MusicDatabase {
                     spUsersEdit.Visibility = Visibility.Visible;
                 }
 
+                if (userType == "guest") {
+                    btnEditArtist.Visibility = Visibility.Collapsed;
+                    btnEditAlbum.Visibility = Visibility.Collapsed;
+                    btnEditTrack.Visibility = Visibility.Collapsed;
+                    btnEditGenre.Visibility = Visibility.Collapsed;
+                    btnEditCompany.Visibility = Visibility.Collapsed;
+                }
+
                 var bitmap = new BitmapImage(mainImageUri);
                 mainImage.Source = bitmap;
             } catch (Exception ex) {
@@ -76,6 +84,7 @@ namespace MusicDatabase {
             IniTracks();
             IniGenres();
             IniCompanies();
+            IniUsers();
         }
 
         public void IniArtists() {
@@ -83,23 +92,33 @@ namespace MusicDatabase {
             dgArtistEdit.DataContext = Artist.GetArtists();
             cbAlbumArtist.ItemsSource = Artist.GetComboBoxArtists();
             cbTrackArtist.ItemsSource = Artist.GetComboBoxArtists();
+            txtArtistName.Text = "";cbArtistYear.Text = "";
+            cbArtistCountry.Text = "";
         }
 
         public void IniAlbums() {
             dgAlbums.DataContext = Album.GetAlbums();
             dgAlbumEdit.DataContext = Album.GetAlbums();
             cbTrackAlbum.ItemsSource = Album.GetComboBoxAlbums();
+            txtAlbumName.Text = "";cbAlbumArtist.Text = "";
+            cbAlbumYear.Text = "";cbAlbumCompany.Text = "";
+            txtAlbumCover.Text = "";
         }
 
         public void IniTracks() {
             dgTracks.DataContext = Track.GetTracks();
             dgTrackEdit.DataContext = Track.GetTracks();
+            txtTrackName.Text = "";cbTrackArtist.Text = "";
+            cbTrackYear.Text = "";cbTrackAlbum.Text = "";
+            cbTrackGenre.Text = "";txtTubeLink.Text = "";
+            txtTrackNumber.Text = "";txtTrackLength.Text = "";
         }
 
         public void IniGenres() {
             dgGenres.DataContext = Genre.GetGenres();
             dgGenreEdit.DataContext = Genre.GetGenres();
             cbTrackGenre.ItemsSource = Genre.GetComboBoxGenres();
+            txtGenreName.Text = "";
         }
 
         public void IniCompanies() {
@@ -108,6 +127,8 @@ namespace MusicDatabase {
             cbAlbumCompany.ItemsSource = Company.GetComboBoxCompanies();
             cbCompanyCountry.ItemsSource = Users.GetComboBoxCountries();
             cbCompanyYear.ItemsSource = Users.GetComboBoxYears();
+            txtCompanyName.Text = "";cbCompanyCountry.Text = "";
+            cbCompanyYear.Text = "";
         }
 
         public void IniUsers() {
@@ -345,7 +366,6 @@ namespace MusicDatabase {
                         btnAddArtist.Content = "Add artist";
                         IniArtists();
                         MessageBox.Show("New artist added to database.");
-                        dgArtistEdit.SelectedIndex = 0;
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
@@ -481,7 +501,6 @@ namespace MusicDatabase {
                         IniAlbums();
                         MessageBox.Show("New album added to database.");
                         btnAddAlbum.Content = "Add album";
-                        dgAlbumEdit.SelectedIndex = 0;
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
@@ -630,7 +649,6 @@ namespace MusicDatabase {
                         IniTracks();
                         MessageBox.Show("New track added to database.");
                         btnAddTrack.Content = "Add track";
-                        dgTrackEdit.SelectedIndex = 0;
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
@@ -746,13 +764,12 @@ namespace MusicDatabase {
                             txtGenreName.Text = "";
                             btnAddGenre.Content = "Save new genre";
                         }
-                    } else if(dgGenreEdit.SelectedIndex == -1) {
+                    } else if (dgGenreEdit.SelectedIndex == -1) {
                         string name = txtGenreName.Text;
                         Genre.AddGenre(name);
                         IniGenres();
                         MessageBox.Show("New genre added to database.");
-                        btnAddGenre.Content = "Add genre";
-                        dgGenreEdit.SelectedIndex = 0;
+                        btnAddGenre.Content = "Add genre";        
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
@@ -797,7 +814,7 @@ namespace MusicDatabase {
                 try {
                     DataRowView rowView = dgGenreEdit.SelectedItem as DataRowView;
                     int key = (int)rowView[1];
-                    string name = txtGenreName.Text;            
+                    string name = txtGenreName.Text;
                     MessageBoxResult result = MessageBox.Show("Save changes to " + name, "Save changes", MessageBoxButton.YesNo);
                     switch (result.ToString()) {
                         case "Yes":
@@ -887,7 +904,6 @@ namespace MusicDatabase {
                         IniCompanies();
                         MessageBox.Show("New company added to database.");
                         btnAddCompany.Content = "Add company";
-                        dgCompanyEdit.SelectedIndex = 0;
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
@@ -1010,7 +1026,6 @@ namespace MusicDatabase {
                 switch (result.ToString()) {
                     case "Yes":
                         try {
-
                             Users.DeleteUser(key);
                             IniUsers();
                             MessageBox.Show("User deleted from the database.");
@@ -1083,6 +1098,6 @@ namespace MusicDatabase {
         }
         #endregion
 
-       
+
     }
 }

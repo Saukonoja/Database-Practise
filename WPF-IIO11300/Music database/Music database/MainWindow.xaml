@@ -190,6 +190,7 @@
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Content" Value="&#8678;"/>
             <Setter Property="FontSize" Value="40"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -350,7 +351,7 @@
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </StackPanel>
-                                <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
                                     <StackPanel Margin="40,60,0,0" Width="200">
                                         <TextBlock>Album <Span Foreground="Red">*</Span></TextBlock>
                                         <TextBox x:Name="txtAlbumName" Margin="0,0,0,10" Text="{Binding SelectedItem.Album, ElementName=dgAlbumEdit}"></TextBox>
@@ -363,7 +364,7 @@
                                         <TextBlock>Image link</TextBlock>
                                         <TextBox x:Name="txtAlbumCover" Text="{Binding SelectedItem.Imagelink, ElementName=dgAlbumEdit}"></TextBox>
                                     </StackPanel>
-                                    <StackPanel Orientation="Vertical" Margin="100,20,50,0">
+                                    <StackPanel Orientation="Vertical" Margin="100,90,0,0">
                                         <Button x:Name="btnAddAlbum" Margin="0,10,0,0" Style="{StaticResource addButton}" Click="btnAddAlbum_Click">Add album</Button>
                                         <Button x:Name="btnUpdateAlbum" Margin="0,10,0,0" Style="{StaticResource saveButton}" Click="btnUpdateAlbum_Click">Save changes</Button>
                                         <Button x:Name="btnDeleteAlbum" Margin="0,10,0,0" Style="{StaticResource deleteButton}" Click="btnDeleteAlbum_Click">Delete selected album</Button>
@@ -412,7 +413,7 @@
                                             <DataGridTextColumn Binding="{Binding Path=Artist}" Header="Artist"></DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding Path=Album}" Header="Album"></DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding Path=Year}" Header="Year"></DataGridTextColumn>
-                                            <DataGridTextColumn Binding="{Binding Path=#}" Header="#" Width="30"></DataGridTextColumn>
+                                            <DataGridTextColumn Binding="{Binding Path=#}" Header="#"></DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding Path=TubeLink}" Header="TubeLink"></DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding Path=Length, StringFormat=mm\\:ss}" Header="Length"></DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding Path=Genre}" Header="Genre"></DataGridTextColumn>
@@ -487,7 +488,7 @@
                                     <DataGrid x:Name="dgGenreEdit" SelectionChanged="dgEdit_SelectionChanged" AutoGeneratingColumn="dg_AutoGeneratingColumn" CanUserAddRows="True" ItemsSource="{Binding}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Vertical">
-                                    <StackPanel Margin="40,80,0,0" Width="200">
+                                    <StackPanel Margin="40,100,0,0" Width="200">
                                         <TextBlock>Genre</TextBlock>
                                         <TextBox x:Name="txtGenreName" Text="{Binding SelectedItem.Genre, ElementName=dgGenreEdit}"></TextBox>
                                     </StackPanel>
@@ -566,27 +567,32 @@
                             <TextBlock Text="User settings" Style="{StaticResource headerStyle}" />
                         </TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel x:Name="spUserEdit" HorizontalAlignment="Left" Margin="30,0,0,0">
+                            <StackPanel x:Name="spUserEdit" HorizontalAlignment="Left" Margin="60,0,0,0">
                                 <StackPanel>
                                     <TextBlock Style="{StaticResource pageName}">User settings</TextBlock>
-                                    <TextBlock>Change password</TextBlock>
-                                    <TextBlock Margin="0,20,0,0">New password</TextBlock>
+                                    <TextBlock FontSize="20">Change password</TextBlock>
+                                    <TextBlock Margin="0,20,0,5">New password</TextBlock>
                                     <TextBox x:Name="txtPassword"></TextBox>
-                                    <Button x:Name="btnUpdatePassword" Margin="0,10,0,0" Click="btnUpdatePassword_Click">Change password</Button>
+                                    <Button x:Name="btnUpdatePassword" Width="180" Margin="0,30,0,0" Style="{StaticResource saveButton}" Click="btnUpdatePassword_Click">Change password</Button>
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel x:Name="spUsersEdit" Visibility="Collapsed" HorizontalAlignment="Left" Margin="30,0,0,0" Orientation="Horizontal">
                                 <StackPanel>
                                     <TextBlock Style="{StaticResource pageName}">Users</TextBlock>
-                                    <DataGrid  x:Name="dgUsersEdit" Height="400" ItemsSource="{Binding}"></DataGrid>
+                                    <DataGrid  x:Name="dgUsersEdit" AutoGenerateColumns="False" Height="400" ItemsSource="{Binding}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Path=Username}" Header="Username"></DataGridTextColumn>
+                                            <DataGridTextColumn Binding="{Binding Path=Admin}" Header="Admin"></DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
                                 </StackPanel>
-                                <StackPanel>
-                                    <TextBlock>Username</TextBlock>
-                                    <TextBox x:Name="txtUsername" Text="{Binding SelectedItem.Username, ElementName=dgUserEdit}"></TextBox>
-                                    <TextBlock>Admin</TextBlock>
-                                    <CheckBox x:Name="chkAdmin" IsChecked="{Binding SelectedItem.Admin, ElementName=dgUserEdit}" ></CheckBox>
-                                    <Button x:Name="btnUpdateUser" Click="btnUpdateUser_Click">Save changes</Button>
-                                    <Button x:Name="btnDeleteUser" Click="btnDeleteUser_Click">Delete selected user</Button>
+                                <StackPanel Margin="60,100,0,0">
+                                    <TextBlock Margin="0,0,0,5">Username</TextBlock>
+                                    <TextBox x:Name="txtUsername" Margin="0,0,0,5" Text="{Binding SelectedItem.Username, ElementName=dgUsersEdit}"></TextBox>
+                                    <TextBlock Margin="0,0,0,5">Admin</TextBlock>
+                                    <CheckBox x:Name="chkAdmin" Margin="0,0,0,5" IsChecked="{Binding SelectedItem.Admin, ElementName=dgUsersEdit}" ></CheckBox>
+                                    <Button x:Name="btnUpdateUser" Margin="0,30,0,10" Style="{StaticResource saveButton}" Click="btnUpdateUser_Click">Save changes</Button>
+                                    <Button x:Name="btnDeleteUser" Margin="0,0,0,10" Style="{StaticResource deleteButton}" Click="btnDeleteUser_Click">Delete selected user</Button>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>

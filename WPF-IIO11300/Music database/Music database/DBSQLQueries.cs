@@ -15,7 +15,8 @@ namespace MusicDatabase {
                                             "esittaja.avain as ID " +
                                 "FROM esittaja " +
                                 "left join vuosi on esittaja.vuosi_avain = vuosi.avain " +
-                                "left join maa on esittaja.maa_avain = maa.avain; ";
+                                "left join maa on esittaja.maa_avain = maa.avain " +
+                                "GROUP BY esittaja.nimi;"; 
             return getArtists;
         }
 
@@ -30,7 +31,8 @@ namespace MusicDatabase {
                                 "left join maa on esittaja.maa_avain = maa.avain " +
                                 "WHERE esittaja.nimi LIKE @SRC " +
                                 "OR vuosi.vuosi LIKE @SRC " +
-                                "OR maa.nimi LIKE @SRC;";
+                                "OR maa.nimi LIKE @SRC " +
+                                "GROUP BY esittaja.nimi;";
             return searchArtist;
         }
 
@@ -46,7 +48,8 @@ namespace MusicDatabase {
                                 "left join cd_esittaja on cd_esittaja.cd_avain = cd.avain " +
                                 "left join esittaja on cd_esittaja.esittaja_avain = esittaja.avain " +
                                 "left join vuosi on cd.vuosi_avain = vuosi.avain " +
-                                "left join yhtio on cd.yhtio_avain = yhtio.avain;";
+                                "left join yhtio on cd.yhtio_avain = yhtio.avain " +
+                                "GROUP BY cd.nimi";
             return getAlbums;
         }
 
@@ -66,7 +69,8 @@ namespace MusicDatabase {
                                 "WHERE cd.nimi LIKE @SRC " +
                                 "OR esittaja.nimi LIKE @SRC " +
                                 "OR vuosi.vuosi LIKE @SRC " +
-                                "OR yhtio.nimi LIKE @SRC;";
+                                "OR yhtio.nimi LIKE @SRC " + 
+                                "GROUP BY cd.nimi;";
             return searchAlbums;
         }
 
@@ -117,7 +121,8 @@ namespace MusicDatabase {
                                "OR cd.nimi LIKE @SRC " +
                                "OR vuosi.vuosi LIKE @SRC " +
                                "OR kappale.numero LIKE @SRC " +
-                               "OR genre.nimi LIKE @SRC;";
+                               "OR genre.nimi LIKE @SRC " +
+                               "GROUP BY kappale.nimi;";
             return getTracks;
         }
 
@@ -135,7 +140,8 @@ namespace MusicDatabase {
                                "genre.nimi as Genre, " +
                                "genre.avain as ID " +
                                "FROM genre " +
-                               "WHERE genre.nimi LIKE @SRC;";
+                               "WHERE genre.nimi LIKE @SRC" +
+                               "GROUP BY genre.nimi;";
             return getGenres;
         }
 
@@ -163,7 +169,8 @@ namespace MusicDatabase {
                                "left join vuosi on yhtio.vuosi_avain = vuosi.avain " +
                                "WHERE yhtio.nimi LIKE @SRC " +
                                "OR maa.nimi LIKE @SRC " +
-                               "OR vuosi.vuosi LIKE @SRC;";
+                               "OR vuosi.vuosi LIKE @SRC " +
+                               "GROUP BY yhtio.nimi;";
             return getCompanies;
         }
 

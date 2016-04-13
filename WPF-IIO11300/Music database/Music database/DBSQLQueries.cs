@@ -105,7 +105,10 @@ namespace MusicDatabase {
             return searchAlbums;
         }
         public static string DeleteAlbum() {
-            string deleteArtist = "DELETE FROM cd_esittaja WHERE cd_avain = @KEY; DELETE FROM cd_kappale WHERE cd_avain = @KEY; DELETE FROM cd WHERE avain = @KEY;";
+            string deleteArtist = "SET FOREIGN_KEY_CHECKS = 0; DELETE FROM cd_esittaja WHERE cd_avain = @KEY;" +
+                                  "DELETE FROM kappale where avain = (SELECT kappale_avain FROM cd_kappale WHERE cd_avain = @KEY);" +
+                                  "DELETE FROM cd_kappale WHERE cd_avain = @KEY;" + 
+                                  "DELETE FROM cd WHERE avain = @KEY; SET FOREIGN_KEY_CHECKS = 1;";
             return deleteArtist;
         }
         public static string AddAlbum() {

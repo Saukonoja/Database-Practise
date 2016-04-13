@@ -356,6 +356,8 @@ namespace MusicDatabase {
                         Artist.AddArtist(name, country, year);
                         btnAddArtist.Content = "Add artist";
                         IniArtists();
+                        IniAlbums();
+                        IniTracks();
                         MessageBox.Show("New artist added to database.");
                     }
                 } catch (Exception ex) {
@@ -378,6 +380,8 @@ namespace MusicDatabase {
                             try {
                                 Artist.DeleteArtist(key);
                                 IniArtists();
+                                IniAlbums();
+                                IniTracks();
                                 MessageBox.Show("Artist deleted from the database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -411,6 +415,8 @@ namespace MusicDatabase {
                             try {
                                 Artist.UpdateArtist(key, name, country, year);
                                 IniArtists();
+                                IniAlbums();
+                                IniTracks();
                                 MessageBox.Show("Artist updated to database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -482,6 +488,8 @@ namespace MusicDatabase {
                         string imageLink = txtAlbumCover.Text;
                         Album.AddAlbum(name, artist, company, year, imageLink);
                         IniAlbums();
+                        IniArtists();
+                        IniCompanies();
                         MessageBox.Show("New album added to database.");
                         btnAddAlbum.Content = "Add album";
                     }
@@ -498,12 +506,15 @@ namespace MusicDatabase {
                     DataRowView rowView = dgAlbumEdit.SelectedItem as DataRowView;
                     int key = (int)rowView[5];
                     string name = rowView.Row[0] as string;
-                    MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database?", "Delete confirmation", MessageBoxButton.YesNo);
+                    MessageBoxResult result = MessageBox.Show("Delete " + name + " from the database? This will also delete all tracks from this album", "Delete confirmation", MessageBoxButton.YesNo);
                     switch (result.ToString()) {
                         case "Yes":
                             try {
                                 Album.DeleteAlbum(key);
                                 IniAlbums();
+                                IniArtists();
+                                IniTracks();
+                                IniCompanies();
                                 MessageBox.Show("Album deleted from the database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -537,6 +548,8 @@ namespace MusicDatabase {
                             try {
                                 Album.UpdateAlbum(key, name, artist, company, year, imageLink);
                                 IniAlbums();
+                                IniArtists();
+                                IniCompanies();
                                 MessageBox.Show("Album updated to database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -625,7 +638,8 @@ namespace MusicDatabase {
                         int number = int.Parse(txtTrackNumber.Text);
                         string length = ":" + txtTrackLength.Text;
                         Track.AddTrack(name, artist, year, album, genre, linkParsed, number, length);
-                        IniTracks();
+                        IniTracks();IniArtists();
+                        IniAlbums();IniGenres();
                         MessageBox.Show("New track added to database.");
                         btnAddTrack.Content = "Add track";
                     }
@@ -648,7 +662,8 @@ namespace MusicDatabase {
                         case "Yes":
                             try {
                                 Track.DeleteTrack(key);
-                                IniTracks();
+                                IniTracks();IniArtists();
+                                IniAlbums();IniGenres();
                                 MessageBox.Show("Track deleted from the database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);
@@ -686,7 +701,8 @@ namespace MusicDatabase {
                         case "Yes":
                             try {
                                 Track.UpdateTrack(key, name, artist, year, album, linkParsed, number, length, genre);
-                                IniTracks();
+                                IniTracks();IniArtists();
+                                IniAlbums();IniGenres();
                                 MessageBox.Show("Track updated to database.");
                             } catch (Exception ex) {
                                 MessageBox.Show(ex.Message);

@@ -238,8 +238,10 @@
                         <TabItem.Header>
                             <TextBlock Text="Home" Style="{StaticResource headerStyle}" />
                         </TabItem.Header>
-                        <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                        <StackPanel Orientation="Vertical" Margin="30,0,0,0">
                             <TextBlock x:Name="tbCurrentUser" Style="{StaticResource pageName}"></TextBlock>
+                            <TextBlock Margin="40,0,0,0" FontSize="20">This awesome database is still in the works of becoming the most used and greatest music database ever. <LineBreak/> 
+                                We hope that you can enjoy using this application and maybe contribute some data for everyone to view. </TextBlock>
                         </StackPanel>
                     </TabItem>
 
@@ -560,6 +562,8 @@
                         </TabItem.Header>
                         <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
                             <TextBlock Style="{StaticResource pageName}">About</TextBlock>
+                            <TextBlock Margin="40,0,0,0" FontSize="20">This Music Database was produced during the course Windows -programming in finnish school JAMK University of Applied Sciences. <LineBreak/> 
+                                If you like to give us some feedback and ideas for improvement please contact us at:<LineBreak/><LineBreak/> Janne Hakala: H3298@student.jamk.fi <LineBreak/> Timo Saukonoja: H3694@student.jamk.fi</TextBlock>
                         </StackPanel>
                     </TabItem>
                     <TabItem Height="70" x:Name="tabUserSettings" Visibility="Collapsed">

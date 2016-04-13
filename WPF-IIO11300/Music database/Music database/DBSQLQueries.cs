@@ -42,7 +42,7 @@ namespace MusicDatabase {
             return addArtist;
         }
         public static string DeleteArtist() {
-            string deleteArtist = "DELETE FROM cd_esittaja WHERE esittaja_avain = @KEY; DELETE FROM esittaja WHERE avain = @KEY; ";
+            string deleteArtist = "SET FOREIGN_KEY_CHECKS = 0; DELETE FROM cd_esittaja WHERE esittaja_avain = @KEY; DELETE FROM esittaja WHERE avain = @KEY; SET FOREIGN_KEY_CHECKS = 1; ";
             return deleteArtist;
         }
         public static string UpdateArtist() {
@@ -348,7 +348,7 @@ namespace MusicDatabase {
             return addCompany;
         }
         public static string DeleteCompany() {
-            string deleteCompany = "DELETE FROM cd_kappale WHERE cd_avain = (SELECT avain from cd WHERE yhtio_avain = @KEY); DELETE FROM cd WHERE avain = (SELECT avain from cd WHERE yhtio_avain = @KEY); DELETE FROM yhtio WHERE avain = @KEY;";
+            string deleteCompany = "SET FOREIGN_KEY_CHECKS = 0; DELETE FROM yhtio WHERE avain = @KEY; SET FOREIGN_KEY_CHECKS = 1;";
             return deleteCompany;
         }
         public static string UpdateCompany() {

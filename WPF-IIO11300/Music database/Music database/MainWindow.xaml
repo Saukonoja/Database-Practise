@@ -226,7 +226,7 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="#282828"/>
         </Style>
-        
+
     </Window.Resources>
     <Grid Background="#575757">
 
@@ -444,7 +444,7 @@
                                             <TextBlock>Number <Span Foreground="Red">*</Span></TextBlock>
                                             <TextBox x:Name="txtTrackNumber" Margin="0,0,0,10" Text="{Binding SelectedItem.#, ElementName=dgTrackEdit}"></TextBox>
                                             <TextBlock>Length (4:30) <Span Foreground="Red">*</Span></TextBlock>
-                                            <TextBox x:Name="txtTrackLength" Text="{Binding SelectedItem.Length, ElementName=dgTrackEdit}"></TextBox>
+                                            <TextBox x:Name="txtTrackLength" Text="{Binding SelectedItem.Length, ElementName=dgTrackEdit, StringFormat=mm\\:ss}"></TextBox>
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>

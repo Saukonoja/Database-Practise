@@ -92,7 +92,7 @@ namespace MusicDatabase {
             dgArtistEdit.DataContext = Artist.GetArtists();
             cbAlbumArtist.ItemsSource = Artist.GetComboBoxArtists();
             cbTrackArtist.ItemsSource = Artist.GetComboBoxArtists();
-            txtArtistName.Text = "";cbArtistYear.Text = "";
+            txtArtistName.Text = ""; cbArtistYear.Text = "";
             cbArtistCountry.Text = "";
         }
 
@@ -100,18 +100,18 @@ namespace MusicDatabase {
             dgAlbums.DataContext = Album.GetAlbums();
             dgAlbumEdit.DataContext = Album.GetAlbums();
             cbTrackAlbum.ItemsSource = Album.GetComboBoxAlbums();
-            txtAlbumName.Text = "";cbAlbumArtist.Text = "";
-            cbAlbumYear.Text = "";cbAlbumCompany.Text = "";
+            txtAlbumName.Text = ""; cbAlbumArtist.Text = "";
+            cbAlbumYear.Text = ""; cbAlbumCompany.Text = "";
             txtAlbumCover.Text = "";
         }
 
         public void IniTracks() {
             dgTracks.DataContext = Track.GetTracks();
             dgTrackEdit.DataContext = Track.GetTracks();
-            txtTrackName.Text = "";cbTrackArtist.Text = "";
-            cbTrackYear.Text = "";cbTrackAlbum.Text = "";
-            cbTrackGenre.Text = "";txtTubeLink.Text = "";
-            txtTrackNumber.Text = "";txtTrackLength.Text = "";
+            txtTrackName.Text = ""; cbTrackArtist.Text = "";
+            cbTrackYear.Text = ""; cbTrackAlbum.Text = "";
+            cbTrackGenre.Text = ""; txtTubeLink.Text = "";
+            txtTrackNumber.Text = ""; txtTrackLength.Text = "";
         }
 
         public void IniGenres() {
@@ -127,7 +127,7 @@ namespace MusicDatabase {
             cbAlbumCompany.ItemsSource = Company.GetComboBoxCompanies();
             cbCompanyCountry.ItemsSource = Users.GetComboBoxCountries();
             cbCompanyYear.ItemsSource = Users.GetComboBoxYears();
-            txtCompanyName.Text = "";cbCompanyCountry.Text = "";
+            txtCompanyName.Text = ""; cbCompanyCountry.Text = "";
             cbCompanyYear.Text = "";
         }
 
@@ -278,7 +278,6 @@ namespace MusicDatabase {
                 MessageBox.Show("Some details are empty.");
             }
         }
-
         private void ChangeGenrePage(string current) {
             ChangePage(spGenres, spGenrePage, spBackToGenres);
             dgGenrePage.DataContext = Genre.GetGenreTracks(current);
@@ -289,7 +288,6 @@ namespace MusicDatabase {
             dgCompanyPage.DataContext = Company.GetCompanyAlbums(current);
             tbCompanyPage.Text = current;
         }
-
         private void mainImage_MouseDown(object sender, MouseButtonEventArgs e) {
             if (mainImageUri.ToString() != emptyCD) {
                 tabAlbums.IsSelected = true;
@@ -302,26 +300,22 @@ namespace MusicDatabase {
                 }
             }
         }
-
         private void BackTo(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
             sp1.Visibility = Visibility.Visible;
             sp2.Visibility = Visibility.Collapsed;
             sp3.Visibility = Visibility.Collapsed;
         }
-
         private void Edit(StackPanel sp1, StackPanel sp2, StackPanel sp3) {
             sp1.Visibility = Visibility.Collapsed;
             sp2.Visibility = Visibility.Visible;
             sp3.Visibility = Visibility.Visible;
         }
-
         private void BackFromEdit(StackPanel sp1, StackPanel sp2, StackPanel sp3, DataGrid dg) {
             sp1.Visibility = Visibility.Visible;
             sp2.Visibility = Visibility.Collapsed;
             sp3.Visibility = Visibility.Collapsed;
             dg.SelectedIndex = -1;
         }
-
         private void PlayTrack(string track) {
             spYoutubePlayer.Visibility = Visibility.Visible;
             youtubeVideo.Navigate(new Uri(videoString + Track.GetTrackTubepath(track), UriKind.RelativeOrAbsolute));
@@ -331,7 +325,6 @@ namespace MusicDatabase {
             mainImage.Source = bitmap;
             tabAlbums.IsSelected = true;
         }
-
         private void dg_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e) {
             if ((string)e.Column.Header == "ID") {
                 e.Cancel = true;
@@ -342,10 +335,8 @@ namespace MusicDatabase {
             btnAddTrack.Content = "Add track"; btnAddGenre.Content = "Add genre";
             btnAddCompany.Content = "Add company";
         }
-
         #endregion
         #region ARTIST
-
         private void btnAddArtist_Click(object sender, RoutedEventArgs e) {
             if (txtArtistName.Text != "" && txtArtistName.Text != "" &&
                 cbArtistCountry.Text != "") {
@@ -362,7 +353,7 @@ namespace MusicDatabase {
                         string name = txtArtistName.Text;
                         int year = int.Parse(cbArtistYear.Text);
                         string country = cbArtistCountry.Text;
-                        Artist.AddNewTest(name, country, year);
+                        Artist.AddArtist(name, country, year);
                         btnAddArtist.Content = "Add artist";
                         IniArtists();
                         MessageBox.Show("New artist added to database.");
@@ -374,7 +365,6 @@ namespace MusicDatabase {
                 MessageBox.Show("Fill fields first.");
             }
         }
-
         private void btnDeleteArtist_Click(object sender, RoutedEventArgs e) {
             if (dgArtistEdit.SelectedIndex > -1) {
                 try {
@@ -406,7 +396,6 @@ namespace MusicDatabase {
                 MessageBox.Show("Select artist first.");
             }
         }
-
         private void btnUpdateArtist_Click(object sender, RoutedEventArgs e) {
             if (dgArtistEdit.SelectedIndex > -1) {
                 try {
@@ -439,7 +428,6 @@ namespace MusicDatabase {
                 MessageBox.Show("Select artist first.");
             }
         }
-
         private void dgArtist_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
                 MouseDoubleClicked(dgArtist, out cellValue, out columnIndex);
@@ -450,7 +438,6 @@ namespace MusicDatabase {
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void dgArtistPage_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
                 e.Handled = true;
@@ -462,21 +449,17 @@ namespace MusicDatabase {
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void btnBackToArtists_Click(object sender, RoutedEventArgs e) {
             BackTo(spArtists, spArtistPage, spBackToArtists);
         }
-
         private void btnEditArtist_Click(object sender, RoutedEventArgs e) {
             Edit(spArtists, spArtistEdit, spBackFromArtistEdit);
         }
-
         private void btnBackFromArtistEdit_Click(object sender, RoutedEventArgs e) {
             BackFromEdit(spArtists, spArtistEdit, spBackFromArtistEdit, dgArtistEdit);
         }
         #endregion
         #region ALBUM
-
         private void btnAddAlbum_Click(object sender, RoutedEventArgs e) {
             if (txtAlbumName.Text != "" && cbAlbumArtist.Text != "" &&
                 cbAlbumYear.Text != "") {
@@ -509,9 +492,8 @@ namespace MusicDatabase {
                 MessageBox.Show("Fill fields first.");
             }
         }
-
         private void btnDeleteAlbum_Click(object sender, RoutedEventArgs e) {
-            if (dgAlbumEdit.SelectedIndex > 1) {
+            if (dgAlbumEdit.SelectedIndex > -1) {
                 try {
                     DataRowView rowView = dgAlbumEdit.SelectedItem as DataRowView;
                     int key = (int)rowView[5];
@@ -539,9 +521,8 @@ namespace MusicDatabase {
                 MessageBox.Show("Select album first.");
             }
         }
-
         private void btnUpdateAlbum_Click(object sender, RoutedEventArgs e) {
-            if (dgAlbumEdit.SelectedIndex > 1) {
+            if (dgAlbumEdit.SelectedIndex > -1) {
                 try {
                     DataRowView rowView = dgAlbumEdit.SelectedItem as DataRowView;
                     int key = (int)rowView[5];
@@ -573,7 +554,6 @@ namespace MusicDatabase {
                 MessageBox.Show("Select album first.");
             }
         }
-
         private void dgAlbums_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
                 e.Handled = true;
@@ -588,7 +568,6 @@ namespace MusicDatabase {
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void dgAlbumPage_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
                 MouseDoubleClicked(dgAlbumPage, out cellValue, out columnIndex);
@@ -769,7 +748,7 @@ namespace MusicDatabase {
                         Genre.AddGenre(name);
                         IniGenres();
                         MessageBox.Show("New genre added to database.");
-                        btnAddGenre.Content = "Add genre";        
+                        btnAddGenre.Content = "Add genre";
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);

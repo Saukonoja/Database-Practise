@@ -104,6 +104,21 @@ object{
 	border: 1px solid #B0B0B0;
 }
 
+#btnLogin2,#btnBack{
+	background-color: #B0B0B0;
+	border: 1px solid #B0B0B0;
+	padding: 10px 10px 10px;
+	font-size: 16px;
+	margin-right: 5px;
+	margin-top: 15px;
+	margin-bottom: 20px;
+	border-radius: 10px;
+}
+
+
+
+
+
 #btnSearchFromDatabase{
 	padding: 5px 50px 5px;	
 	background-color: #3FA9F5;
@@ -132,8 +147,8 @@ table.sidebar{
 }
 
 table.sidebar td{
-	border: 2px solid gray;
-	background-color: #282828;
+	border: 1px solid gray;
+	background-color: #ADADAD;
 	color: white;
 	width: 200px;
 	padding: 10px;
@@ -163,19 +178,18 @@ table.query td{
 	white-space: nowrap;
 	height: 40px;
 	color: white;
-	padding: 10px;
+	vertical-align:middle;
 }
 
 table.query td a { 
 	display: block; 
 	width: 100%; 
-	height: 100%;
+	height: 100%; 
 }
 
 table.query td:hover{	
 	background-color: black;
 	cursor: pointer;
-	text-decoration: underline;
 }
 
 #container {
@@ -202,7 +216,6 @@ table.query td:hover{
 }
 #number:hover, #length:hover{
 	background-color: #282828; 
-	text-decoration: none;
 }
 #track{
 	width: 82%;
@@ -232,3 +245,21 @@ table.query td:hover{
 #totalLength{
 	display: inline;
 }	
+
+#formContainer {
+	width: 90%;
+	max-width: 400px;
+	margin: auto;
+	background: white;
+	min-height: 200px;
+	text-align: center;
+	border-radius: 10px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+	padding: 10px;
+	transform:translateY(100%);
+}
+
+#formContainer p {
+	font-size: 90%;
+	padding: 10px;
+}

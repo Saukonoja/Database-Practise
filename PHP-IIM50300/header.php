@@ -11,8 +11,8 @@ $content = <<<CONTENT
    <body>
          <nav>
             <div id="headerBar"><a href="index" id="title-link"><span id="title">Music database</span></a>
-               <button class="buttons" id="btnLogin">LOGIN</button>
-               <button class="buttons" id="btnSignUp">SIGN UP</button>
+               <button class="buttons" id="btnLogin" onclick="window.location.href='login-form.php'">LOGIN</button>
+               <button class="buttons" id="btnSignUp" onclick="window.location.href='register-form.php'">SIGN UP</button>
             </div>
             <div id="searchBar">
                <form>

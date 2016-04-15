@@ -1,4 +1,4 @@
-<?php include ("header.php"); ?>
+﻿<?php include ("header.php"); ?>
 
 <em>Add artist</em><form method='post' action='update-artist.php'>
 <table border='0' cellpadding='5'>

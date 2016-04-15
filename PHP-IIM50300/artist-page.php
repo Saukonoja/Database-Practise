@@ -19,11 +19,12 @@ $result = $conn->query($sql);
 
 echo '<h2>'.$_SESSION['artist'].'</h2>';
 if ($result->num_rows > 0) {
-    // output data of each row
     echo '<table class="query">';
-    echo '<tr><th>Album</th><th>Year</th><th>Record company</th></tr>';
+    echo '<tr><th><a href="?sort=album&sort_by='.$sort_order.'" id="headerLink">Album</a></th>
+              <th><a href="?sort=year&sort_by='.$sort_order.'" id="headerLink">Year</a></th>
+              <th><a href="?sort=company&sort_by='.$sort_order.'" id="headerLink">Record company</a></th></tr>';
     while($row = $result->fetch_assoc()) {
-        $newArtistAlbum = new ArtistView($row["levy"], $row["julkaisuvuosi"], $row['yhtio']);
+        $newArtistAlbum = new ArtistView($row["album"], $row["year"], $row['company']);
         echo $newArtistAlbum;
     }
     echo '</table>';

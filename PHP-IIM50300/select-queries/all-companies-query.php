@@ -1,13 +1,17 @@
 ﻿<?php
 
+$sort = (isset($_GET['sort'])) ? $_GET['sort'] : 'company';  
+
+include("sort.php");
+
 $sql = 
 "select 
-		yhtio.nimi as yhtio,
-		maa.nimi as maa,
-		vuosi.vuosi as perustamisvuosi
+		yhtio.nimi as company,
+		maa.nimi as country,
+		vuosi.vuosi as year
 from yhtio
 left join maa on yhtio.maa_avain = maa.avain
-left join vuosi on yhtio.vuosi_avain = vuosi.avain;"
-
+left join vuosi on yhtio.vuosi_avain = vuosi.avain
+order by $sort $sort_order;"
 
 ?>

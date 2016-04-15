@@ -1,4 +1,9 @@
 ﻿<?php
+
+function __autoload($class_name){
+        require_once $class_name .'.class.php';
+}
+
 session_start();
 require_once("db-init-music.php");
 
@@ -12,9 +17,12 @@ echo '<h2>Record companies</h2>';
 if ($result->num_rows > 0) {
 
     echo '<table class="query">';
-    echo '<tr><th>Name</th><th>Country</th><th>Year</th></tr>';
+    echo '<tr><th><a href="?sort=company&sort_by='.$sort_order.'" id="headerLink">Company</a></th>
+    		  <th><a href="?sort=country&sort_by='.$sort_order.'" id="headerLink">Country</a></th>
+    		  <th><a href="?sort=year&sort_by='.$sort_order.'" id="headerLink">Year</a></th></tr>';
     while($row = $result->fetch_assoc()) {
-    	echo "<tr><td><a href='company-page.php?link_company=".$row["yhtio"]."'>" . $row["yhtio"]. '</a></td><td>' . $row["maa"]. '</td><td>' . $row["perustamisvuosi"]. '</td></tr>';
+    	$newCompany = new Company($row["company"], $row["country"], $row["year"]);
+        echo $newCompany;
     }
     echo '</table>';
 } else {

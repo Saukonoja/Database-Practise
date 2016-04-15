@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 $content = <<<CONTENT
 <!DOCTYPE html>

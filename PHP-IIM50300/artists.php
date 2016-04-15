@@ -5,6 +5,7 @@ function __autoload($class_name){
 }
 
 session_start();
+
 require_once("db-init-music.php");
 
 include("select-queries/all-artists-query.php");
@@ -17,9 +18,11 @@ echo '<h2>Artists</h2>';
 if ($result->num_rows > 0) {
 
     echo '<table class="query">';
-    echo '<tr><th>Artist</th><th>Year</th><th>Country</th></tr>';
+	echo '<tr><th><a href="?sort=artist&sort_by='.$sort_order.'" id="headerLink">Artist</a></th>
+			  <th><a href="?sort=year&sort_by='.$sort_order.'" id="headerLink">Year</a></th>
+			  <th><a href="?sort=country&sort_by='.$sort_order.'" id="headerLink">Country</a></th></tr>';
     while($row = $result->fetch_assoc()) {
-        $newArtist = new Artist($row["esittaja"], $row["perustamisvuosi"], $row["maa"]);
+        $newArtist = new Artist($row["artist"], $row["year"], $row["country"]);
         echo $newArtist;
     }
     echo '</table>';

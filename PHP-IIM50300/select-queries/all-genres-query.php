@@ -1,9 +1,13 @@
 ﻿<?php
 
+$sort = (isset($_GET['sort'])) ? $_GET['sort'] : 'genre';  
+
+include("sort.php");
+
 $sql = 
 "select 
 	genre.nimi as genre
 from genre
-ORDER BY genre.nimi;";
+order by $sort $sort_order;";
 
 ?>

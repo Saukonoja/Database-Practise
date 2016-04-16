@@ -14,10 +14,10 @@
         }
 
         function __toString() {
-                return "<tr><td><a href='track-page.php?link_track=".$this->name."'>".$this->name.
-                "</a></td><td><a href='artist-page.php?link_artist=".$this->artist."'>" . $this->artist.
-            "</a></td><td><a href='album-page.php?link_album=".$this->album."'>".$this->album.
-            '</td><td>'.$this->year.'</td></tr>';      
+                return "<tr><td><a href='album-page.php?link_track=".$this->name."&link_album=".$this->album."'>".$this->name."</a></td>
+                            <td><a href='artist-page.php?link_artist=".$this->artist."'>" . $this->artist."</a></td>
+                            <td><a href='album-page.php?link_album=".$this->album."'>".$this->album.'</td>
+                            <td id=year>'.$this->year.'</td></tr>';      
         }
     }
  

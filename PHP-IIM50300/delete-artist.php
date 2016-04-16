@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-// abook-lisaa.php
+
 include ("header.php");
 require_once("db-init-music.php");
  

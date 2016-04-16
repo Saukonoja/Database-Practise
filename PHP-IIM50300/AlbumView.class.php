@@ -12,7 +12,7 @@
         }
 
         function __toString() {
-            return '<tr><td id=number>' . $this->number. "</td><td id=track><a href='album-page.php?link_track=".$this->track."'>" . $this->track. '</td><td id=length>' 
+            return '<tr><td id=number>' . $this->number. "</td><td id=track><a href='album-page.php?link_track=".stripslashes($this->track)."'>" . $this->track. '</td><td id=length>' 
             . $this->length. '</td>'; 
         }
 

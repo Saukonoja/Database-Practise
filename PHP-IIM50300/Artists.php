@@ -13,8 +13,9 @@ include("select-queries/all-artists-query.php");
 include("header.php");
 
 $result = $conn->query($sql);
-
-echo '<h2>Artists</h2>';
+$test = "fds";
+echo '<h1 id="pageHeader">Artists</h1>';
+echo '<form action=\'add-artist-form.php\'><button id=btnAdd class="buttons">Add artist</button></form>';
 if ($result->num_rows > 0) {
 
     echo '<table class="query">';

@@ -14,8 +14,8 @@
         }
 
         function __toString() {
-            return "<tr><td><a href='album-page.php?link_album=".$this->name."'>" . $this->name. "</a></td><td><a href='artist-page.php?link_artist=".$this->artist."'>" . $this->artist. '</a></td><td>'
-            . $this->year . '</td><td>' . $this->company. '</td></tr>';
+            return "<tr><td><a href='album-page.php?link_album=".$this->name."'>" . $this->name. "</a></td><td><a href='artist-page.php?link_artist=".$this->artist."'>" . $this->artist. "</a></td>
+                        <td id=year>". $this->year . "</td><td><a href='company-page.php?link_company=".$this->company."'>" . $this->company. "</a></td></tr>";
         }
     }
  

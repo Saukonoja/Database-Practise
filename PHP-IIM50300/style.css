@@ -35,6 +35,10 @@ a{
 	color: inherit;
 }
 
+i {
+    color:#181818;
+}
+
 #player{
 	margin-left: 50px;
 	margin-bottom: 20px;
@@ -81,6 +85,7 @@ a{
 	color: white;
 	outline: none;
 	border: none;
+	padding: 10px 10px 10px;
 }
 
 .buttons:hover{
@@ -89,7 +94,6 @@ a{
 }
 
 #btnSignUp, #btnLogin, #btnContact{
-	padding: 10px 10px 10px;
 	font-size: 16px;
 	float: right;
 	margin-right: 5px;
@@ -98,12 +102,10 @@ a{
 
 #btnSignUp{
 	background-color: #ACCB12;
-	border: 1px solid #ACCB12;
 }
 
 #btnLogin{
 	background-color: #B0B0B0;
-	border: 1px solid #B0B0B0;
 }
 
 #btnLogin2,#btnBack{
@@ -117,37 +119,86 @@ a{
 	border-radius: 10px;
 }
 
+#btnAdd{
+	background-color: #3EC303;
+	cursor: pointer;
+	margin-left: 50px;
+	margin-top: 15px; 
+}
+
 #btnEdit{
 	background-color: #575757;
-	color: white;
+	color: #FF9900;
 	border: none;
+	height: 0px;
+	outline: none;
 	font-size: 14px;
-	cursor:pointer;
-	margin-left:8px;
+	font-weight: bold;
+	cursor: pointer;
 }
+
+#btnBack{
+	margin-top: 5px;
+	float: left;
+	background-color: #181818;
+	border: 1px solid black;
+}
+
+.fa-arrow-left{
+  color: white;
+}
+
+#pageHeader{
+	margin-top: 10px;	
+	float: left;
+}
+
+#addForm, #updateForm{
+	margin-left: 100px;
+}
+
 #btnEdit:hover{
-	text-decoration:underline;
+	text-decoration: underline;
 }
 
 #hiddenTr, #hiddenTh{
-	display:none;
+	display: none;
 }
 
 #editTd{
 	background-color: #575757;
-	border-bottom: 0px;
-	cursor:default;
+	border: none;
+	cursor: default;
+}
+
+#addButton{
+	background-color: #3EC303;
+	cursor: pointer;
+	margin-left: 100px;
+	margin-top: 20px; 
+}
+
+#updateButton{
+	background-color: #FF9900;
+	cursor: pointer;
+	margin-left: 40px;
+	margin-top: 20px; 
+}
+
+#deleteButton{
+	background-color: #CA171B;
+	cursor: pointer;
+	margin-left: 10px;
+	margin-top: 20px; 
 }
 
 #btnSearchFromDatabase{
 	padding: 5px 50px 5px;	
 	background-color: #3FA9F5;
-	border: 1px solid #3FA9F5;
 }
 
 #btnContact{
 	background-color: #575757;
-	border: 1px solid #575757;
 }
 
 #inputSearch{	
@@ -248,14 +299,12 @@ table.query td:hover{
 	margin-left: 20px;
 }	
 
-#number, #length{
-	text-align: center;
-	cursor: default;
-}
-#number:hover, #length:hover{
+#number:hover, #length:hover, #country:hover, #year:hover{
 	background-color: #282828; 
 	text-decoration: none;
+	cursor: default;
 }
+
 #track{
 	text-align: left;
 }

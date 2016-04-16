@@ -69,17 +69,18 @@ echo $newAlbumTrack->albumInfo($artist, $year, $row_count, $trimAlbumLength);
 echo '</table>';
 echo '<div id=player>';
 
-if(isset($_GET['link_track'])){
-    $result2 = $conn->query($sql2);
-    $tube = '';
-    
-    if($result2->num_rows > 0){
-        if($row = $result2->fetch_assoc()){
-            $tube = $row['tubepath'];
-            
-            echo '<h3>' . $_GET['link_track'] . '</h3>';
-            echo $newAlbumTrack->youtubeVideo($tube);
-        }
+
+
+if (isset($_GET['link_track'])){
+    echo $_SESSION['track'];
+
+    if ($result3 = $conn->prepare("$sql2")){
+        $result3->bind_param('s', $_SESSION['track']);     
+        $result3->execute();
+        $result3->bind_result($tube);    
+        $result3->fetch();
+        echo '<h3>' . $_GET['link_track'] . '</h3>';
+        echo $newAlbumTrack->youtubeVideo($tube);   
     }
 }    
 echo '</div>';

@@ -13,7 +13,7 @@ include("header.php");
 
 $result = $conn->query($sql);
 
-echo '<h2>Genres</h2>';
+echo '<h1>Genres</h1>';
 if ($result->num_rows > 0) {
     
     echo '<table class="query">';

@@ -14,7 +14,7 @@
         function __toString() {
             return "<tr><td><a href='album-page.php?link_album=".$this->album."'>" . $this->album."</a></td>
                         <td><a href='artist-page.php?link_artist=".$this->artist."'>".$this->artist."</a></td>
-                        <td>".$this->year."</td></tr>";   
+                        <td id=year>".$this->year."</td></tr>";   
         }   
     }
  

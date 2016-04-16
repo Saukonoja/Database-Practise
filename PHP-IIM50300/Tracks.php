@@ -9,7 +9,7 @@ require_once("db-init-music.php");
 
 include("select-queries/all-tracks-query.php");
 
-include("header.php");
+
 
 $trackPage = 0;
 
@@ -45,9 +45,11 @@ left join vuosi on kappale.vuosi_avain = vuosi.avain
 order by $sort $sort_order
 limit $trackPage,10;";
 
+include("header.php");
+
 $result = $conn->query($sql);
 
-echo '<h2>Tracks</h2>';
+echo '<h1>Tracks</h1>';
 if ($result->num_rows > 0) {
 
     echo '<table class="query">';
@@ -77,7 +79,7 @@ if ($page > 1){
     echo "<a href='Tracks?page=$prev' id='prevLink'>Prev</a>";
 }
 
-if($result2->num_rows > 0){
+if ($result2->num_rows > 0){
     $row_count = $result2->num_rows;
     $decimal = $row_count / 10;
 

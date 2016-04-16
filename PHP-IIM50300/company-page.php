@@ -17,7 +17,7 @@ include("header.php");
 
 $result = $conn->query($sql);
 
-echo '<h2>'.$_SESSION['company'].'</h2>';
+echo '<h1>'.$_SESSION['company'].'</h1>';
 if ($result->num_rows > 0) {
     echo '<table class="query">';
     echo '<tr><th><a href="?sort=album&sort_by='.$sort_order.'" id="headerLink">Album</a></th>

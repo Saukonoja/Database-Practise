@@ -1,23 +1,25 @@
 <?php
 session_start();
-// abook-lisaa.php
-include ("header.php");
+include ("header.php"); 
+$errmsg = '';
+if(isset($_SESSION['errmsg'])){
+        echo $_SESSION['errmsg'];
+        unset ($_SESSION['errmsg']);
+}
+if (isset($_POST['nimi']) AND isset($_POST['vuosi']) AND isset($_POST['maa'])){
 require_once("db-init-music.php");
- 
-$nimi   = isset($_REQUEST['nimi'])   ? $_REQUEST['nimi']   : '';
-$vuosi = isset($_REQUEST['vuosi']) ? $_REQUEST['vuosi'] : '';
-$maa  = isset($_REQUEST['maa'])  ? $_REQUEST['maa']  : '';
 
+$nimi   = $_POST['nimi'];
+$vuosi = $_POST['vuosi'];
+$maa  = $_POST['maa'];
 
-$sql = <<<SQLEND
-INSERT INTO esittaja (nimi, maa_avain, vuosi_avain)
-VALUES(?,(SELECT avain FROM maa WHERE nimi = ?),(SELECT avain FROM vuosi WHERE vuosi = ?))
-SQLEND;
+include("insert-queries/insert-artist.php");
  
 $stmt = $conn->prepare("$sql");
 $stmt-> bind_param('ssi', $nimi, $maa, $vuosi);
 
 $stmt->execute();
 printf("%d Rivi lisättiin.\n", $stmt->affected_rows);
-include ("footer.php");
+}
 ?>
+<?php include ("footer.php"); ?>

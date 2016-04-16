@@ -17,9 +17,9 @@ echo '<h2>Artists</h2>';
 if ($result->num_rows > 0) {
 
     echo '<table class="query">';
-    echo '<tr><th>Artist</th><th>Year</th><th>Country</th></tr>';
+    echo '<tr><th>Artist</th><th>Year</th><th>Country</th><th id= \'hiddenTh\'>ID</th></tr>';
     while($row = $result->fetch_assoc()) {
-        $newArtist = new Artist($row["esittaja"], $row["perustamisvuosi"], $row["maa"]);
+        $newArtist = new Artist($row["esittaja"], $row["perustamisvuosi"], $row["maa"], $row["ID"]);
         echo $newArtist;
     }
     echo '</table>';

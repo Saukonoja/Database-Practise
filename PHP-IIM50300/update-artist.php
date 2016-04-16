@@ -5,10 +5,10 @@ include ("header.php");
 require_once("db-init-music.php");
 
  
-$nimi   = isset($_REQUEST['nimi'])   ? $_REQUEST['nimi']   : '';
-$vuosi = isset($_REQUEST['vuosi']) ? $_REQUEST['vuosi'] : '';
-$maa  = isset($_REQUEST['maa'])  ? $_REQUEST['maa']  : '';
-$id = 59;
+$nimi   = isset($_POST['nimi'])   ? $_POST['nimi']   : '';
+$vuosi = isset($_POST['vuosi']) ? $_POST['vuosi'] : '';
+$maa  = isset($_POST['maa'])  ? $_POST['maa']  : '';
+$id = $_POST['id'];
 
 
 $sql = <<<SQLEND

@@ -20,9 +20,9 @@ if ($result->num_rows > 0) {
     echo '<table class="query">';
 	echo '<tr><th><a href="?sort=artist&sort_by='.$sort_order.'" id="headerLink">Artist</a></th>
 			  <th><a href="?sort=year&sort_by='.$sort_order.'" id="headerLink">Year</a></th>
-			  <th><a href="?sort=country&sort_by='.$sort_order.'" id="headerLink">Country</a></th></tr>';
+			  <th><a href="?sort=country&sort_by='.$sort_order.'" id="headerLink">Country</a></th><th id= \'hiddenTh\'>ID</th></tr>';
     while($row = $result->fetch_assoc()) {
-        $newArtist = new Artist($row["artist"], $row["year"], $row["country"]);
+        $newArtist = new Artist($row["esittaja"], $row["perustamisvuosi"], $row["maa"], $row["ID"]);
         echo $newArtist;
     }
     echo '</table>';

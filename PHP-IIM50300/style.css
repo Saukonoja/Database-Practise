@@ -106,6 +106,39 @@ a{
 	border: 1px solid #B0B0B0;
 }
 
+#btnLogin2,#btnBack{
+	background-color: #B0B0B0;
+	border: 1px solid #B0B0B0;
+	padding: 10px 10px 10px;
+	font-size: 16px;
+	margin-right: 5px;
+	margin-top: 15px;
+	margin-bottom: 20px;
+	border-radius: 10px;
+}
+
+#btnEdit{
+	background-color: #575757;
+	color: white;
+	border: none;
+	font-size: 14px;
+	cursor:pointer;
+	margin-left:8px;
+}
+#btnEdit:hover{
+	text-decoration:underline;
+}
+
+#hiddenTr, #hiddenTh{
+	display:none;
+}
+
+#editTd{
+	background-color: #575757;
+	border-bottom: 0px;
+	cursor:default;
+}
+
 #btnSearchFromDatabase{
 	padding: 5px 50px 5px;	
 	background-color: #3FA9F5;

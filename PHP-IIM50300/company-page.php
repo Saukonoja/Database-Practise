@@ -7,25 +7,25 @@ function __autoload($class_name){
 session_start();
 require_once("db-init-music.php");
 
-if(isset($_GET['link_artist'])){
-        $_SESSION['artist'] = $_GET['link_artist'];
+if (isset($_GET['link_company'])){
+        $_SESSION['company'] = $_GET['link_company'];
 }
 
-include("select-queries/artist-albums-query.php");
+include("select-queries/company-albums-query.php");
 
 include("header.php");
 
 $result = $conn->query($sql);
 
-echo '<h1>'.$_SESSION['artist'].'</h1>';
+echo '<h1>'.$_SESSION['company'].'</h1>';
 if ($result->num_rows > 0) {
     echo '<table class="query">';
     echo '<tr><th><a href="?sort=album&sort_by='.$sort_order.'" id="headerLink">Album</a></th>
-              <th><a href="?sort=year&sort_by='.$sort_order.'" id="headerLink">Year</a></th>
-              <th><a href="?sort=company&sort_by='.$sort_order.'" id="headerLink">Record company</a></th></tr>';
+              <th><a href="?sort=artist&sort_by='.$sort_order.'" id="headerLink">Artist</a></th>
+              <th><a href="?sort=year&sort_by='.$sort_order.'" id="headerLink">Year</a></th></tr>';
     while($row = $result->fetch_assoc()) {
-        $newArtistAlbum = new ArtistView($row["album"], $row["year"], $row['company']);
-        echo $newArtistAlbum;
+        $newCompanyAlbum = new CompanyView($row["album"], $row["artist"], $row['year']);
+        echo $newCompanyAlbum;
     }
     echo '</table>';
 } else {

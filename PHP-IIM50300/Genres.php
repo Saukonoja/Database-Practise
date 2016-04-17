@@ -13,11 +13,11 @@ include("header.php");
 
 $result = $conn->query($sql);
 
-echo '<h2>Genres</h2>';
+echo '<h1>Genres</h1>';
 if ($result->num_rows > 0) {
-    // output data of each row
+    
     echo '<table class="query">';
-    echo '<tr><th>Genre</th></tr>';
+    echo '<tr><th><a href="?sort=genre&sort_by='.$sort_order.'" id="headerLink">Genre</a></th></tr>';
     while($row = $result->fetch_assoc()) {
         $newGenre = new Genre($row["genre"]);
         echo $newGenre;

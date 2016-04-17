@@ -5,18 +5,19 @@ $content = <<<CONTENT
 <html>
    <head>
    		<title>Music database</title>
-   		<link rel="stylesheet" type="text/css" href="style.css">	
+   		<link rel="stylesheet" type="text/css" href="style.css">
+         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">	
    </head>
 
    <body>
          <nav>
-            <div id="headerBar"><a href="index" id="title-link"><span id="title">Music database</span></a>
+            <div id="headerBar"><a href="index" id="title-link"><span id="title"><i class="fa fa-home"></i></span></a>   Music database
                <button class="buttons" id="btnLogin" onclick="window.location.href='login-form.php'">LOGIN</button>
                <button class="buttons" id="btnSignUp" onclick="window.location.href='register-form.php'">SIGN UP</button>
             </div>
             <div id="searchBar">
-               <form>
-                  <input id="inputSearch" type="text" name="search">
+               <form method='post' action='Search.php'>
+                  <input id="inputSearch" type="text" placeholder="Search" name="search">
                   <input class="buttons" id="btnSearchFromDatabase" type="submit" name="btnSearchDatabase" value="Search from database">
                </form> 
             </div>            
@@ -25,7 +26,7 @@ $content = <<<CONTENT
             <div id="sideBar">
             	<table class="sidebar">
             	   <tr><td class="test" onclick="window.location.href='index'">Home</td></tr>
-            		<tr><td onclick="window.location.href='artists'">Artists</td></tr>
+            		<tr><td onclick="window.location.href='Artists'">Artists</td></tr>
             		<tr><td onclick="window.location.href='Albums'">Albums</td></tr>
             		<tr><td onclick="window.location.href='Tracks'">Tracks</td></tr>
             		<tr><td onclick="window.location.href='Genres'">Genres</td></tr>

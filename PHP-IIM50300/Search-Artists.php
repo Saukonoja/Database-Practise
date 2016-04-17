@@ -6,11 +6,9 @@ function __autoload($class_name){
 
 session_start();
 
-$_SESSION['current'] = "Artists";
-
 require_once("db-init-music.php");
 
-include("select-queries/all-artists-query.php");
+include("select-queries/search-all-artists-query.php");
 
 include("header.php");
 

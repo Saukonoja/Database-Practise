@@ -14,7 +14,7 @@ require_once("db-init-music.php");
 				  <td align='right'>Year</td>
 				  <td>
 				  	<!-- Ini comboBox for year -->
-				  	<select name='vuosi'> <option value="" selected>Select a year</option>
+				  	<select name='vuosi' id="comboYear"> <option value="" selected>Select a year</option>
 						  <?php 
 						  $result = $conn->query('select vuosi from vuosi order by vuosi desc');
 						  while($row = $result->fetch_assoc()){
@@ -29,7 +29,7 @@ require_once("db-init-music.php");
 				  <td align='right'>Country</td>
 				  <td>
 				  	<!-- Ini comboBox for country -->
-				  	<select name='maa'> <option value="" selected>Select a country</option>
+				  	<select name='maa' id="comboCountry"> <option value="" selected>Select a country</option>
 						  <?php 
 						  $result = $conn->query('select nimi from maa');
 						  while($row = $result->fetch_assoc()){

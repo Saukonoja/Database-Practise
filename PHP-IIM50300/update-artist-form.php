@@ -1,4 +1,4 @@
-
+﻿
 <?php 
 
 session_start();
@@ -33,7 +33,7 @@ if ($row = $result->fetch_assoc()){
             <tr valign='top'>
               <td align='right' style="color: white;">Year</td>
               <td>
-                <select name='vuosi'> <option value='<?php echo $row['vuosi']?>' selected><?php echo $row['vuosi']?></option>
+                <select name='vuosi' id="comboYear"> <option value='<?php echo $row['vuosi']?>' selected><?php echo $row['vuosi']?></option>
               <?php 
                 $combo = $conn->query('select vuosi from vuosi order by vuosi desc');
                 while($crow = $combo->fetch_assoc()){
@@ -46,7 +46,7 @@ if ($row = $result->fetch_assoc()){
             <tr valign='top'>
               <td align='right' style="color: white;">Country</td>
               <td>
-                <select name='maa'> <option value='<?php echo $row['maa']?>'><?php echo $row['maa']?></option>
+                <select name='maa' id="comboCountry"> <option value='<?php echo $row['maa']?>'><?php echo $row['maa']?></option>
               <?php 
                 $combo = $conn->query('select nimi from maa');
                 while($crow = $combo->fetch_assoc()){

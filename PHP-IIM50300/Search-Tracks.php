@@ -6,15 +6,13 @@ function __autoload($class_name){
 
 session_start();
 
-$_SESSION['current'] = "Albums";
+$_SESSION['current'] = "Tracks";
 
 require_once("db-init-music.php");
 
-include("select-queries/all-albums-query.php");
+include("select-queries/search-all-tracks-query.php");
 
-include("header.php");
-
-include("albums-table.php");
+include("tracks-table.php");
 
 include("footer.php");
 

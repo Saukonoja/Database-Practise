@@ -18,7 +18,7 @@ $content = <<<CONTENT
             </div>
             <div id="searchBar">
                <form method='post' action='Search.php'>
-                  <input id="inputSearch" type="text" placeholder="Search" name="search">
+                  <input id="inputSearch" type="text" autofocus autocomplete="off" placeholder="Search" name="search">
                   <input class="buttons" id="btnSearchFromDatabase" type="submit" name="btnSearchDatabase" value="Search from database">
                </form> 
             </div>            

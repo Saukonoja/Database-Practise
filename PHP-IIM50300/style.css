@@ -145,6 +145,10 @@ iframe{
 
 }
 
+#btnEdit:hover{
+	text-decoration: underline;
+}
+
 #btnBack{
 	margin-top: 5px;
 	float: left;
@@ -166,7 +170,7 @@ iframe{
 	margin-left: 100px;
 }
 
-.btnEdit:hover{
+#btnEdit:hover{
 	text-decoration: underline;
 }
 

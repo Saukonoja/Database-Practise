@@ -34,18 +34,11 @@ $conn->close();
 if ($_SESSION['islogged']==true){
    ?>
    <script type="text/javascript">document.getElementById('btnAdd').style.display = 'default';</script>
-   <script type="text/javascript">document.getElementById('btnEdit').style.display = 'default';</script>
    <?php
 }
 else {
 ?>
     <script type="text/javascript">document.getElementById('btnAdd').style.display = 'none';</script>
-    <script type="text/javascript">
-    var btnsToHide = document.getElementsByClassname('btnEdit');
-    for(var i = 0; i < btnsToHide.length; i++){
-        btnsToHide[i].style.display = "none";
-    }
-    </script>
 <?php
 }
 include("footer.php");

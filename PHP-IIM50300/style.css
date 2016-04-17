@@ -97,7 +97,7 @@ iframe{
 	cursor: pointer;
 }
 
-#btnSignUp, #btnLogin, #btnContact{
+#btnSignUp, #btnLogin, #btnContact, #btnLogout{
 	font-size: 16px;
 	float: right;
 	margin-right: 5px;
@@ -110,6 +110,9 @@ iframe{
 
 #btnLogin{
 	background-color: #B0B0B0;
+}
+#btnLogout{
+	background-color: #CA171B;
 }
 
 #btnLogin2,#btnBack{
@@ -137,6 +140,11 @@ iframe{
 	font-size: 14px;
 	font-weight: bold;
 	cursor: pointer;
+
+}
+
+#btnEdit:hover{
+	text-decoration: underline;
 }
 
 #btnBack{
@@ -159,9 +167,6 @@ iframe{
 	margin-left: 100px;
 }
 
-#btnEdit:hover{
-	text-decoration: underline;
-}
 
 #hiddenTr, #hiddenTh{
 	display: none;
@@ -430,4 +435,12 @@ input{
 	font-size: 16px;
 	border: 1px solid #282828;
 	outline: none;
+}
+
+
+
+#loggedAs{
+	font-size:15px;
+	float: right;
+	margin-right:20px;
 }

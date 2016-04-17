@@ -1,16 +1,12 @@
 ﻿<?php
-
+include("header.php");
 function __autoload($class_name){
         require_once $class_name .'.class.php';
 }
 
-session_start();
-
 require_once("db-init-music.php");
 
 include("select-queries/all-artists-query.php");
-
-include("header.php");
 
 $result = $conn->query($sql);
 $test = "fds";
@@ -32,6 +28,16 @@ if ($result->num_rows > 0) {
 }
 $conn->close();
 
+if ($_SESSION['islogged']==true){
+   ?>
+   <script type="text/javascript">document.getElementById('btnAdd').style.display = 'default';</script>
+   <?php
+}
+else {
+?>
+    <script type="text/javascript">document.getElementById('btnAdd').style.display = 'none';</script>
+<?php
+}
 include("footer.php");
 
 ?>

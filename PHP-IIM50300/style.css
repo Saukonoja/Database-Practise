@@ -17,7 +17,7 @@ nav{
 	top: 0;
 	height: 45px;
 	width: 100%;
-	z-index:1;
+	z-index: 1;
 
 }
 
@@ -37,6 +37,10 @@ a{
 
 i {
     color:#181818;
+}
+
+iframe{
+	margin-bottom: 50px;
 }
 
 #player{
@@ -367,32 +371,54 @@ table.query td:hover{
 	color: white;
 }
 
-#btnLogin2, #btnBack2{
- background-color: #B0B0B0;
- border: 1px solid #B0B0B0;
- padding: 10px 10px 10px;
- font-size: 16px;
- margin-right: 5px;
- margin-top: 15px;
- margin-bottom: 20px;
- border-radius: 10px;
+#btnRegisterLoginForm, #btnBackToLogin, #btnBackToMain{
+	padding: 10px 10px 10px;
+	font-size: 16px;
+	margin-bottom: 10px;
+	border-radius: 10px;
 }
 
-#formContainer {
- width: 90%;
- max-width: 400px;
- margin: auto;
- background: white;
- min-height: 200px;
- text-align: center;
- border-radius: 10px;
- box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
- padding: 10px;
- transform:translateY(100%);
+#btnRegisterLoginForm{
+	margin-top: 15px;
+	background-color: #ACCB12;
 }
 
-#formContainer p {
- font-size: 90%;
- padding: 10px;
+#btnBackToLogin, #btnBackToMain{
+	background-color: #DD514C;
+}	
+
+#formContainerLoginRegister{
+	width: 400px;
+	margin: auto;
+	background-color: #181818;
+	text-align: center;
+	border-radius: 10px;
+	box-shadow: 10px 5px 10px 1px black;
+	padding: 10px;
+	transform: translateY(30%);
+	color: white;
 }
 
+
+#accountQ{
+	color: #1FEDDE;
+	font-size: 14px;
+}
+
+#accountQ:hover{
+	text-decoration: underline;
+}
+
+input{
+	font-size: 15px;
+}
+
+#errorMessageContainer{	
+	background-color: #990000;
+}
+
+#errorMessage{	
+	font-size: 20px;
+	color: white;
+	margin-left: 20px;
+}

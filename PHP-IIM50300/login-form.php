@@ -9,24 +9,22 @@ $content = <<<CONTENT
    		<link rel="stylesheet" type="text/css" href="style.css">	
    </head>
 
-   <body>
-         <div id="formContainer">
-              <form method="post" action="<?php echo $_SERVER;?>">
-              <h2>Login</h2>
-              <h3>Music Database</h3>
-              Username:<br><input type='text' name="uid"><br>
-              Password:<br><input type='text' name="passwd"><br>
-              <button type='submit' action='name' class="buttons" id='btnLogin2'>Login</button>
-              <button class='buttons' id='btnBack'>Back</button>
-              <br>
+   <body> 
+         <div id="formContainerLoginRegister">
+              <form method="post" action="login.php">
+                <h1>Login</h1>
+                <h3>Music Database</h3>
+                Username:<br><input type='text' autofocus name="username"><br>
+                Password:<br><input type='password' name="password"><br><br>
+                <a href="register-form.php" id="accountQ">Don't have an account? Register here.</a><br>
+                <input type='submit' name='action' value='Login' class="buttons" id='btnRegisterLoginForm'/><br>    
               </form>
-
-            </div>	  
- </body>
+              <button id='btnBackToMain' class='buttons' onclick="window.location.href='index.php'">Back to Music database</button>
+          </div>	  
+    </body>
  </html>
+
 CONTENT;
-
-
 echo $content;
 
 ?>

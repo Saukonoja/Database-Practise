@@ -7,7 +7,7 @@ include ("header.php");
  
 if ($_POST['action'] == 'Save changes'){
 
-	if (isset($_POST['nimi']) AND isset($_POST['vuosi']) AND isset($_POST['maa'])){
+	if (!empty($_POST['nimi']) AND !empty($_POST['vuosi']) AND !empty($_POST['maa'])){
 
 		$name     = isset($_POST['nimi'])   ? $_POST['nimi']   : '';
 		$year     = isset($_POST['vuosi']) ? $_POST['vuosi'] : '';

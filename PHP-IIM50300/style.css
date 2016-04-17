@@ -367,3 +367,32 @@ table.query td:hover{
 	color: white;
 }
 
+#btnLogin2, #btnBack2{
+ background-color: #B0B0B0;
+ border: 1px solid #B0B0B0;
+ padding: 10px 10px 10px;
+ font-size: 16px;
+ margin-right: 5px;
+ margin-top: 15px;
+ margin-bottom: 20px;
+ border-radius: 10px;
+}
+
+#formContainer {
+ width: 90%;
+ max-width: 400px;
+ margin: auto;
+ background: white;
+ min-height: 200px;
+ text-align: center;
+ border-radius: 10px;
+ box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+ padding: 10px;
+ transform:translateY(100%);
+}
+
+#formContainer p {
+ font-size: 90%;
+ padding: 10px;
+}
+

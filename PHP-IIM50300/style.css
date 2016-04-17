@@ -152,6 +152,7 @@ iframe{
   color: white;
 }
 
+
 #pageHeader{
 	margin-top: 10px;	
 	float: left;
@@ -188,6 +189,8 @@ iframe{
 	margin-left: 40px;
 	margin-top: 20px; 
 }
+
+
 
 #deleteButton{
 	background-color: #CA171B;

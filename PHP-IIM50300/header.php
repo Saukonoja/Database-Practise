@@ -1,4 +1,5 @@
 ﻿<?php
+session_start();
 $content = <<<CONTENT
 <!DOCTYPE html>
 
@@ -11,9 +12,11 @@ $content = <<<CONTENT
 
    <body>
          <nav>
-            <div id="headerBar"><a href="index" id="title-link"><span id="title"><i class="fa fa-home"></i></span></a>   Music database
+            <div id="headerBar"><a href="index" id="title-link"><span id="title"><i class="fa fa-home"></i></span></a>   Music database        
                <button class="buttons" id="btnLogin" onclick="window.location.href='login-form.php'">LOGIN</button>
                <button class="buttons" id="btnSignUp" onclick="window.location.href='register-form.php'">SIGN UP</button>
+               <button class="buttons" id="btnLogout" onclick="window.location.href='logout.php'">LOG OUT</button>
+               <p id='loggedAs'>Logged in as {$_SESSION['username']}</p>
             </div>
             <div id="searchBar">
                <form method='post' action='Search.php'>
@@ -39,7 +42,26 @@ $content = <<<CONTENT
 
 CONTENT;
 
-
 echo $content;
 
+if(!isset($_SESSION['islogged'])){
+   $_SESSION['islogged'] = false;
+}
+
+if ($_SESSION['islogged']==true){
+   ?>
+   <script type="text/javascript">document.getElementById('btnLogin').style.display = 'none';</script>
+   <script type="text/javascript">document.getElementById('btnSignUp').style.display = 'none';</script>
+   <script type="text/javascript">document.getElementById('btnLogout').style.display = 'default';</script>
+   <script type="text/javascript">document.getElementById('loggedAs').style.display = 'default';</script>   
+   <?php
+}
+else {
+?>
+<script type="text/javascript">document.getElementById('btnLogin').style.display = 'default';</script>
+<script type="text/javascript">document.getElementById('btnLogin').style.display = 'default';</script> 
+<script type="text/javascript">document.getElementById('btnLogout').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('loggedAs').style.display = 'none';</script>  
+<?php
+}
 ?>

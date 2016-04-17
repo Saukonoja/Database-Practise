@@ -1,44 +1,43 @@
+﻿
 ﻿<?php
   
 session_start();
-include("login-form.php");
-  
+
 $errmsg = '';
 if(isset($_SESSION['errmsg'])){
         echo $_SESSION['errmsg'];
         unset ($_SESSION['errmsg']);
 }
  
-if (isset($_POST['uid']) AND isset($_POST['passwd'])) {
-require_once("/home/H3694/php-dbconfig/db-init.php");
+if (isset($_POST['username']) AND isset($_POST['password'])) {
+require_once("db-init-music.php");
+
 
  
-   $uid = $_POST['uid'];
-   $passwd = $_POST['passwd'];
+   $username = $_POST['username'];
+   $password = $_POST['password'];
   
-   $sql = "SELECT tunnus, salasana
+   $sql = "SELECT tunnus, salasana, tyyppi
             FROM user
-            WHERE tunnus = :tunnus AND salasana = :salasana";
+            WHERE tunnus = '$username' AND salasana = '$password';";
       
-    $stmt = $db->prepare($sql);
-    $stmt->execute(array($uid));
+        $result = $conn->query($sql);
       
-    if ($stmt->rowCount() == 1) {
+    if ($result->num_rows == 1) {
   
-        $_SESSION['app2_islogged'] = true;
-        $_SESSION['uid'] = $_POST['uid'];
-         header("Location: http://" . $_SERVER['HTTP_HOST']
-                                    . dirname($_SERVER['PHP_SELF']) . '/'
-                                    . "index.php");
-        exit;
+        $_SESSION['islogged'] = true;
+        $_SESSION['username'] = $_POST['username'];
+        if($row = $result->fetch_assoc()){
+            $_SESSION['userType'] = $row['tyyppi'];
+        }
+        echo "<h2>Logging in...</h2>";
+        echo "<script>setTimeout(\"location.href = 'index.php';\",1000);</script>";
     } else {
         $errmsg = '<span style="background: yellow;">Tunnus/Salasana vaarin!</span>';
     }
 }
-?>
-  
-<title>Kirjautusmislomake</title>
-  
+?>  
 <?php
 if ($errmsg != '')echo $errmsg;
 ?>
+

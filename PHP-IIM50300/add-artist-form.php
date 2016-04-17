@@ -47,5 +47,3 @@ require_once("db-init-music.php");
 
 
 <?php include ("footer.php"); ?>
-
-

@@ -14,7 +14,7 @@ $content = <<<CONTENT
               <form method="post" action="login.php">
                 <h1>Login</h1>
                 <h3>Music Database</h3>
-                Username:<br><input type='text' autofocus name="username"><br>
+                Username:<br><input type='text' autofocus name="username" autocomplete='off'><br>
                 Password:<br><input type='password' name="password"><br><br>
                 <a href="register-form.php" id="accountQ">Don't have an account? Register here.</a><br>
                 <input type='submit' name='action' value='Login' class="buttons" id='btnRegisterLoginForm'/><br>    

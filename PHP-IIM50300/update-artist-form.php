@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 include ("header.php"); 
 
 require_once("db-init-music.php");

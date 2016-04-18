@@ -6,7 +6,7 @@ function __autoload($class_name){
 require_once("db-init-music.php");
 $_SESSION['current'] = "Tracks";
 include("select-queries/all-tracks-query.php");
-
+$_SESSION['current'] = "Tracks";
 $trackPage = 0;
 
 if(isset($_GET["page"])){

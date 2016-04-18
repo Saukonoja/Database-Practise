@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * php-syntax-highlighter.php
  *

@@ -1,18 +1,19 @@
-
+﻿
 ﻿<body style="background: gray">
 
 <?php
 
 session_start();
 
-function __autoload($class_name){
-        require_once $class_name .'.class.php';
-}
+        require_once 'Hash.class.php';
+        require_once 'Validator.class.php';
+
 
 require_once("db-init-music.php");
 
 if (!empty($_POST['username']) AND !empty($_POST['password']) AND !empty($_POST['re-password'])){
 		$validator = new Validator();
+		$hash = new Hash();
 
 		$username   = isset($_POST['username'])  ? $_POST['username']   : '';
 		$password = isset($_POST['password']) ? $_POST['password'] : '';
@@ -21,6 +22,7 @@ if (!empty($_POST['username']) AND !empty($_POST['password']) AND !empty($_POST[
 		if ($password == $repassword){
 
 			if ($validator->ValidateRegister($username, $password)){
+				$hashedpass = $hash->hashPassword($password);
 
 				$sql = <<<SQLEND
 				INSERT INTO user (tunnus, salasana, tyyppi)
@@ -28,7 +30,7 @@ if (!empty($_POST['username']) AND !empty($_POST['password']) AND !empty($_POST[
 SQLEND;
 		 
 				$stmt = $conn->prepare("$sql");
-				$stmt-> bind_param('ss', $username, $password);
+				$stmt-> bind_param('ss', $username, $hashedpass);
 
 				if ($stmt->execute()){
 						echo "<h2 style='text-align:center;'>Registration successfull.</h2>";

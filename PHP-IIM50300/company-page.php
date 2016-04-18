@@ -1,10 +1,9 @@
 ﻿<?php
-
+include("header.php");
 function __autoload($class_name){
         require_once $class_name .'.class.php';
 }
 
-session_start();
 require_once("db-init-music.php");
 
 if (isset($_GET['link_company'])){
@@ -13,7 +12,7 @@ if (isset($_GET['link_company'])){
 
 include("select-queries/company-albums-query.php");
 
-include("header.php");
+
 
 $result = $conn->query($sql);
 

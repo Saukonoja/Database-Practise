@@ -34,7 +34,7 @@ left join vuosi on kappale.vuosi_avain = vuosi.avain
 order by $sort $sort_order
 limit $trackPage,10;";
 
-include("header.php");
+
 
 $result = $conn->query($sql);
 

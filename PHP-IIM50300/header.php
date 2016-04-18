@@ -1,5 +1,10 @@
 ﻿<?php
 session_start();
+
+if(empty($_SESSION['username'])){
+$_SESSION['username'] = '';
+}
+
 $content = <<<CONTENT
 <!DOCTYPE html>
 
@@ -64,4 +69,5 @@ else {
 <script type="text/javascript">document.getElementById('loggedAs').style.display = 'none';</script>  
 <?php
 }
+
 ?>

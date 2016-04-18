@@ -1,4 +1,4 @@
-<?php include ("header.php"); 
+﻿<?php include ("header.php"); 
 require_once("db-init-music.php");
 ?>
 	<form action='Artists.php'><button id='btnBack' class='buttons'><i class='fa fa-arrow-left fa-lg'></i></button></form>

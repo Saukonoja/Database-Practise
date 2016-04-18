@@ -5,7 +5,7 @@ function __autoload($class_name){
 }
 
 require_once("db-init-music.php");
-
+$_SESSION['current'] = "Artists";
 include("select-queries/all-artists-query.php");
 
 $result = $conn->query($sql);

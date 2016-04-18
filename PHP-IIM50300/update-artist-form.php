@@ -1,17 +1,12 @@
 <?php 
-
-session_start();
+include ("header.php"); 
 
 require_once("db-init-music.php");
 
-if (isset($_POST['ID'])){
   $_SESSION['id'] = $_POST['ID'];
-}
+
 
 include("select-queries/artist-update-form-query.php");
-
-include ("header.php"); 
-
 $result = $conn->query("$sql");
 
 if ($row = $result->fetch_assoc()){

@@ -1,10 +1,9 @@
 ﻿<?php
-
-session_start();
+include ("header.php"); 
 
 require_once("db-init-music.php");
 
-include ("header.php"); 
+
 
 $errmsg = '';
 

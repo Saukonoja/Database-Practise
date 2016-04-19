@@ -1,23 +1,36 @@
 ﻿<?php
-session_start();
-// abook-lisaa.php
-include ("header.php");
+include ("header.php"); 
+
 require_once("db-init-music.php");
- 
-$nimi   = isset($_REQUEST['nimi'])   ? $_REQUEST['nimi']   : '';
-$vuosi = isset($_REQUEST['vuosi']) ? $_REQUEST['vuosi'] : '';
-$maa  = isset($_REQUEST['maa'])  ? $_REQUEST['maa']  : '';
 
 
-$sql = <<<SQLEND
-INSERT INTO esittaja (nimi, maa_avain, vuosi_avain)
-VALUES(?,(SELECT avain FROM maa WHERE nimi = ?),(SELECT avain FROM vuosi WHERE vuosi = ?))
-SQLEND;
- 
-$stmt = $conn->prepare("$sql");
-$stmt-> bind_param('ssi', $nimi, $maa, $vuosi);
 
-$stmt->execute();
-printf("%d Rivi lisättiin.\n", $stmt->affected_rows);
-include ("footer.php");
+$errmsg = '';
+
+if (isset($_SESSION['errmsg'])){
+        echo $_SESSION['errmsg'];
+        unset ($_SESSION['errmsg']);
+}
+
+if (isset($_POST['nimi']) AND isset($_POST['vuosi']) AND isset($_POST['maa'])){
+
+	$name     = $_POST['nimi'];
+	$year     = $_POST['vuosi'];
+	$country  = $_POST['maa'];
+
+	include("insert-queries/insert-artist.php");
+
+	$stmt = $conn->prepare("$sql");
+	$stmt-> bind_param('ssi', $name, $country, $year);
+
+	if ($stmt->execute()){
+		echo "<h2>Artist added to database.</h2>";
+		echo "<script>setTimeout(\"location.href = 'Artists.php';\",1000);</script>";
+	} else{
+		echo "<script>alert('There was error during inserting.'); setTimeout(\"location.href = 'update-artist-form.php';\",0);</script>";
+	}
+}
+
+include ("footer.php"); 
+
 ?>

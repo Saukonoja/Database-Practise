@@ -1,10 +1,11 @@
 ﻿<?php
-
+include("header.php");
 function __autoload($class_name){
         require_once $class_name .'.class.php';
 }
 
-session_start();
+echo '<h2 id="albumTitle">'.$_SESSION['album'].'</h2>';
+
 require_once("db-init-music.php");
 
 if (isset($_GET['link_album'])){
@@ -20,13 +21,10 @@ include("select-queries/album-tracks-query.php");
 include("select-queries/album-length-query.php");
 include("select-queries/track-tubepath-query.php");
 
-include("header.php");
-
 
 $result = $conn->query($sql);
 $album = $_SESSION['album'];
 
-echo '<h2 id="albumTitle">'.$_SESSION['album'].'</h2>';
 if ($result->num_rows > 0) {
     echo '<table id=albumPage class="query">';
     echo '<tr><th><a href="?sort=number&sort_by='.$sort_order.'" id="headerLink">#</a></th>
@@ -69,17 +67,18 @@ echo $newAlbumTrack->albumInfo($artist, $year, $row_count, $trimAlbumLength);
 echo '</table>';
 echo '<div id=player>';
 
-if(isset($_GET['link_track'])){
-    $result2 = $conn->query($sql2);
-    $tube = '';
-    
-    if($result2->num_rows > 0){
-        if($row = $result2->fetch_assoc()){
-            $tube = $row['tubepath'];
-            
-            echo '<h3>' . $_GET['link_track'] . '</h3>';
-            echo $newAlbumTrack->youtubeVideo($tube);
-        }
+
+
+if (isset($_GET['link_track'])){
+    echo $_SESSION['track'];
+
+    if ($result3 = $conn->prepare("$sql2")){
+        $result3->bind_param('s', $_SESSION['track']);     
+        $result3->execute();
+        $result3->bind_result($tube);    
+        $result3->fetch();
+        echo '<h3>' . $_GET['link_track'] . '</h3>';
+        echo $newAlbumTrack->youtubeVideo($tube);   
     }
 }    
 echo '</div>';

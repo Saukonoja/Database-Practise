@@ -12,7 +12,9 @@
         }
 
         function __toString() {
-            return "<tr><td><a href='company-page.php?link_company=".$this->name."'>" . $this->name. '</a></td><td>'.$this->country.'</td><td>'.$this->year.'</td></tr>';
+            return "<tr><td><a href='company-page.php?link_company=".$this->name."'>" . $this->name. '</a></td>
+                        <td id=country>'.$this->country.'</td>
+                        <td id=year>'.$this->year.'</td></tr>';
         }
     }
  

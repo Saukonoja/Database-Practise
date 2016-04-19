@@ -17,7 +17,7 @@ nav{
 	top: 0;
 	height: 45px;
 	width: 100%;
-	z-index:1;
+	z-index: 1;
 
 }
 
@@ -33,6 +33,14 @@ footer{
 a{
 	text-decoration: none;
 	color: inherit;
+}
+
+i {
+    color:#181818;
+}
+
+iframe{
+	margin-bottom: 50px;
 }
 
 #player{
@@ -81,6 +89,7 @@ a{
 	color: white;
 	outline: none;
 	border: none;
+	padding: 10px 10px 10px;
 }
 
 .buttons:hover{
@@ -88,8 +97,7 @@ a{
 	cursor: pointer;
 }
 
-#btnSignUp, #btnLogin, #btnContact{
-	padding: 10px 10px 10px;
+#btnSignUp, #btnLogin, #btnContact, #btnLogout{
 	font-size: 16px;
 	float: right;
 	margin-right: 5px;
@@ -98,23 +106,107 @@ a{
 
 #btnSignUp{
 	background-color: #ACCB12;
-	border: 1px solid #ACCB12;
 }
 
 #btnLogin{
 	background-color: #B0B0B0;
+}
+
+#btnLogout{
+	background-color: #CA171B;
+}
+
+#btnLogin2,#btnBack{
+	background-color: #B0B0B0;
 	border: 1px solid #B0B0B0;
+	padding: 10px 10px 10px;
+	font-size: 16px;
+	margin-right: 5px;
+	margin-top: 15px;
+	margin-bottom: 20px;
+	border-radius: 10px;
+}
+
+#btnAdd{
+	background-color: #3EC303;
+	cursor: pointer;
+}
+
+#btnEdit{
+	background-color: #575757;
+	color: #FF9900;
+	border: none;
+	height: 0px;
+	outline: none;
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
+
+}
+
+#btnEdit:hover{
+	text-decoration: underline;
+}
+
+#btnBack{
+	margin-top: 5px;
+	float: left;
+	background-color: #181818;
+	border: 1px solid black;
+}
+
+.fa-arrow-left{
+  color: white;
+}
+
+#addForm, #updateForm{
+	margin-left: 100px;
+}
+
+
+#hiddenTr, #hiddenTh{
+	display: none;
+}
+
+#editTd{
+	background-color: #575757;
+	border: none;
+	cursor: default;
+}
+
+#changePass{
+	float: left;
+	margin-right: 40px;
+}
+
+#addButton{
+	background-color: #3EC303;
+	cursor: pointer;
+	margin-left: 100px;
+	margin-top: 20px; 
+}
+
+#updateButton{
+	background-color: #FF9900;
+	cursor: pointer;
+	margin-left: 40px;
+	margin-top: 20px; 
+}
+
+#deleteButton{
+	background-color: #CA171B;
+	cursor: pointer;
+	margin-left: 10px;
+	margin-top: 20px; 
 }
 
 #btnSearchFromDatabase{
 	padding: 5px 50px 5px;	
 	background-color: #3FA9F5;
-	border: 1px solid #3FA9F5;
 }
 
 #btnContact{
 	background-color: #575757;
-	border: 1px solid #575757;
 }
 
 #inputSearch{	
@@ -215,14 +307,12 @@ table.query td:hover{
 	margin-left: 20px;
 }	
 
-#number, #length{
-	text-align: center;
-	cursor: default;
-}
-#number:hover, #length:hover{
+#number:hover, #length:hover, #country:hover, #year:hover{
 	background-color: #282828; 
 	text-decoration: none;
+	cursor: default;
 }
+
 #track{
 	text-align: left;
 }
@@ -285,3 +375,72 @@ table.query td:hover{
 	color: white;
 }
 
+#btnRegisterLoginForm, #btnBackToLogin, #btnBackToMain{
+	padding: 10px 10px 10px;
+	font-size: 16px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}
+
+#btnRegisterLoginForm{
+	margin-top: 15px;
+	background-color: #ACCB12;
+}
+
+#btnBackToLogin, #btnBackToMain{
+	background-color: #DD514C;
+}	
+
+#formContainerLoginRegister{
+	width: 400px;
+	margin: auto;
+	background-color: #181818;
+	text-align: center;
+	border-radius: 10px;
+	box-shadow: 10px 5px 10px 1px black;
+	padding: 10px;
+	transform: translateY(30%);
+	color: white;
+}
+
+
+#accountQ{
+	color: #1FEDDE;
+	font-size: 14px;
+}
+
+#accountQ:hover{
+	text-decoration: underline;
+}
+
+input{
+	font-size: 15px;
+}
+
+#errorMessageContainer{	
+	background-color: #990000;
+	z-index: 10;
+}
+
+#errorMessage{	
+	font-size: 20px;
+	color: white;
+	margin-left: 20px;
+}
+
+#comboYear, #comboCountry{
+	background-color: #282828;
+	color: white;
+	border-radius: 10px;
+	font-size: 16px;
+	border: 1px solid #282828;
+	outline: none;
+}
+
+
+
+#loggedAs{
+	font-size:15px;
+	float: right;
+	margin-right:20px;
+}

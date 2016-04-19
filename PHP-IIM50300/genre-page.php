@@ -6,13 +6,13 @@ function __autoload($class_name){
         require_once $class_name .'.class.php';
 }
 
-echo '<h1>'.$_SESSION['genre'].'</h1>';
-
 require_once("db-init-music.php");
 
 if (isset($_GET['link_genre'])){
         $_SESSION['genre'] = $_GET['link_genre'];
 }
+
+echo '<h1>'.$_SESSION['genre'].'</h1>';
 
 include("select-queries/genre-tracks-query.php");
 

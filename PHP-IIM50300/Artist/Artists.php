@@ -1,19 +1,21 @@
 ﻿<?php
 include("header.php");
+include ('config.php');
+
 function __autoload($class_name){
         require_once $class_name .'.class.php';
 }
 
-$_SESSION['current'] = "Albums";
-
 require_once("db-init-music.php");
 
-include("select-queries/all-albums-query.php");
+$_SESSION['current'] = "Artists";
+
+include("select-queries/all-artists-query.php");
 
 $result = $conn->prepare($sql);
-$result -> execute();
+$result->execute();
 
-include("albums-table.php");
+include("artists-table.php");
 
 include("footer.php");
 

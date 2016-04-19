@@ -1,7 +1,7 @@
 ﻿<?php
 
 echo '<h1 id="pageHeader">Artists</h1>';
-echo '<form action=\'add-artist-form.php\'><button id=btnAdd class="buttons">Add artist</button></form>';
+echo '<form action=\'add-artist-form.php\'><button id=btnAdd class="buttons" style='.$display.'>Add artist</button></form>';
 if ($result->bind_result($artist, $year, $country, $id)) {
 
     echo '<table class="query">';

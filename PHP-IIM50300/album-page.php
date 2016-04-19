@@ -1,10 +1,10 @@
 ﻿<?php
+
 include("header.php");
+
 function __autoload($class_name){
         require_once $class_name .'.class.php';
 }
-
-echo '<h2 id="albumTitle">'.$_SESSION['album'].'</h2>';
 
 require_once("db-init-music.php");
 
@@ -15,7 +15,7 @@ if (isset($_GET['link_album'])){
 if (isset($_GET['link_track'])){
     $_SESSION['track'] = $_GET['link_track'];
 }
-
+echo '<h2 id="albumTitle">'.$_SESSION['album'].'</h2>';
 
 include("select-queries/album-tracks-query.php");
 include("select-queries/album-length-query.php");
@@ -69,7 +69,6 @@ echo '<div id=player>';
 
 
 if (isset($_GET['link_track'])){
-    echo $_SESSION['track'];
 
     if ($result3 = $conn->prepare("$sql2")){
         $result3->bind_param('s', $_SESSION['track']);     

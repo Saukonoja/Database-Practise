@@ -8,13 +8,12 @@ require_once("db-init-music.php");
 if(isset($_GET['link_artist'])){
         $artist = $_GET['link_artist'];
 }
-
+echo '<h1>'.$artist.'</h1>';
 include("select-queries/artist-albums-query.php");
 $result = $conn->prepare($sql);
 $result->bind_param('s', $artist);
 $result->execute();
 
-echo '<h1>'.$artist.'</h1>';
 if ($result->bind_result($album, $year, $company)) {
     echo '<table class="query">';
     echo '<tr><th><a href="?sort=album&sort_by='.$sort_order.'" id="headerLink">Album</a></th>

@@ -8,8 +8,6 @@ function __autoload($class_name){
 
 $_SESSION['current'] = "Genres";
 
-echo '<h1 id="pageHeader">Genres</h1>';
-
 require_once("db-init-music.php");
 
 include("select-queries/all-genres-query.php");

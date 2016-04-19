@@ -6,11 +6,10 @@ require_once($artistClass);
 
 require_once($dbInit);
 
-$_SESSION['current'] = "Artists";
-
-include($allArtistsQuery);
+include($allArtistsSearchQuery);
 
 $result = $conn->prepare($sql);
+$result->bind_param('sss', $search, $search, $search);
 $result->execute();
 
 include($artistTable);

@@ -1,15 +1,17 @@
 ﻿<?php
 
-include("header.php");
-function __autoload($class_name){
-        require_once $class_name .'.class.php';
-}
-require_once("db-init-music.php");
-if(isset($_GET['link_artist'])){
+include("../Init/header.php");
+
+require_once($artistViewClass);
+
+require_once($dbInit);
+
+if (isset($_GET['link_artist'])){
         $artist = $_GET['link_artist'];
 }
+
 echo '<h1>'.$artist.'</h1>';
-include("select-queries/artist-albums-query.php");
+include($artistAlbumsQuery);
 $result = $conn->prepare($sql);
 $result->bind_param('s', $artist);
 $result->execute();
@@ -29,6 +31,6 @@ if ($result->bind_result($album, $year, $company)) {
 }
 $conn->close();
 
-include("footer.php");
+include($footer);
 
 ?>

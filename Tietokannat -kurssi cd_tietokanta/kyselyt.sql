@@ -127,7 +127,7 @@ order by kappale.kesto;
 -- Kaikki artistit, jonka jollain albumilla on yli kymmenen kappaletta 
 
 select
-  *
+		nimi
 from esittaja as e 
 inner join cd_esittaja as cde on e.avain = cde.esittaja_avain
 where cd_avain in 
@@ -191,7 +191,7 @@ where cd.nimi like '%1986%' or esittaja.nimi like '%1986%' or vuosi.vuosi like '
 -- Staattinen pivot tulostaa montako albumia levy-yhtiö on julkaissut tiettynä vuonna
 
 select 
-	* 
+	*
 from (
 	select 
 		vuosi.vuosi,

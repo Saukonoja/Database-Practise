@@ -1,64 +1,81 @@
-﻿<?php  
+<body style="background: gray">
+
+<?php  
+
 session_start();
 
-$errmsg = '';
-if(isset($_SESSION['errmsg'])){
-        echo $_SESSION['errmsg'];
-        unset ($_SESSION['errmsg']);
-}
- 
-if (isset($_POST['username']) AND isset($_POST['password'])) {
-require_once("db-init-music.php");
-
 require_once 'Hash.class.php';
+require_once 'Validator.class.php';
+
+require_once("db-init-music.php");
+ 
+if (!empty($_POST['username']) AND !empty($_POST['password'])){
+   $validator = new Validator();
    $verify = new Hash();
-   $username = $_POST['username'];
-   $password = $_POST['password'];
-   
 
-   $sql = "SELECT salasana 
-            FROM user
-            WHERE tunnus = ?";
+   $username = isset($_POST['username'])  ? $_POST['username']   : '';
+   $password = isset($_POST['password'])  ? $_POST['password']   : '';
 
-            $passResult = $conn->prepare($sql);
-            $passResult->bind_param('s', $username);
-            $passResult->execute();
-            $passResult->bind_result($dbpassword);
-            if($passResult->fetch()){
-                $dbpassword;
-            }
-            $passResult->close();
-            
-            if($verify->verifyPasword($password, $dbpassword)){
+    try{
+        if ($validator->ValidateLogin($username, $password)){
 
+                $sql1 = 
+                "SELECT salasana 
+                FROM user
+                WHERE tunnus = ?;";
 
-   $sql1 = "SELECT tyyppi
-            FROM user
-            WHERE tunnus = ? AND salasana = ?";
-      
-        
-        $result = $conn->prepare("$sql1");        
-        $result->bind_param('ss', $username, $dbpassword);
-        $result->bind_result($usertype);
-            
+                $passResult = $conn->prepare("$sql1");
+                $passResult->bind_param('s', $username);
+                $passResult->execute();
+                $passResult->bind_result($hash);
+                if ($passResult->fetch()){
+                    $hash;
+                }
+                $passResult->close();
 
-    if ($result->execute()) {
-  
-        $_SESSION['islogged'] = true;
-        $_SESSION['username'] = $_POST['username'];
-        if($result->fetch()){
-            $_SESSION['userType'] = $usertype;
+                if ($hash != null){
+                        if ($verify->verifyPasword($password, $hash)){
+                            $sql2 =
+                            "SELECT tyyppi
+                            FROM user
+                            WHERE tunnus = ? AND salasana = ?;";
+              
+                            $result = $conn->prepare("$sql2");        
+                            $result->bind_param('ss', $username, $hash);
+                            $result->bind_result($usertype);                
+
+                            if ($result->execute()) {         
+                                $_SESSION['islogged'] = true;
+                                $_SESSION['username'] = $_POST['username'];
+                                if ($result->fetch()){
+                                    $_SESSION['userType'] = $usertype;
+                                }
+                                $result->close();
+                                echo "<h2 style='text-align:center;'>Logging in...</h2>";
+                                echo "<script>setTimeout(\"location.href = 'index.php';\",1000);</script>"; 
+                            }
+                        } else {
+                            $_SESSION['loginError'] = "Incorrect password.";
+                            header("Location : login-form.php"); 
+                        }  
+                }else{
+                    $_SESSION['loginError'] = "Incorrect username.";
+                    header("Location : login-form.php"); 
+                }
+        }else{
+            $_SESSION['loginError'] = "Valid username: 5-20 characters.\nValid password: 8-20 characters.\n No special characters.\n";
+            header("Location : login-form.php"); 
         }
-        echo "<h2>Logging in...</h2>";
-        echo "<script>setTimeout(\"location.href = 'index.php';\",1000);</script>";
-    } else {
-        $errmsg = '<span style="background: yellow;">Ei oo oo yks</span>';
-    }
-}else
-  $errmsg = '<span style="background: yellow;">Tunnus/Salasana vaarin!</span>';
+    }catch (Exception $e){
+        echo $e->getMessage();
+    } 
+}else{
+    $_SESSION['loginError'] = "Fill fields first."; 
+    header("Location : login-form.php"); 
 }
-?>  
-<?php
-if ($errmsg != '')echo $errmsg;
-?>
+
+?> 
+
+</body>
+
 

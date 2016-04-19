@@ -8,6 +8,15 @@ if (isset($_SESSION['registerError'])){
   $error = "";
 }
 
+session_start();
+
+if (isset($_SESSION['registerError'])){
+  $error = $_SESSION['registerError'];
+  session_unset($_SESSION["registerError"]);
+}else{
+  $error = "";
+}
+
 $content = <<<CONTENT
 <!DOCTYPE html>
 

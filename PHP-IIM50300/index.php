@@ -1,6 +1,8 @@
 ﻿<?php
 include("header.php");
+
 require_once("db-init-music.php");
+
 if(!empty($_SESSION['username'])){
 	$currentUser = $_SESSION['username'];
 }

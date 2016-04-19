@@ -1,20 +1,23 @@
 ﻿<?php
+
 include("header.php");
+
 function __autoload($class_name){
         require_once $class_name .'.class.php';
 }
+
+echo '<h1>'.$_SESSION['genre'].'</h1>';
+
 require_once("db-init-music.php");
 
-if(isset($_GET['link_genre'])){
+if (isset($_GET['link_genre'])){
         $_SESSION['genre'] = $_GET['link_genre'];
 }
 
 include("select-queries/genre-tracks-query.php");
 
-
 $result = $conn->query($sql);
 
-echo '<h1>'.$_SESSION['genre'].'</h1>';
 if ($result->num_rows > 0) {
     echo '<table class="query">';
     echo '<tr><th><a href="?sort=track&sort_by='.$sort_order.'" id="headerLink">Track</a></th>

@@ -16,7 +16,7 @@
         }
 
         function __toString() {
-                       if($_SESSION['islogged']==true){
+        if($_SESSION['islogged']==true){
             $display = 'display:default;';
         }    
         else{

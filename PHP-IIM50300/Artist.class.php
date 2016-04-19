@@ -13,12 +13,12 @@
         }
 
         function __toString() {
-               if($_SESSION['islogged']==true){
-            $display = 'display:default;';
-        }    
-        else{
-            $display = 'display:none;';
-        }
+            if ($_SESSION['islogged'] == true){
+                $display = 'display:default;';
+            }    
+            else{
+                $display = 'display:none;';
+            }
             return "<tr><td><a href='artist-page.php?link_artist=".$this->name."'>" 
             . $this->name. '</a></td><td id=year>' . $this->year. '</td><td id=country>' . $this->country .
              '</td><td id=\'editTd\'><form method=\'post\' action=\'update-artist-form.php\'><button style='. $display . ' id=\'btnEdit\' name=\'ID\' value=' . $this->id . '>Edit</button></form></td></tr>';

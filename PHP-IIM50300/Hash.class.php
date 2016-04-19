@@ -1,4 +1,5 @@
 <?php
+
 require_once 'PasswordLib.phar';
 
 
@@ -16,4 +17,5 @@ class Hash{
 		return $boolean;
 	}
  }
+
 ?>

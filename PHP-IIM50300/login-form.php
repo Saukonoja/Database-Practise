@@ -1,5 +1,14 @@
 ﻿<?php
 
+session_start();
+
+if (isset($_SESSION['loginError'])){
+  $error = $_SESSION['loginError'];
+  session_unset($_SESSION["loginError"]);
+}else{
+  $error = "";
+}
+
 $content = <<<CONTENT
 <!DOCTYPE html>
 
@@ -10,6 +19,9 @@ $content = <<<CONTENT
    </head>
 
    <body> 
+   <div id="errorMessageContainer">
+     <div id=errorMessage>{$error}</div>
+   </div>
          <div id="formContainerLoginRegister">
               <form method="post" action="login.php">
                 <h1>Login</h1>

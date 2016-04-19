@@ -4,6 +4,8 @@ function __autoload($class_name){
         require_once $class_name .'.class.php';
 }
 
+echo '<h2 id="albumTitle">'.$_SESSION['album'].'</h2>';
+
 require_once("db-init-music.php");
 
 if (isset($_GET['link_album'])){
@@ -19,13 +21,9 @@ include("select-queries/album-tracks-query.php");
 include("select-queries/album-length-query.php");
 include("select-queries/track-tubepath-query.php");
 
-
-
-
 $result = $conn->query($sql);
 $album = $_SESSION['album'];
 
-echo '<h2 id="albumTitle">'.$_SESSION['album'].'</h2>';
 if ($result->num_rows > 0) {
     echo '<table id=albumPage class="query">';
     echo '<tr><th><a href="?sort=number&sort_by='.$sort_order.'" id="headerLink">#</a></th>

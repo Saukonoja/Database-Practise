@@ -1,8 +1,12 @@
 ﻿<?php
+
 include("header.php");
+
 function __autoload($class_name){
         require_once $class_name .'.class.php';
 }
+
+echo '<h1>'.$_SESSION['company'].'</h1>';
 
 require_once("db-init-music.php");
 
@@ -12,11 +16,8 @@ if (isset($_GET['link_company'])){
 
 include("select-queries/company-albums-query.php");
 
-
-
 $result = $conn->query($sql);
 
-echo '<h1>'.$_SESSION['company'].'</h1>';
 if ($result->num_rows > 0) {
     echo '<table class="query">';
     echo '<tr><th><a href="?sort=album&sort_by='.$sort_order.'" id="headerLink">Album</a></th>

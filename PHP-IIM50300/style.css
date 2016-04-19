@@ -111,6 +111,7 @@ iframe{
 #btnLogin{
 	background-color: #B0B0B0;
 }
+
 #btnLogout{
 	background-color: #CA171B;
 }
@@ -158,11 +159,6 @@ iframe{
   color: white;
 }
 
-
-#pageHeader{
-	margin-top: -20;	
-}
-
 #addForm, #updateForm{
 	margin-left: 100px;
 }
@@ -178,6 +174,11 @@ iframe{
 	cursor: default;
 }
 
+#changePass{
+	float: left;
+	margin-right: 40px;
+}
+
 #addButton{
 	background-color: #3EC303;
 	cursor: pointer;
@@ -191,8 +192,6 @@ iframe{
 	margin-left: 40px;
 	margin-top: 20px; 
 }
-
-
 
 #deleteButton{
 	background-color: #CA171B;
@@ -404,7 +403,6 @@ table.query td:hover{
 	color: white;
 }
 
-
 #accountQ{
 	color: #1FEDDE;
 	font-size: 14px;
@@ -436,8 +434,6 @@ input{
 	border: 1px solid #282828;
 	outline: none;
 }
-
-
 
 #loggedAs{
 	font-size:15px;

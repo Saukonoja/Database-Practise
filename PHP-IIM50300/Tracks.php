@@ -1,15 +1,17 @@
 ﻿<?php
+
 include("header.php");
 function __autoload($class_name){
         require_once $class_name .'.class.php';
 }
 require_once("db-init-music.php");
 $_SESSION['current'] = "Tracks";
-include("select-queries/all-tracks-query.php");
+
+
 $_SESSION['current'] = "Tracks";
 $trackPage = 0;
 
-if(isset($_GET["page"])){
+if (isset($_GET["page"])){
     $page = $_GET["page"];
 
     if($page == "" || $page == "1"){
@@ -22,6 +24,7 @@ if(isset($_GET["page"])){
 } else{
     $page = 1;
 }
+echo '<h1>Tracks</h1>';
 
 $sort = (isset($_GET['sort'])) ? $_GET['sort'] : 'track';  
 
@@ -41,11 +44,10 @@ left join vuosi on kappale.vuosi_avain = vuosi.avain
 order by $sort $sort_order
 limit $trackPage,10;";
 
-
-
+require_once("db-init-music.php");
+include("select-queries/all-tracks-query.php");
 $result = $conn->query($sql);
 
-echo '<h1>Tracks</h1>';
 if ($result->num_rows > 0) {
 
     echo '<table class="query">';

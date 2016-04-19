@@ -1,4 +1,5 @@
 ﻿<?php
+
 echo '<h1 id="pageHeader">Artists</h1>';
 echo '<form action=\'add-artist-form.php\'><button id=btnAdd class="buttons">Add artist</button></form>';
 if ($result->bind_result($artist, $year, $country, $id)) {
@@ -18,4 +19,5 @@ if ($result->bind_result($artist, $year, $country, $id)) {
 }
 
 $conn->close();
+
 ?>

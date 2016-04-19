@@ -51,8 +51,8 @@ if ($row = $result->fetch_assoc()){
         </td>
             </tr>
           </table>
-        <input type='submit' name='action' value='Save changes' class="buttons" id="updateButton" onclick="javascript: return confirm('Update artist {$row['nimi']} ?')">
-        <input type='submit' name='action' value='Delete artist' class="buttons" id="deleteButton" onclick="javascript: return confirm('Delete artist {$row['nimi']} ?')"><br>
+        <input type='submit' name='action' value='Save changes' class='buttons' id='updateButton' onclick="javascript: return confirm('Update artist <?php {$row['nimi']} ?> ?')">
+        <input type='submit' name='action' value='Delete artist' class="buttons" id="deleteButton" onclick="javascript: return confirm('Delete artist <?php {$row['nimi']} ?> ?')"><br>
       </form>
     </div>  
  <?php   

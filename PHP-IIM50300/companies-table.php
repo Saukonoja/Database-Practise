@@ -3,6 +3,7 @@
 $result = $conn->query($sql);
 
 echo '<h1 id="pageHeader">Record companies</h1>';
+
 if ($result->num_rows > 0) {
 
     echo '<table class="query">';

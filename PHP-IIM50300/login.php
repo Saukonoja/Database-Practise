@@ -20,12 +20,12 @@ require_once 'Hash.class.php';
             FROM user
             WHERE tunnus = ?";
 
-            $passResult = $conn->prepare("$sql");
+            $passResult = $conn->prepare($sql);
             $passResult->bind_param('s', $username);
             $passResult->execute();
-            $passResult->bind_result($bind);
+            $passResult->bind_result($dbpassword);
             if($passResult->fetch()){
-                $dbpassword = $bind;
+                $dbpassword;
             }
             $passResult->close();
             

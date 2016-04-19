@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_POST['search'])){
-    $_SESSION['search'] = $_POST['search'];
+   	$search = '%'.$_POST['search'].'%';
 }
 
 if ($_SESSION['current'] == 'Artists'){

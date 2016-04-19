@@ -6,6 +6,9 @@ function __autoload($class_name){
 require_once("db-init-music.php");
 
 include("select-queries/search-all-artists-query.php");
+$result = $conn->prepare($sql);
+$result->bind_param('sss', $search, $search, $search);
+$result->execute();
 
 include("artists-table.php");
 

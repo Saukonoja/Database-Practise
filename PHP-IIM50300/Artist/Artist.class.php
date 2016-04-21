@@ -1,6 +1,4 @@
 ﻿<?php
-
-
     class Artist{
         private $name;
         private $year;
@@ -24,7 +22,8 @@
             }
             return "<tr><td><a href='" . $artistPage . "?link_artist=".$this->name."'>" 
             . $this->name. '</a></td><td id=year>' . $this->year. '</td><td id=country>' . $this->country .
-             '</td><td id=\'editTd\'><form method=\'post\' action='.$updateArtistForm.'><button style='. $display . ' id=\'btnEdit\' name=\'ID\' value=' . $this->id . '>Edit</button></form></td></tr>';
+             '</td><td id=\'editTd\'><form method=\'post\' action='.$updateArtistForm.'><button style='. $display .
+              ' id=\'btnEdit\' name=\'ID\' value=' . $this->id . '>Edit</button></form></td></tr>';
         }       
     }
 ?>

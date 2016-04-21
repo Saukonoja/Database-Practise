@@ -1,19 +1,17 @@
 ﻿<?php
-include("header.php");
-function __autoload($class_name){
-        require_once $class_name .'.class.php';
-}
 
-require_once("db-init-music.php");
+require_once($albumClass);
 
-include("select-queries/search-all-albums-query.php");
+require_once($dbInit);
+
+include($allAlbumsSearchQuery);
 
 $result = $conn->prepare($sql);
-$result -> bind_param('ssss', $search, $search, $search, $search);
-$result -> execute();
+$result->bind_param('ssss', $search, $search, $search, $search);
+$result->execute();
 
-include("albums-table.php");
+include($albumTable);
 
-include("footer.php");
+include($footer);
 
 ?>

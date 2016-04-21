@@ -10,6 +10,9 @@ require_once($dbInit);
 
 include($allGenresQuery);
 
+$result = $conn->prepare($sql);
+$result->execute();
+
 include($genreTable);
 
 include($footer);

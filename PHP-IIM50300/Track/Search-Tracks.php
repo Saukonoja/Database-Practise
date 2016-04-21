@@ -1,16 +1,17 @@
 ﻿<?php
-include("header.php");
-function __autoload($class_name){
-        require_once $class_name .'.class.php';
-}
-$_SESSION['current'] = "Tracks";
 
-require_once("db-init-music.php");
+require_once($trackClass);
 
-include("select-queries/search-all-tracks-query.php");
+require_once($dbInit);
 
-include("tracks-table.php");
+include($allTracksSearchQuery);
 
-include("footer.php");
+$result = $conn->prepare($sql);
+$result->bind_param('ssss', $search, $search, $search, $search);
+$result->execute();
+
+include($trackTable);
+
+include($footer);
 
 ?>

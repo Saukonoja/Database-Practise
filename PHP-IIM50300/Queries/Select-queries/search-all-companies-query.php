@@ -4,8 +4,6 @@ $sort = (isset($_GET['sort'])) ? $_GET['sort'] : 'company';
 
 include($sortLink);
 
-$search = $_SESSION['search'];
-
 $sql = 
 "select 
 		yhtio.nimi as company,
@@ -14,9 +12,9 @@ $sql =
 from yhtio
 left join maa on yhtio.maa_avain = maa.avain
 left join vuosi on yhtio.vuosi_avain = vuosi.avain
-where yhtio.nimi like '%$search%'
-or maa.nimi like '%$search%'
-or vuosi.vuosi like '%$search%'
+where yhtio.nimi like ?
+or maa.nimi like ?
+or vuosi.vuosi like ?
 order by $sort $sort_order;"
 
 

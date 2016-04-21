@@ -6,7 +6,7 @@ require_once($dbInit);
 ?>
 	<form action='<?php echo $albums ?>'><button id='btnBack' class='buttons'><i class='fa fa-arrow-left fa-lg'></i></button></form>
 	<div id='addForm'>
-		<h1>Add artist</h1>
+		<h1>Add album</h1>
 		<form method='post' action='<?php echo $addAlbum ?>'>
 			<table border='0' cellpadding='5'>
 				<tr valign='top'>

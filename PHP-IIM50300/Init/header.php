@@ -1,7 +1,13 @@
-﻿<?php
+<?php
 session_start();
 
-include("config.php");
+if (!isset($_SESSION['islogged'])){
+   $_SESSION['islogged'] = false;
+}
+
+if (empty($_SESSION['username'])){
+   $_SESSION['username'] = '';
+}
 
 if ($_SESSION['islogged'] == true){
    $display = 'display:default;';
@@ -9,12 +15,20 @@ if ($_SESSION['islogged'] == true){
    $display = 'display:none;';
 }
 
-if($_SESSION['islogged'] == false){
+if ($_SESSION['islogged'] == false){
    $display2 = 'display:default';
 }else{
    $display2 = 'display:none';
 }
 
+if (isset($_SESSION['errorMsg'])){
+  $error = $_SESSION['errorMsg'];
+  session_unset($_SESSION["errorMsg"]);
+}else{
+  $error = "";
+}
+
+include("config.php");
 
 $content = <<<CONTENT
 <!DOCTYPE html>
@@ -35,7 +49,7 @@ $content = <<<CONTENT
                <p id='loggedAs' style="{$display}">Logged in as {$_SESSION['username']}</p>
             </div>
             <div id="searchBar">
-               <form method='post' action='{$search}'>
+               <form method='post' action='{$searchLink}'>
                   <input id="inputSearch" type="text" autocomplete="off" placeholder="Search" name="search">
                   <input class="buttons" id="btnSearchFromDatabase" type="submit" name="btnSearchDatabase" value="Search from database">
                </form> 
@@ -60,20 +74,5 @@ $content = <<<CONTENT
 CONTENT;
 
 echo $content;
-
-if (isset($_SESSION['errorMsg'])){
-  $error = $_SESSION['errorMsg'];
-  session_unset($_SESSION["errorMsg"]);
-}else{
-  $error = "";
-}
-
-if (empty($_SESSION['username'])){
-   $_SESSION['username'] = '';
-}
-
-if (!isset($_SESSION['islogged'])){
-   $_SESSION['islogged'] = false;
-}
 
 ?>

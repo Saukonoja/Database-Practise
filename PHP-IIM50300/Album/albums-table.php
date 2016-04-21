@@ -3,7 +3,6 @@
 echo '<h1 id="pageHeader">Albums</h1>';
 echo '<form action=\'add-album-form.php\'><button id=btnAdd class="buttons" style='.$display.'>Add album</button></form>';
 if ($result->bind_result($album, $artist, $year, $company, $id)) {
-
     echo '<table class="query">';
     echo '<tr><th><a href="?sort=album&sort_by='.$sort_order.'" id="headerLink">Album</a></th>
         <th><a href="?sort=artist&sort_by='.$sort_order.'" id="headerLink">Artist</a></th>

@@ -1,10 +1,12 @@
 ﻿<?php
-session_start();
-
-include("../Init/config.php");
+include("../Init/header.php");
 
 if (isset($_POST['search'])){
    	$search = '%'.$_POST['search'].'%';
+}
+
+if ($_SESSION['current'] == 'Index'){
+	header("Location: ". $artists);
 }
 
 if ($_SESSION['current'] == 'Artists'){
@@ -25,6 +27,14 @@ if ($_SESSION['current'] == 'Genres'){
 
 if ($_SESSION['current'] == 'Companies'){
     include($companySearch);
+}
+
+if ($_SESSION['current'] == 'About'){
+	header("Location: ". $artists);
+}
+
+if ($_SESSION['current'] == 'Users'){
+	header("Location: ". $artists);
 }
 
 

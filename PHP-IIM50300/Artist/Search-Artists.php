@@ -1,7 +1,5 @@
 ﻿<?php
 
-include("../Init/header.php");
-
 require_once($artistClass);
 
 require_once($dbInit);

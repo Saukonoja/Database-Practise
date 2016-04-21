@@ -1,54 +1,16 @@
 ﻿<?php
 
-$trackPage = 0;
+$result->bind_result($track, $artist, $album, $year);
 
-if (isset($_GET["page"])){
-    $page = $_GET["page"];
-
-    if($page == "" || $page == "1"){
-        $page1 = 0;
-        $trackPage = $page1;
-    } else{
-        $page1 = ($page * 10) - 10;
-        $trackPage = $page1;
-    }   
-} else{
-    $page = 1;
-}
-
-$sort = (isset($_GET['sort'])) ? $_GET['sort'] : 'track';  
-
-include($sortLink);
-
-$sql =
-"select 
-        kappale.nimi as track,
-        esittaja.nimi as artist,
-        cd.nimi as album,
-        vuosi.vuosi as year
-from cd
-left join cd_kappale on cd_kappale.cd_avain = cd.avain
-left join kappale on cd_kappale.kappale_avain = kappale.avain
-left join esittaja on kappale.esittaja_avain = esittaja.avain
-left join vuosi on kappale.vuosi_avain = vuosi.avain
-order by $sort $sort_order
-limit $trackPage,10;";
-
-
-
-$result = $conn->query($sql);
-
-echo '<h1 id="pageHeader">Tracks</h1>';
-if ($result->num_rows > 0) {
+if ($result) {
 
     echo '<table class="query">';
     echo '<tr><th><a href="?sort=track&sort_by='.$sort_order.'" id="headerLink">Track</a></th>
               <th><a href="?sort=artist&sort_by='.$sort_order.'" id="headerLink">Artist</a></th>
               <th><a href="?sort=album&sort_by='.$sort_order.'" id="headerLink">Album</a></th>
               <th><a href="?sort=year&sort_by='.$sort_order.'" id="headerLink">Year</a></th></tr>';
-    $row_count = $result->num_rows;
-    while($row = $result->fetch_assoc()) {
-        $newTrack = new Track($row["track"], $row["artist"], $row['album'], $row['year']);
+    while($result->fetch()) {
+        $newTrack = new Track($track, $artist, $album, $year);
         echo $newTrack;
     }
     echo '</table>';
@@ -56,6 +18,8 @@ if ($result->num_rows > 0) {
 } else {
     echo "0 results";
 }
+
+include($allTracksCountQuery);
 
 $result2 = $conn->query($sql2);
 
@@ -85,5 +49,6 @@ if ($page < $numberOfPages){
 echo '</div>';
 
 $conn->close();
+
 
 ?>

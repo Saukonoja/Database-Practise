@@ -33,11 +33,7 @@ left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain
 left join esittaja on kappale.esittaja_avain = esittaja.avain
 left join vuosi on kappale.vuosi_avain = vuosi.avain
-where kappale.nimi like ?
-or esittaja.nimi like ?
-or cd.nimi like ?
-or vuosi.vuosi like ?
 order by $sort $sort_order
-limit $trackPage,20;";
+limit $trackPage,10;";
 
 ?>

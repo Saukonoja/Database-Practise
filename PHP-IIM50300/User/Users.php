@@ -4,12 +4,16 @@ include("../Init/header.php");
 
 require_once($userClass);
 
-if (isset($_SESSION['userType'])){
-  if ($_SESSION['userType']){
-    $display = "display:default;";
+$_SESSION['current'] = "Users";
+
+if (isset($_SESSION['islogged'])){
+  if ($_SESSION['userType'] == 1){
+      $displayUserType = "display:default";
   }else{
-    $display = "display:none;";
+      $displayUserType = "display:none;";
   }
+}else{
+  $displayUserType = "display:none;";
 }
 
 echo '<div id="errorMessageContainer">
@@ -35,7 +39,7 @@ $result->execute();
 
 if ($result->bind_result($username, $admin, $id)) {
  
-    echo '<table class="query" style='. $display. '>';
+    echo '<table class="query" style='. $displayUserType. '>';
     echo '<tr><th><a href="?sort=username&sort_by='.$sort_order.'" id="headerLink">Username</a></th>
               <th><a href="?sort=admin&sort_by='.$sort_order.'" id="headerLink">Admin</a></th>
               <th id= \'hiddenTh\'>ID</th></tr>';

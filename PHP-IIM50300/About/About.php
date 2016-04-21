@@ -3,6 +3,7 @@
 include("../Init/header.php");
 
 $_SESSION['current'] = "About";
+
 echo '<br><h1>About us</h1>';
 $output = <<<OUTPUT
 	<p>This Music Database was produced during the course Server programming in Finnish school JAMK University of Applied Sciences. <br> 

@@ -1,3 +1,4 @@
+
 ﻿<?php
 include("Init/header.php");
 
@@ -50,3 +51,4 @@ OUTPUT;
 echo $output;
 include("Init/footer.php");
 ?>
+

@@ -6,6 +6,7 @@ require_once($trackClass);
 
 $_SESSION['current'] = "Tracks";
 
+
 require_once($dbInit);
 
 include($allTracksPaginationQuery);

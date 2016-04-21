@@ -1,9 +1,7 @@
 ﻿<?php
-
 $result->bind_result($track, $artist, $album, $year);
 
 if ($result) {
-
     echo '<table class="query">';
     echo '<tr><th><a href="?sort=track&sort_by='.$sort_order.'" id="headerLink">Track</a></th>
               <th><a href="?sort=artist&sort_by='.$sort_order.'" id="headerLink">Artist</a></th>
@@ -49,6 +47,5 @@ if ($page < $numberOfPages){
 echo '</div>';
 
 $conn->close();
-
 
 ?>

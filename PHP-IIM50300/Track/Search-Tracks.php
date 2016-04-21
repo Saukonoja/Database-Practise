@@ -1,5 +1,4 @@
 ﻿<?php
-
 require_once($trackClass);
 
 require_once($dbInit);
@@ -15,3 +14,4 @@ include($trackTable);
 include($footer);
 
 ?>
+

@@ -1,7 +1,9 @@
+
 <?php
 
 
 session_start();
+
 
 
 if (isset($_SESSION['loginError'])){
@@ -10,7 +12,9 @@ if (isset($_SESSION['loginError'])){
 }else{
   $error = "";
 }
+
 include("../Init/config.php");
+
 $content = <<<CONTENT
 <!DOCTYPE html>
 

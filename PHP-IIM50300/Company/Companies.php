@@ -10,8 +10,10 @@ require_once($dbInit);
 
 include($allCompaniesQuery);
 
+
 $result = $conn->prepare($sql);
 $result->execute();
+
 
 include($companyTable);
 

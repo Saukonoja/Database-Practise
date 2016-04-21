@@ -1,5 +1,6 @@
 ﻿<?php
 
+
 require_once($albumClass);
 
 require_once($dbInit);
@@ -13,5 +14,6 @@ $result->execute();
 include($albumTable);
 
 include($footer);
+
 
 ?>

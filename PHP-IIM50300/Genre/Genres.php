@@ -10,6 +10,7 @@ require_once($dbInit);
 
 include($allGenresQuery);
 
+
 $result = $conn->prepare($sql);
 $result->execute();
 

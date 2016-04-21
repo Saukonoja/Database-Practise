@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -9,17 +10,22 @@ if (empty($_SESSION['username'])){
    $_SESSION['username'] = '';
 }
 
+
 if ($_SESSION['islogged'] == true){
    $display = 'display:default;';
 }else{
    $display = 'display:none;';
 }
 
+
 if ($_SESSION['islogged'] == false){
+
+
    $display2 = 'display:default';
 }else{
    $display2 = 'display:none';
 }
+
 
 if (isset($_SESSION['errorMsg'])){
   $error = $_SESSION['errorMsg'];
@@ -29,6 +35,7 @@ if (isset($_SESSION['errorMsg'])){
 }
 
 include("config.php");
+
 
 $content = <<<CONTENT
 <!DOCTYPE html>
@@ -49,7 +56,9 @@ $content = <<<CONTENT
                <p id='loggedAs' style="{$display}">Logged in as {$_SESSION['username']}</p>
             </div>
             <div id="searchBar">
+
                <form method='post' action='{$searchLink}'>
+
                   <input id="inputSearch" type="text" autocomplete="off" placeholder="Search" name="search">
                   <input class="buttons" id="btnSearchFromDatabase" type="submit" name="btnSearchDatabase" value="Search from database">
                </form> 
@@ -74,5 +83,6 @@ $content = <<<CONTENT
 CONTENT;
 
 echo $content;
+
 
 ?>

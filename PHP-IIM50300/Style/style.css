@@ -426,7 +426,8 @@ input{
 	margin-left: 20px;
 }
 
-#comboYear, #comboCountry{
+
+#comboYear, #comboCountry, #comboGenre, #comboArtist, #comboAlbum, #comboCompany{
 	background-color: #282828;
 	color: white;
 	border-radius: 10px;

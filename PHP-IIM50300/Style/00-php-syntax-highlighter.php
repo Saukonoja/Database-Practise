@@ -19,23 +19,23 @@
  *
  *
  */
-
+ 
 /*********************************************************************************/
 /*
  * Alustukset
 */
 session_start();
-
+ 
 $jsurl    = "http://student.labranet.jamk.fi/~ara/syntaxhighlighter/scripts/";
 $cssurl = "http://student.labranet.jamk.fi/~ara/syntaxhighlighter/styles/";
 $file_extensions = "php";
-
+ 
 $dir = dirname ($_SERVER['SCRIPT_FILENAME']) . "/";
 $fiilu  = (isset($_GET['fiilu'])) ? $_GET['fiilu'] : '';
 $action = (isset($_GET['action'])) ? $_GET['action'] : '';
 $self   = (isset($_SERVER['PHP_SELF'])) ?
            $_SERVER['PHP_SELF'] : '';
-
+ 
 if (isset($_GET['csstheme'])) { 
    $_SESSION['csstheme']   = $_GET['csstheme'];
    $csstheme   = $_GET['csstheme'];
@@ -46,43 +46,43 @@ else if (isset($_SESSION['csstheme'])) {
 else {
    $csstheme   = 'Default';
 }
-
+ 
 /*********************************************************************************/
 /*
  * Navigointivalikko
 */
-
-
+ 
+ 
 $headelement = <<<HEADELEMENT
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>$fiilu</title>
-	<script type="text/javascript" src="{$jsurl}shCore.js"></script>
-	<script type="text/javascript" src="{$jsurl}shBrushPhp.js"></script>
-	<link type="text/css" rel="stylesheet" href="{$cssurl}shCore{$csstheme}.css"/>
-	<script type="text/javascript">SyntaxHighlighter.all();</script>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>$fiilu</title>
+    <script type="text/javascript" src="{$jsurl}shCore.js"></script>
+    <script type="text/javascript" src="{$jsurl}shBrushPhp.js"></script>
+    <link type="text/css" rel="stylesheet" href="{$cssurl}shCore{$csstheme}.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+ 
 <style type="text/css">
-	#menu, #menu ul{ padding:0; margin:0}
-	#menu a{display:block; text-decoration: none;}
-	#menu li{display:block; float:left;}
-	#menu li ul li{float:none;}
-	#menu li ul{display:none; position:absolute; z-index:1}
-	#menu li:hover ul{display:block;}
-
-	#menu{height:10px}
-	#menu a{color:#009; padding:3px 6px 3px 6px; text-decoration: none;}
-	#menu a:hover{color:#00F; text-decoration: none;}
-	#menu li{background-color:#E9E9E9; border:solid 1px #AAF;  margin-left:3px}
-	#menu li:hover{background-color:#BBB}
+    #menu, #menu ul{ padding:0; margin:0}
+    #menu a{display:block; text-decoration: none;}
+    #menu li{display:block; float:left;}
+    #menu li ul li{float:none;}
+    #menu li ul{display:none; position:absolute; z-index:1}
+    #menu li:hover ul{display:block;}
+ 
+    #menu{height:10px}
+    #menu a{color:#009; padding:3px 6px 3px 6px; text-decoration: none;}
+    #menu a:hover{color:#00F; text-decoration: none;}
+    #menu li{background-color:#E9E9E9; border:solid 1px #AAF;  margin-left:3px}
+    #menu li:hover{background-color:#BBB}
 </style>
-
+ 
 </head>
-
+ 
 <body style="background: white; font-family: Helvetica">
-
+ 
 <ul id='menu'>
    <li><a href='#'>Style: $csstheme</a>
      <ul>
@@ -98,17 +98,17 @@ $headelement = <<<HEADELEMENT
    </li>   <li><a href='{$self}'>Listaa</a>
    </li>
 </ul>
-
+ 
 <h1>$fiilu</h1>
-
+ 
 HEADELEMENT;
-
-
+ 
+ 
 /*********************************************************************************/
 /*
  * Main
 */
-
+ 
 $filet = array();
 $handle=opendir($dir);
 // $file sis. vuorollaan jokaisen tiedoston hakemistosta:
@@ -120,7 +120,7 @@ while ($file = readdir($handle)) {
   }
 }
 sort($filet);
-
+ 
 // jos seurattu linkkia ja kansiossa oleva tiedosto käsillä:
 if ($action == "show" AND in_array($fiilu, $filet)) {
    echo $headelement;
@@ -129,9 +129,9 @@ if ($action == "show" AND in_array($fiilu, $filet)) {
    echo $file;
    echo "\n</pre>\n";
    echo "</html>\n";
-
+ 
 } else {
-
+ 
 echo "<ul>";
 foreach ($filet as $file)
 {
@@ -143,4 +143,3 @@ if (!$found) echo "<li>Tässä kansiossa ei ole tiedostoja päätteillä: $file_
 echo "</ul>";
 }
 ?> 
-

@@ -44,11 +44,12 @@ if ($result->num_rows > 0) {
     }
     
 } else {
-    echo "0 results";
+    echo "No tracks.";
 }
 
 $result2 = $conn->query("select 
-    SEC_TO_TIME(SUM(TIME_TO_SEC(kappale.kesto))) AS totalLength 
+    SEC_TO_TIME(SUM(TIME_TO_SEC(kappale.kesto))) AS totalLength,
+    cd.kuvapath as imageLink
 from cd 
 left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain 
@@ -59,7 +60,13 @@ if ($result2->num_rows > 0){
         $trimAlbumLength = substr($albumLength, 1);
     }
 }
-echo $newAlbumTrack->albumInfo($artist, $year, $row_count, $trimAlbumLength);   
+echo '<img src="'.$row['imageLink'].'"></img>';
+if (!isset($newAlbumTrack)){
+    $newAlbumTrack = "";
+}else{
+    echo $newAlbumTrack->albumInfo($artist, $year, $row_count, $trimAlbumLength);
+}
+   
 echo '</table>';
 echo '<div id=player>';
 

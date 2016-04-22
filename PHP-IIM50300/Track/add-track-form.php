@@ -74,7 +74,7 @@ require_once($dbInit);
 				</tr>
 				<tr valign='top'>
 				  <td align='right'>Youtube link</td>
-				  <td><input type='text' name='tube' size='30' value=''></td>
+				  <td><input type='text' placeholder='https://..' name='tube' size='30' value=''></td>
 				</tr>
 				<tr valign='top'>
 				  <td align='right'>Number</td>
@@ -82,7 +82,7 @@ require_once($dbInit);
 				</tr>
 				<tr valign='top'>
 				  <td align='right'>Length</td>
-				  <td><input type='text' name='length' size='30' value=''></td>
+				  <td><input type='text' placeholder='00:00:00' name='length' size='30' value=''></td>
 				</tr>
 			</table>
 			<input type='submit' name='action' value='Save new track' class='buttons' id='addButton' onclick="javascript: return confirm('Add new track?')">

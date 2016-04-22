@@ -1,4 +1,4 @@
-<body style="background: gray">
+﻿<body style="background: gray">
 
 <?php
 

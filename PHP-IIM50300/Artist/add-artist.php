@@ -12,7 +12,7 @@ if (isset($_SESSION['errmsg'])){
         unset ($_SESSION['errmsg']);
 }
 
-if (isset($_POST['nimi']) AND isset($_POST['vuosi']) AND isset($_POST['maa'])){
+if (!empty($_POST['nimi']) AND !empty($_POST['vuosi']) AND !empty($_POST['maa'])){
 
 	try {
 		$name     = $_POST['nimi'];
@@ -33,6 +33,8 @@ if (isset($_POST['nimi']) AND isset($_POST['vuosi']) AND isset($_POST['maa'])){
 	}catch (Exception $e){
     	echo $e->getMessage();
 	}
+}else{
+	echo "<script>alert('Fill fields first.'); setTimeout(\"location.href = '".$addArtistForm."';\",0);</script>";
 }
 
 include ($footer); 

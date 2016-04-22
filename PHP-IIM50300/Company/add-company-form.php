@@ -43,7 +43,7 @@ require_once($dbInit);
 				  </td>
 				</tr>
 			</table>
-			<input type='submit' name='action' value='Save new company' class='buttons' id='addButton' onclick="javascript: return confirm('Add new artist?')">
+			<input type='submit' name='action' value='Save new company' class='buttons' id='addButton' onclick="javascript: return confirm('Add new company?')">
 		</form>
 	</div>
 

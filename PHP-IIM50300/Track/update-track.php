@@ -8,7 +8,8 @@ require_once($dbInit);
 if ($_POST['action'] == 'Save changes'){
 
 
-	if (!empty($_POST['nimi']) AND !empty($_POST['esittaja']) AND !empty($_POST['vuosi']) AND !empty($_POST['vuosi']) AND !empty($_POST['cd']) AND !empty($_POST['genre']) AND !empty($_POST['number']) AND !empty($_POST['length'])){
+	if (!empty($_POST['nimi']) AND !empty($_POST['esittaja']) AND !empty($_POST['vuosi']) AND !empty($_POST['vuosi']) AND !empty($_POST['cd']) AND 
+		!empty($_POST['genre']) AND !empty($_POST['number']) AND !empty($_POST['length'])){
 		$name     = isset($_POST['nimi'])   ? $_POST['nimi']   : '';
 		$artist     = isset($_POST['esittaja'])   ? $_POST['esittaja']   : '';
 		$year     = isset($_POST['vuosi']) ? $_POST['vuosi'] : '';
@@ -18,6 +19,13 @@ if ($_POST['action'] == 'Save changes'){
 		$number   = $_POST['number'];
 		$length   = $_POST['length'];
 		$id       = $_POST['id'];
+
+		if (preg_match('/=/',$tubelink)){
+			$tubeparsed = substr($tubelink, strpos($tubelink, "=") + 1);
+		}else{
+			$tubeparsed = $tubelink;
+		}
+		
 
 		$sql = "UPDATE kappale 
                                  SET nimi = ?,
@@ -37,7 +45,7 @@ if ($_POST['action'] == 'Save changes'){
                                  WHERE kappale_avain = ?;";                                      
 		 
 		$stmt = $conn->prepare($sql);
-		$stmt->bind_param('ssisibs', $name, $artist, $year, $tubelink, $number, $length, $id);
+		$stmt->bind_param('ssisiss', $name, $artist, $year, $tubeparsed, $number, $length, $id);
 		$stmt->execute();
 		$stmt = $conn->prepare($sql1);
 		$stmt->bind_param('si', $album, $id);
@@ -48,8 +56,10 @@ if ($_POST['action'] == 'Save changes'){
 			echo "<h2>Track updated to database.</h2>";
 			echo "<script>setTimeout(\"location.href = 'Tracks.php';\",1000);</script>";
 		} else{
-			echo "<script>alert('Fill fields first.'); setTimeout(\"location.href = 'update-track-form.php';\",0);</script>";
+			echo "<script>alert('There was an error during updating.'); setTimeout(\"location.href = '".$updateTrackForm."';\",0);</script>";
 		}
+	}else{
+		echo "<script>alert('Fill fields first.'); setTimeout(\"location.href = '".$updateTrackForm."';\",0);</script>";
 	}
 
 } else if ($_POST['action'] == 'Delete track'){
@@ -70,9 +80,9 @@ if ($_POST['action'] == 'Save changes'){
 
 	if ($stmt->execute()){
 		echo "<h2>Track deleted from the database.</h2>";
-		echo "<script>setTimeout(\"location.href = 'Tracks.php';\",1000);</script>";
+		echo "<script>setTimeout(\"location.href = '".$tracks."';\",1000);</script>";
 	} else{
-		echo "<script>alert('There was error during deletion.'); setTimeout(\"location.href = 'Tracks.php';\",0);</script>";
+		echo "<script>alert('There was an error during deletion.'); setTimeout(\"location.href = '".$updateTrackForm."';\",0);</script>";
 	}
 
 }

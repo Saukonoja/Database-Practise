@@ -16,8 +16,6 @@ if (isset($_GET["page"])){
     $page = 1;
 }
 
-echo '<h1>Tracks</h1>';
-
 $sort = (isset($_GET['sort'])) ? $_GET['sort'] : 'track';  
 
 include($sortLink);

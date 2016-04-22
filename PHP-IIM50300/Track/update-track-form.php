@@ -96,8 +96,8 @@ if($row = $result->fetch_assoc()){
 				  <td><input type='text' name='length' size='30' value='<?php echo $row['length']?>'></td>
 				</tr>
 			</table>
-				<input type='submit' name='action' value='Save changes' class='buttons' id='updateButton' onclick="javascript: return confirm('Update album <?php $row['nimi'] ?> ?')">
-        		<input type='submit' name='action' value='Delete track' class="buttons" id="deleteButton" onclick="javascript: return confirm('Delete album <?php $row['nimi'] ?> ?')"><br>
+				<input type='submit' name='action' value='Save changes' class='buttons' id='updateButton' onclick="javascript: return confirm('Update track <?php echo $row['track'] ?> ?')">
+        		<input type='submit' name='action' value='Delete track' class="buttons" id="deleteButton" onclick="javascript: return confirm('Delete track <?php echo $row['track'] ?> ?')"><br>
 		</form>
 	</div>
 

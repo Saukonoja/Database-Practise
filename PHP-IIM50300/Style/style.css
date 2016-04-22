@@ -39,8 +39,16 @@ i {
     color:#181818;
 }
 
+img{
+	width: 150;
+	height: 150;
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
 iframe{
 	margin-bottom: 50px;
+	width: 700px;
 }
 
 #player{
@@ -247,6 +255,7 @@ textarea:focus, input:focus{
 
 table.query{
 	border-spacing: 0px;
+	margin-bottom: 55px;
 }
 
 #albumPage{
@@ -321,6 +330,7 @@ table.query td:hover{
 	font-size: 50px;
 	font-weight: normal;
 	font-family: "Raleway", sans-serif;
+	float: left;
 }
 
 #artist{

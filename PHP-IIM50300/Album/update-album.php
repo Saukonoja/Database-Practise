@@ -2,8 +2,6 @@
 include ("../Init/header.php");
 
 require_once($dbInit);
-
-
  
 if ($_POST['action'] == 'Save changes'){
 
@@ -31,8 +29,10 @@ if ($_POST['action'] == 'Save changes'){
 			echo "<h2>Album updated to database.</h2>";
 			echo "<script>setTimeout(\"location.href = 'Albums.php';\",1000);</script>";
 		} else{
-			echo "<script>alert('Fill fields first.'); setTimeout(\"location.href = 'update-album-form.php';\",0);</script>";
+			echo "<script>alert('There was an error during updating.'); setTimeout(\"location.href = '".$updateAlbumForm."';\",0);</script>";
 		}
+	}else{
+		echo "<script>alert('Fill fields first.'); setTimeout(\"location.href = '".$updateAlbumForm."';\",0);</script>";
 	}
 
 } else if ($_POST['action'] == 'Delete album'){
@@ -56,9 +56,9 @@ if ($_POST['action'] == 'Save changes'){
 
 	if ($stmt->execute()){
 		echo "<h2>Album deleted from the database.</h2>";
-		echo "<script>setTimeout(\"location.href = 'Albums.php';\",1000);</script>";
+		echo "<script>setTimeout(\"location.href = '".$albums."';\",1000);</script>";
 	} else{
-		echo "<script>alert('There was error during deletion.'); setTimeout(\"location.href = 'update-album-form.php';\",0);</script>";
+		echo "<script>alert('There was an error during deletion.'); setTimeout(\"location.href = '".$updateAlbumForm."';\",0);</script>";
 	}
 
 }

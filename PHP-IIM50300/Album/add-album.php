@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include("../Init/header.php"); 
 
 require_once($dbInit);
@@ -11,7 +11,7 @@ if (isset($_SESSION['errmsg'])){
         unset ($_SESSION['errmsg']);
 }
 
-if (isset($_POST['nimi']) AND isset($_POST['esittaja']) AND isset($_POST['vuosi']) AND isset($_POST['yhtio'])){
+if (!empty($_POST['nimi']) AND !empty($_POST['esittaja']) AND !empty($_POST['vuosi']) AND !empty($_POST['yhtio'])){
 
 	$name     = $_POST['nimi'];
 	$artist   = $_POST['esittaja'];
@@ -41,6 +41,8 @@ if (isset($_POST['nimi']) AND isset($_POST['esittaja']) AND isset($_POST['vuosi'
 	} else{
 		echo "<script>alert('There was error during inserting.'); setTimeout(\"location.href = '".$addAlbumForm."';\",0);</script>";
 	}
+}else{
+	echo "<script>alert('Fill fields first.'); setTimeout(\"location.href = '".$addAlbumForm."';\",0);</script>";
 }
 
 include ($footer); 

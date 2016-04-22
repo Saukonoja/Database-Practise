@@ -3,7 +3,6 @@ include("../Init/header.php");
 
 require_once($dbInit);
 
-
 $errmsg = '';
 
 if (isset($_SESSION['errmsg'])){
@@ -11,7 +10,7 @@ if (isset($_SESSION['errmsg'])){
         unset ($_SESSION['errmsg']);
 }
 
-if (isset($_POST['nimi']) AND isset($_POST['esittaja']) AND isset($_POST['vuosi']) AND isset($_POST['cd'])){
+if (!empty($_POST['nimi']) AND !empty($_POST['esittaja']) AND !empty($_POST['vuosi']) AND !empty($_POST['cd'])){
 
 	$name     = $_POST['nimi'];
 	$artist   = $_POST['esittaja'];
@@ -22,12 +21,12 @@ if (isset($_POST['nimi']) AND isset($_POST['esittaja']) AND isset($_POST['vuosi'
 	$number  = $_POST['number'];
 	$length  = $_POST['length'];
 
+	$tubeparsed = substr($tube, strpos($tube, "=") + 1);
+
 	$sql1 ="INSERT INTO kappale (nimi, kesto, esittaja_avain, vuosi_avain, tubepath, numero)
                                  VALUES (?, ?, 
                                  (SELECT avain FROM esittaja WHERE nimi = ?),
-                                 (SELECT avain FROM vuosi WHERE vuosi = ?), ?, ?);";
-                                 
-                                 
+                                 (SELECT avain FROM vuosi WHERE vuosi = ?), ?, ?);";                         
 
 	
 	$sql2 =	"INSERT INTO cd_kappale (cd_avain, kappale_avain) 
@@ -39,7 +38,7 @@ if (isset($_POST['nimi']) AND isset($_POST['esittaja']) AND isset($_POST['vuosi'
                                  (SELECT avain from genre WHERE nimi = ?));";
 
 	$stmt = $conn->prepare("$sql1");
-	$stmt-> bind_param('sssisi', $name, $length, $artist, $year, $tube, $number);
+	$stmt-> bind_param('sssisi', $name, $length, $artist, $year, $tubeparsed, $number);
 	$stmt->execute();
 	$stmt = $conn->prepare("$sql2");
 	$stmt-> bind_param('ss', $album, $name);
@@ -53,6 +52,8 @@ if (isset($_POST['nimi']) AND isset($_POST['esittaja']) AND isset($_POST['vuosi'
 	} else{
 		echo "<script>alert('There was error during inserting.'); setTimeout(\"location.href = '".$addTrackForm."';\",0);</script>";
 	}
+}else{
+	echo "<script>alert('Fill fields first.'); setTimeout(\"location.href = '".$addTrackForm."';\",0);</script>";
 }
 
 include ($footer); 

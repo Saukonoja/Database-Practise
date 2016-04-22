@@ -25,9 +25,11 @@ if ($_POST['action'] == 'Save changes'){
 		if ($stmt->execute()){
 			echo "<h2>Company updated to database.</h2>";
 			echo "<script>setTimeout(\"location.href = '".$companies."';\",1000);</script>";
-		} else{
-			echo "<script>alert('Fill fields first.'); setTimeout(\"location.href = 'update-comany-form.php';\",0);</script>";
+		}else{
+			echo "<script>alert('There was an error during updating.'); setTimeout(\"location.href = '".$updateCompanyForm."';\",0);</script>";
 		}
+	}else{
+		echo "<script>alert('Fill fields first.'); setTimeout(\"location.href = '".$updateCompanyForm."';\",0);</script>";
 	}
 
 } else if ($_POST['action'] == 'Delete company'){
@@ -43,7 +45,7 @@ if ($_POST['action'] == 'Save changes'){
 		echo "<h2>Company deleted from the database.</h2>";
 		echo "<script>setTimeout(\"location.href = '".$companies."';\",1000);</script>";
 	} else{
-		echo "<script>alert('There was error during deletion.'); setTimeout(\"location.href = 'update-company-form.php';\",0);</script>";
+		echo "<script>alert('There was an error during deletion.'); setTimeout(\"location.href = '".$updateCompanyForm."';\",0);</script>";
 	}
 
 }

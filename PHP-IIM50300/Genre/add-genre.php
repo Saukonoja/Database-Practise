@@ -12,7 +12,7 @@ if (isset($_SESSION['errmsg'])){
         unset ($_SESSION['errmsg']);
 }
 
-if (isset($_POST['nimi'])){
+if (!empty($_POST['nimi'])){
 
 	try {
 		$name     = $_POST['nimi'];
@@ -25,11 +25,13 @@ if (isset($_POST['nimi'])){
 			echo "<h2>Genre added to database.</h2>";
 			echo "<script>setTimeout(\"location.href = '".$genres."';\",1000);</script>";
 		} else{
-			echo "<script>alert('There was error during inserting.'); setTimeout(\"location.href = 'add-genre-form.php';\",0);</script>";
+			echo "<script>alert('There was error during inserting.'); setTimeout(\"location.href = '".$addGenreForm."';\",0);</script>";
 		}
 	}catch (Exception $e){
     	echo $e->getMessage();
 	}
+}else{
+	echo "<script>alert('Fill fields first.'); setTimeout(\"location.href = '".$addGenreForm."';\",0);</script>";
 }
 
 include ($footer); 

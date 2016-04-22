@@ -1,6 +1,7 @@
 ﻿<?php
 $result->bind_result($track, $artist, $album, $year, $id);
 
+echo '<h1>Tracks</h1>';
 echo '<form action=\'add-track-form.php\'><button id=btnAdd class="buttons" style='.$display.'>Add track</button></form>';
 
 if ($result) {

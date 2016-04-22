@@ -19,6 +19,6 @@ left join esittaja on kappale.esittaja_avain = esittaja.avain
 left join vuosi on kappale.vuosi_avain = vuosi.avain
 left join kappale_genre on kappale_genre.kappale_avain = kappale.avain
 left join genre on kappale_genre.genre_avain = genre.avain
-where kappale.avain = 1;"
+where kappale.avain = $id;"
 
 ?>

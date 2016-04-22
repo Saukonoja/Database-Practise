@@ -75,7 +75,7 @@ if($row=$result->fetch_assoc()){
 				</tr>
 			</table>
 			<input type='submit' name='action' value='Save changes' class='buttons' id='updateButton' onclick="javascript: return confirm('Update album <?php $row['nimi'] ?> ?')">
-        <input type='submit' name='action' value='Delete artist' class="buttons" id="deleteButton" onclick="javascript: return confirm('Delete album <?php $row['nimi'] ?> ?')"><br>
+        <input type='submit' name='action' value='Delete album' class="buttons" id="deleteButton" onclick="javascript: return confirm('Delete album <?php $row['nimi'] ?> ?')"><br>
 		</form>
 	</div>
 

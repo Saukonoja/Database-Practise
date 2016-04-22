@@ -1,15 +1,19 @@
-﻿<?php include ("header.php"); 
-require_once("db-init-music.php");
+﻿<?php 
+include ("../Init/header.php"); 
+
+require_once($dbInit);
+
 $_SESSION['id'] = $_POST['ID'];
-}
 
 include($trackUpdateFormQuery);
 $result = $conn->query("$sql");
+
+if($row = $result->fetch_assoc()){
 ?>
-	<form action='Albums.php'><button id='btnBack' class='buttons'><i class='fa fa-arrow-left fa-lg'></i></button></form>
+	<form action='Tracks.php'><button id='btnBack' class='buttons'><i class='fa fa-arrow-left fa-lg'></i></button></form>
 	<div id='addForm'>
-		<h1>Add artist</h1>
-		<form method='post' action='add-track.php'>
+		<h1>Update track</h1>
+		<form method='post' action='update-track.php'>
 			<table border='0' cellpadding='5'>
 				<tr id='hiddenTr' valign='top'>
 	              <td align='right'>ID</td>
@@ -17,7 +21,7 @@ $result = $conn->query("$sql");
             	</tr>
 				<tr valign='top'>
 				  <td align='right'>Name</td>
-				  <td><input type='text' name='nimi' size='30' value='<?php echo $row['track']?>'><?php echo $row['track']?></td>
+				  <td><input type='text' name='nimi' size='30' value='<?php echo $row['track']?>'></td>
 				</tr>
 				<tr valign='top'>
 				  <td align='right'>Artist</td>
@@ -55,10 +59,10 @@ $result = $conn->query("$sql");
 				  	<!-- Ini comboBox for album -->
 				  	<select name='cd' id="comboAlbum"> <option value="<?php echo $row['album']?>" selected><?php echo $row['album']?></option>
 						  <?php 
-						  $result = $conn->query('select nimi from cd order by vuosi desc');
+						  $result = $conn->query('select nimi from cd');
 						  while($crow = $result->fetch_assoc()){
 				  		  ?>
-				  	<option value ='<?php echo $crow['nimi']?>'><?php echo $row['nimi']?></option>
+				  	<option value ='<?php echo $crow['nimi']?>'><?php echo $crow['nimi']?></option>
 				  <?php } ?> 
 				  </select>
 				  <!-- /Ini comboBox for album -->
@@ -81,21 +85,21 @@ $result = $conn->query("$sql");
 				</tr>
 				<tr valign='top'>
 				  <td align='right'>Youtube link</td>
-				  <td><input type='text' name='tube' size='30' value='<?php echo $row['tube']?>'><?php echo $row['tube']?></td>
+				  <td><input type='text' name='tube' size='30' value='<?php echo $row['tube']?>'></td>
 				</tr>
 				<tr valign='top'>
 				  <td align='right'>Number</td>
-				  <td><input type='text' name='number' size='30' value='<?php echo $row['number']?>'><?php echo $row['number']?></td>
+				  <td><input type='text' name='number' size='30' value='<?php echo $row['number']?>'></td>
 				</tr>
 				<tr valign='top'>
 				  <td align='right'>Length</td>
-				  <td><input type='text' name='length' size='30' value='<?php echo $row['length']?>'><?php echo $row['length']?></td>
+				  <td><input type='text' name='length' size='30' value='<?php echo $row['length']?>'></td>
 				</tr>
 			</table>
 				<input type='submit' name='action' value='Save changes' class='buttons' id='updateButton' onclick="javascript: return confirm('Update album <?php $row['nimi'] ?> ?')">
-        <input type='submit' name='action' value='Delete artist' class="buttons" id="deleteButton" onclick="javascript: return confirm('Delete album <?php $row['nimi'] ?> ?')"><br>
+        		<input type='submit' name='action' value='Delete track' class="buttons" id="deleteButton" onclick="javascript: return confirm('Delete album <?php $row['nimi'] ?> ?')"><br>
 		</form>
 	</div>
 
 
-<?php include ("footer.php"); ?>
+<?php } include ($footer); ?>

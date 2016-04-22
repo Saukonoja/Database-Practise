@@ -35,7 +35,7 @@ if ($_POST['action'] == 'Save changes'){
 		}
 	}
 
-} else if ($_POST['action'] == 'Delete artist'){
+} else if ($_POST['action'] == 'Delete album'){
 
 	$id = $_POST['id'];
 

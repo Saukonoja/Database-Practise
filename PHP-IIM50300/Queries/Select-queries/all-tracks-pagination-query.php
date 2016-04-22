@@ -27,7 +27,8 @@ $sql =
         kappale.nimi as track,
         esittaja.nimi as artist,
         cd.nimi as album,
-        vuosi.vuosi as year
+        vuosi.vuosi as year,
+        kappale.avain as ID
 from cd
 left join cd_kappale on cd_kappale.cd_avain = cd.avain
 left join kappale on cd_kappale.kappale_avain = kappale.avain

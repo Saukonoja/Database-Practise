@@ -1,4 +1,3 @@
-
 ﻿<?php
 include("Init/header.php");
 

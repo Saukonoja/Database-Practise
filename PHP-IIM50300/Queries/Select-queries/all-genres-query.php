@@ -6,7 +6,8 @@ include($sortLink);
 
 $sql = 
 "select 
-	genre.nimi as genre
+	genre.nimi as genre,
+	genre.avain as id
 from genre
 order by $sort $sort_order;";
 

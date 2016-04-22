@@ -1,14 +1,17 @@
 ﻿<?php
-$result->bind_result($track, $artist, $album, $year);
+$result->bind_result($track, $artist, $album, $year, $id);
+
+echo '<form action=\'add-track-form.php\'><button id=btnAdd class="buttons" style='.$display.'>Add track</button></form>';
 
 if ($result) {
     echo '<table class="query">';
     echo '<tr><th><a href="?sort=track&sort_by='.$sort_order.'" id="headerLink">Track</a></th>
               <th><a href="?sort=artist&sort_by='.$sort_order.'" id="headerLink">Artist</a></th>
               <th><a href="?sort=album&sort_by='.$sort_order.'" id="headerLink">Album</a></th>
-              <th><a href="?sort=year&sort_by='.$sort_order.'" id="headerLink">Year</a></th></tr>';
+              <th><a href="?sort=year&sort_by='.$sort_order.'" id="headerLink">Year</a></th>
+              <th id= \'hiddenTh\'>ID</th></tr>';
     while($result->fetch()) {
-        $newTrack = new Track($track, $artist, $album, $year);
+        $newTrack = new Track($track, $artist, $album, $year, $id);
         echo $newTrack;
     }
     echo '</table>';

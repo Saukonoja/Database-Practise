@@ -2,7 +2,7 @@
 
 
 //ROOT
-$root = "http://student.labranet.jamk.fi/~H3298/iim50300/Music-database/";
+$root = "http://student.labranet.jamk.fi/~H3694/iim50300/htyo/PHP-IIM50300/";
 
 
 $index = $root."index.php";
